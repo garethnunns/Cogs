@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Cogs Helpdesk</title>
+
+		<link rel="stylesheet" type="text/css" href="site/cogs.css">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+	</head>
+
+	<body>
+		<header>
+			<div class="wrapper">
+				<a href="#" class="home"><img src="img/icons/home.png"></a>
+				<div class="logo"><img src="site/logo-basic-white.png"></div>
+			</div>
+		</header>
+
+		<div class="wrapper">
+			<h1>Welcome Gareth</h1>
+
+			<div class="grid">
+				<div><a href="call">New call</a></div><div><a href="problems">Problems</a></div><div><a href="solved">Solved</a></div><div><a href="specialists">Specialists</a></div><div><a href="software">Software</a></div><div><a href="hardware">Hardware</a></div><div><a href="settings">Settings</a></div>
+			</div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script type="text/javascript">
+		function squareGrid() {
+			$('.grid > div').each(function () { // all of the items in the grid
+				if(CSS.supports("display", "grid")) $(this).addClass('gridgood'); // future proofing
+				$(this).height($(this).outerWidth()); // make the height the same as the width
+			});
+		}
+
+		squareGrid(); // call on page load
+
+		$(window).resize(squareGrid);
+		</script>
+	</body>
+</html>
