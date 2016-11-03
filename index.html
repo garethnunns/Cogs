@@ -10,31 +10,59 @@
 	<body>
 		<header>
 			<div class="wrapper">
-				<a href="#" class="home"><img src="img/icons/home.png"></a>
-				<div class="logo"><img src="site/logo-basic-white.png"></div>
+				<a href="grid" class="home"><img src="img/icons/home.png"></a>
+				<div class="logo"><img src="site/logo-small.png"></div>
 			</div>
 		</header>
 
-		<div class="wrapper">
-			<h1>Welcome Gareth</h1>
-
-			<div class="grid">
-				<div><a href="call">New call</a></div><div><a href="problems">Problems</a></div><div><a href="solved">Solved</a></div><div><a href="specialists">Specialists</a></div><div><a href="software">Software</a></div><div><a href="hardware">Hardware</a></div><div><a href="settings">Settings</a></div>
-			</div>
-		</div>
+		<div class="wrapper" id="content"></div>
 
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<!--<script src="site/jquery.mobile.custom.min.js"></script>-->
 		<script type="text/javascript">
-		function squareGrid() {
-			$('.grid > div').each(function () { // all of the items in the grid
-				if(CSS.supports("display", "grid")) $(this).addClass('gridgood'); // future proofing
-				$(this).height($(this).outerWidth()); // make the height the same as the width
+			function JSifyLinks() {
+				$('a').off('click touchend').on('click touchend', function (e) {
+					e.preventDefault();
+					loadPage(this.href);
+				});
+			}
+
+			function loadPage(page) {
+				if(page=='') page = 'grid';
+				$.ajax({url: page+".html", success: function(result){ // on loading the page...
+					$("#content").fadeTo(150,0, function() { // fade out then put the new content in
+						$("#content").html(result);
+						squareGrid();
+						JSifyLinks();
+						$("#content").fadeTo(350,1);
+					});
+				}, error: function(error) {
+					console.log('Tried to load "'+page+'" and got a '+error.status);
+					$('<p class="error">There was an error loading the page, please try again</p>').prependTo("#content").delay(2000).slideUp(250);
+					JSifyLinks();
+				}});
+			}
+
+			$(document).ready(function(){
+				loadPage('login');
 			});
-		}
 
-		squareGrid(); // call on page load
 
-		$(window).resize(squareGrid);
+			$('.home').click(function() {
+				loadPage('grid');
+			});
+
+			function squareGrid() {
+				$('.grid > div').each(function () { // all of the items in the grid
+					if(CSS.supports("display", "grid")) $(this).addClass('gridgood'); // future proofing
+					$(this).height($(this).outerWidth()); // make the height the same as the width
+					$(this).off('click touchend').on('click touchend', function() {
+						loadPage($(this).children()[0].href);
+					})
+				});
+			}
+
+			$(window).resize(squareGrid);
 		</script>
 	</body>
 </html>
