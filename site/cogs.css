@@ -743,10 +743,6 @@ tfoot td {
   height: 100%; }
 
 /* line 13, ../SCSS/cogs.scss */
-body {
-  padding-top: 100px; }
-
-/* line 17, ../SCSS/cogs.scss */
 header {
   position: fixed;
   top: 0;
@@ -757,24 +753,28 @@ header {
   color: #fcfdfd;
   text-align: center;
   z-index: 10; }
-  /* line 28, ../SCSS/cogs.scss */
+  /* line 24, ../SCSS/cogs.scss */
   header img {
     height: 36px; }
-  /* line 32, ../SCSS/cogs.scss */
+  /* line 28, ../SCSS/cogs.scss */
   header .home {
     position: absolute;
     left: 0;
     top: 12px; }
-  /* line 38, ../SCSS/cogs.scss */
+  /* line 34, ../SCSS/cogs.scss */
   header .logo {
     padding: 12px 0; }
 
-/* line 43, ../SCSS/cogs.scss */
+/* line 39, ../SCSS/cogs.scss */
 .wrapper {
   position: relative;
   margin: 0 auto;
   width: 96%;
   max-width: 1000px; }
+
+/* line 46, ../SCSS/cogs.scss */
+body > .wrapper {
+  padding-top: 90px; }
 
 /* line 1, ../SCSS/_grid.scss */
 .grid {
@@ -902,7 +902,7 @@ header {
       letter-spacing: 1px;
       color: #fcfdfd; }
       /* line 125, ../SCSS/_grid.scss */
-      .grid > div a:hover {
+      .grid > div a:hover, .grid > div a:focus {
         text-decoration: none; }
     /* line 130, ../SCSS/_grid.scss */
     .grid > div.gridgood {

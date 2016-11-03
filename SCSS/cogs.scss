@@ -10,10 +10,6 @@
 	height: 100%;
 }
 
-body {
-	padding-top: 100px; // compensate for header
-}
-
 header {
 	position: fixed;
 	top: 0;
@@ -45,6 +41,10 @@ header {
 	margin: 0 auto;
 	width: 96%;
 	max-width: 1000px;
+}
+
+body > .wrapper {
+	padding-top: 90px; // compensate for 80px header
 }
 
 @import 'grid';
