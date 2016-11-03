@@ -14,25 +14,102 @@ header {
 	position: fixed;
 	top: 0;
 	left: 0;
-	height: 60px;
 	padding: 10px 0;
+	height: 60px;
 	background-color: $primary;
 	color: $white;
 	text-align: center;
 	z-index: 10;
 
+	@include breakpoint(small-tablet) {
+		position: static;
+		padding: 20px 0 0 0;
+		height: auto;
+		text-align: right;
+	}
+
 	img {
 		height: 36px;
+		margin: 0;
 	}
 
 	.home {
 		position: absolute;
 		left: 0;
 		top: 12px;
+
+		@include breakpoint(small-tablet) {
+			top: 0;
+		}
 	}
 
 	.logo {
+		position: relative;
+		left: 0;
 		padding: 12px 0;
+
+		@include single-transition(all, 0.25s, ease-out, 0s);
+
+		@include breakpoint(small-tablet) {
+			padding: 0 0 15px 0;
+		}
+
+		&.searching {
+			@include breakpoint(tablet) {
+				left: -100px;
+			}
+			@include breakpoint(small-tablet) {
+				left: 0;
+			}
+		}
+	}
+
+	.right-buttons {
+		position: absolute;
+		right: 0;
+		top: 12px;
+
+		@include breakpoint(small-tablet) {
+			position: static;
+		}
+
+		@include breakpoint(phone) {
+			text-align: center;
+		}
+
+		a {
+			padding: 2px;
+			margin-left: 10px;
+		}
+
+		form { // form is just there for fallback
+			display: inline;
+		}
+
+		input { // search button
+			margin-bottom: 20px; // I don't understand why
+			padding: 2px;
+			width: 32px;
+			height: 32px;
+
+			background: transparent url(../img/icons/search-small.png) no-repeat right center;
+			border: none;
+			border-bottom: 1px solid transparent;
+			border-radius: 0;
+			color: white;
+			@include single-transition(all, 0.25s, ease-out, 0s);
+
+			&:focus {
+				width: 200px;
+				border: none;
+				outline: none;
+				border-bottom: 1px solid white;
+
+				@include breakpoint(phone) {
+					width: 150px;
+				}
+			}
+		}
 	}
 }
 
@@ -44,7 +121,11 @@ header {
 }
 
 body > .wrapper {
-	padding-top: 90px; // compensate for 80px header
+	padding-top: 90px; // compensate for 80px fixed header
+
+	@include breakpoint(small-tablet) {
+		padding-top: 0;
+	}
 }
 
 @import 'grid';

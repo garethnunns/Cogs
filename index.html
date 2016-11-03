@@ -10,15 +10,22 @@
 	<body>
 		<header>
 			<div class="wrapper">
-				<a href="grid" class="home"><img src="img/icons/home-small.png"></a>
-				<div class="logo"><img src="site/logo-small.png"></div>
+				<div class="logo"><img src="site/logo-small.png" alt="Make-It-All Logo"></div>
+
+				<a href="grid" class="home"><img src="img/icons/home-small.png" alt="Home"></a>
+				
+				<div class="right-buttons">
+					<form method="POST"><input type="search" name="search" id="search"></form>
+					<a href="settings"><img src="img/icons/settings.png" alt="Settings"></a>
+					<a href="login"><img src="img/icons/logout.png" alt="Log out"></a>
+				</div>
 			</div>
 		</header>
 
 		<div class="wrapper" id="content"></div>
 
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-		<!--<script src="site/jquery.mobile.custom.min.js"></script>-->
+		<script src="site/jquery.mobile.custom.min.js"></script>
 		<script type="text/javascript">
 			function JSifyLinks() {
 				$('a').off('click touchend').on('click touchend', function (e) {
@@ -48,16 +55,11 @@
 				loadPage('login');
 			});
 
-
-			$('.home').click(function() {
-				loadPage('grid');
-			});
-
 			function squareGrid() {
 				$('.grid > div').each(function () { // all of the items in the grid
 					if(CSS.supports("display", "grid")) $(this).addClass('gridgood'); // future proofing
 					$(this).height($(this).outerWidth()); // make the height the same as the width
-					$(this).off('click touchend').on('click touchend', function() {
+					$(this).off('click vclick').on('click vclick', function() {
 						loadPage($(this).children()[0].href); // make the whole tile a link
 					});
 				});
@@ -69,6 +71,16 @@
 			}
 
 			$(window).resize(squareGrid);
+
+
+			// move logo over when searching
+			$('#search').focus(function() {
+				$('.logo').addClass('searching');
+			});
+
+			$('#search').blur(function() {
+				$('.logo').removeClass('searching');
+			});
 		</script>
 	</body>
 </html>
