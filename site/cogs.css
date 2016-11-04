@@ -4,123 +4,123 @@
 /*
  * Normalization
  */
-/* line 9, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 9, ../SCSS/_sanitize.scss */
 abbr[title] {
   text-decoration: underline;
   text-decoration: underline dotted; }
 
-/* line 14, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 14, ../SCSS/_sanitize.scss */
 audio:not([controls]) {
   display: none; }
 
-/* line 19, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 19, ../SCSS/_sanitize.scss */
 b,
 strong {
   font-weight: bolder; }
 
-/* line 23, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 23, ../SCSS/_sanitize.scss */
 button {
   -webkit-appearance: button;
   overflow: visible; }
 
-/* line 30, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 30, ../SCSS/_sanitize.scss */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
   padding: 0; }
-/* line 35, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 35, ../SCSS/_sanitize.scss */
 button:-moz-focusring,
 input:-moz-focusring {
   outline: 1px dotted ButtonText; }
 
-/* line 41, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 41, ../SCSS/_sanitize.scss */
 button,
 select {
   text-transform: none; }
 
-/* line 45, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 45, ../SCSS/_sanitize.scss */
 details {
   display: block; }
 
-/* line 49, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 49, ../SCSS/_sanitize.scss */
 hr {
   overflow: visible; }
 
-/* line 53, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 53, ../SCSS/_sanitize.scss */
 html {
   -ms-overflow-style: -ms-autohiding-scrollbar;
   overflow-y: scroll;
   -webkit-text-size-adjust: 100%; }
 
-/* line 59, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 59, ../SCSS/_sanitize.scss */
 input {
   -webkit-border-radius: 0; }
-  /* line 64, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+  /* line 64, ../SCSS/_sanitize.scss */
   input[type="button"], input[type="reset"], input[type="submit"] {
     -webkit-appearance: button; }
-  /* line 68, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+  /* line 68, ../SCSS/_sanitize.scss */
   input[type="number"] {
     width: auto; }
-  /* line 72, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+  /* line 72, ../SCSS/_sanitize.scss */
   input[type="search"] {
     -webkit-appearance: textfield; }
-    /* line 76, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+    /* line 76, ../SCSS/_sanitize.scss */
     input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
       -webkit-appearance: none; }
 
-/* line 82, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 82, ../SCSS/_sanitize.scss */
 main {
   display: block; }
 
-/* line 86, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 86, ../SCSS/_sanitize.scss */
 pre {
   overflow: auto; }
 
-/* line 90, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 90, ../SCSS/_sanitize.scss */
 progress {
   display: inline-block; }
 
-/* line 94, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 94, ../SCSS/_sanitize.scss */
 summary {
   display: block; }
 
-/* line 98, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 98, ../SCSS/_sanitize.scss */
 svg:not(:root) {
   overflow: hidden; }
 
-/* line 102, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 102, ../SCSS/_sanitize.scss */
 template {
   display: none; }
 
-/* line 106, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 106, ../SCSS/_sanitize.scss */
 textarea {
   overflow: auto; }
 
-/* line 110, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 110, ../SCSS/_sanitize.scss */
 [hidden] {
   display: none; }
 
 /*
  * Universal inheritance
  */
-/* line 120, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 120, ../SCSS/_sanitize.scss */
 *,
 ::before,
 ::after {
   box-sizing: inherit; }
 
-/* line 124, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 124, ../SCSS/_sanitize.scss */
 * {
   font-size: inherit;
   line-height: inherit; }
 
-/* line 130, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 130, ../SCSS/_sanitize.scss */
 ::before,
 ::after {
   text-decoration: inherit;
   vertical-align: inherit; }
 
-/* line 138, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 138, ../SCSS/_sanitize.scss */
 button,
 input,
 select,
@@ -132,19 +132,19 @@ textarea {
 /*
  * Opinionated defaults
  */
-/* line 152, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 152, ../SCSS/_sanitize.scss */
 * {
   margin: 0;
   padding: 0; }
 
-/* line 161, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 161, ../SCSS/_sanitize.scss */
 *,
 ::before,
 ::after {
   border-style: solid;
   border-width: 0; }
 
-/* line 175, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 175, ../SCSS/_sanitize.scss */
 a,
 area,
 button,
@@ -155,50 +155,50 @@ textarea,
 [tabindex] {
   touch-action: manipulation; }
 
-/* line 181, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 181, ../SCSS/_sanitize.scss */
 select {
   -moz-appearance: none;
   -webkit-appearance: none; }
-  /* line 185, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+  /* line 185, ../SCSS/_sanitize.scss */
   select::-ms-expand {
     display: none; }
-  /* line 189, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+  /* line 189, ../SCSS/_sanitize.scss */
   select::-ms-value {
     color: currentColor; }
 
-/* line 196, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 196, ../SCSS/_sanitize.scss */
 svg {
   fill: currentColor; }
 
-/* line 202, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 202, ../SCSS/_sanitize.scss */
 [aria-busy="true"] {
   cursor: progress; }
 
-/* line 208, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 208, ../SCSS/_sanitize.scss */
 [aria-controls] {
   cursor: pointer; }
 
-/* line 214, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 214, ../SCSS/_sanitize.scss */
 [aria-disabled] {
   cursor: default; }
 
-/* line 220, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 220, ../SCSS/_sanitize.scss */
 [hidden][aria-hidden="false"] {
   clip: rect(0 0 0 0);
   display: inherit;
   position: absolute; }
-  /* line 225, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+  /* line 225, ../SCSS/_sanitize.scss */
   [hidden][aria-hidden="false"]:focus {
     clip: auto; }
 
 /*
  * Configurable defaults
  */
-/* line 238, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 238, ../SCSS/_sanitize.scss */
 * {
   background-repeat: no-repeat; }
 
-/* line 244, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 244, ../SCSS/_sanitize.scss */
 :root {
   background-color: #fcfdfd;
   color: #2c3e50;
@@ -206,11 +206,11 @@ svg {
   text-rendering: optimizeLegibility;
   overflow-x: hidden; }
 
-/* line 256, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 256, ../SCSS/_sanitize.scss */
 a {
   text-decoration: none; }
 
-/* line 267, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 267, ../SCSS/_sanitize.scss */
 audio,
 canvas,
 iframe,
@@ -219,7 +219,7 @@ svg,
 video {
   vertical-align: middle; }
 
-/* line 276, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 276, ../SCSS/_sanitize.scss */
 button,
 input,
 select,
@@ -227,7 +227,7 @@ textarea {
   background-color: transparent;
   color: #2c3e50; }
 
-/* line 301, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 301, ../SCSS/_sanitize.scss */
 button,
 [type="button"],
 [type="date"],
@@ -249,44 +249,44 @@ select,
 textarea {
   min-height: 1.5em; }
 
-/* line 310, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 310, ../SCSS/_sanitize.scss */
 code,
 kbd,
 pre,
 samp {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace; }
 
-/* line 317, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 317, ../SCSS/_sanitize.scss */
 nav ol,
 nav ul {
   list-style: none; }
 
-/* line 323, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 323, ../SCSS/_sanitize.scss */
 small {
   font-size: 14px; }
 
-/* line 329, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 329, ../SCSS/_sanitize.scss */
 table {
   border-collapse: collapse;
   border-spacing: 0; }
 
-/* line 336, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 336, ../SCSS/_sanitize.scss */
 textarea {
   resize: vertical; }
 
-/* line 342, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 342, ../SCSS/_sanitize.scss */
 ::-moz-selection {
   background-color: #2c3e50;
   color: #fcfdfd;
   text-shadow: none; }
 
-/* line 348, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_sanitize.scss */
+/* line 348, ../SCSS/_sanitize.scss */
 ::selection {
   background-color: #2c3e50;
   color: #fcfdfd;
   text-shadow: none; }
 
-/* line 8, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+/* line 8, ../SCSS/_base.scss */
 main,
 header,
 footer,
@@ -299,14 +299,14 @@ summary {
   margin-bottom: 16px;
   width: 100%; }
 
-/* line 14, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+/* line 14, ../SCSS/_base.scss */
 main {
   display: block;
   margin: 0 auto;
   max-width: 768px;
   padding: 0 16px 16px; }
 
-/* line 21, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+/* line 21, ../SCSS/_base.scss */
 footer {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   clear: both;
@@ -315,25 +315,25 @@ footer {
   max-width: 100%;
   padding: 16px 0;
   text-align: center; }
-  /* line 30, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+  /* line 30, ../SCSS/_base.scss */
   footer p {
     margin-bottom: 0; }
 
-/* line 35, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+/* line 35, ../SCSS/_base.scss */
 hr {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   display: block;
   margin-bottom: 16px;
   width: 100%; }
 
-/* line 42, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+/* line 42, ../SCSS/_base.scss */
 img {
   height: auto;
   max-width: 100%;
   vertical-align: baseline; }
 
 @media screen and (max-width: 400px) {
-  /* line 51, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+  /* line 51, ../SCSS/_base.scss */
   article,
   section,
   aside {
@@ -341,22 +341,22 @@ img {
     display: block;
     max-width: 100%; }
 
-  /* line 57, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_base.scss */
+  /* line 57, ../SCSS/_base.scss */
   img {
     margin-right: 16px; } }
-/* line 1, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 1, ../SCSS/_typography.scss */
 body {
   color: rgba(0, 0, 0, 0.8);
   font-family: "Raleway", "Helvetica Neue", Helvetica, "Lucida Grande", sans-serif;
   font-size: 16px;
   line-height: 1.4; }
 
-/* line 8, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 8, ../SCSS/_typography.scss */
 p {
   margin: 0;
   margin-bottom: 16px; }
 
-/* line 18, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 18, ../SCSS/_typography.scss */
 h1,
 h2,
 h3,
@@ -367,50 +367,50 @@ h6 {
   font-family: inherit;
   line-height: inherit; }
 
-/* line 24, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 24, ../SCSS/_typography.scss */
 h1 {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   font-size: 36px;
   font-weight: 500;
   margin: 20px 0 16px; }
 
-/* line 31, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 31, ../SCSS/_typography.scss */
 h2 {
   font-size: 30px;
   font-weight: 500;
   margin: 20px 0 16px; }
 
-/* line 37, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 37, ../SCSS/_typography.scss */
 h3 {
   font-size: 24px;
   font-weight: 500;
   margin: 16px 0 4px; }
 
-/* line 43, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 43, ../SCSS/_typography.scss */
 h4 {
   font-size: 18px;
   font-weight: 600;
   margin: 16px 0 4px; }
 
-/* line 49, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 49, ../SCSS/_typography.scss */
 h5 {
   font-size: 16px;
   font-weight: 600;
   margin: 16px 0 4px; }
 
-/* line 55, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 55, ../SCSS/_typography.scss */
 h6 {
   color: rgba(0, 0, 0, 0.54);
   font-size: 14px;
   font-weight: 600;
   margin: 16px 0 4px; }
 
-/* line 62, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 62, ../SCSS/_typography.scss */
 small {
   color: rgba(0, 0, 0, 0.54);
   vertical-align: bottom; }
 
-/* line 67, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 67, ../SCSS/_typography.scss */
 pre {
   background: #95a5a6;
   color: rgba(0, 0, 0, 0.8);
@@ -421,7 +421,7 @@ pre {
   padding: 16px;
   white-space: pre-wrap; }
 
-/* line 78, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 78, ../SCSS/_typography.scss */
 code {
   color: rgba(0, 0, 0, 0.8);
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
@@ -433,30 +433,30 @@ code {
   word-break: break-all;
   word-wrap: break-word; }
 
-/* line 90, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 90, ../SCSS/_typography.scss */
 a {
   color: #3498db; }
-  /* line 94, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+  /* line 94, ../SCSS/_typography.scss */
   a:hover, a:focus {
     color: #3498db;
     text-decoration: underline; }
 
-/* line 100, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 100, ../SCSS/_typography.scss */
 dl {
   margin-bottom: 16px; }
 
-/* line 104, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 104, ../SCSS/_typography.scss */
 dd {
   margin-left: 40px; }
 
-/* line 109, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 109, ../SCSS/_typography.scss */
 ul,
 ol {
   margin-bottom: 8px;
   padding-left: 40px;
   vertical-align: baseline; }
 
-/* line 115, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 115, ../SCSS/_typography.scss */
 blockquote {
   border-left: 2px solid #3498db;
   font-family: Georgia, Times, "Times New Roman", serif;
@@ -464,33 +464,33 @@ blockquote {
   margin: 16px 0;
   padding-left: 16px; }
 
-/* line 123, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 123, ../SCSS/_typography.scss */
 figcaption {
   font-family: Georgia, Times, "Times New Roman", serif; }
 
-/* line 127, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 127, ../SCSS/_typography.scss */
 u {
   text-decoration: underline; }
 
-/* line 131, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 131, ../SCSS/_typography.scss */
 s {
   text-decoration: line-through; }
 
-/* line 135, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 135, ../SCSS/_typography.scss */
 sup {
   font-size: 14px;
   vertical-align: super; }
 
-/* line 140, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 140, ../SCSS/_typography.scss */
 sub {
   font-size: 14px;
   vertical-align: sub; }
 
-/* line 145, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_typography.scss */
+/* line 145, ../SCSS/_typography.scss */
 mark {
   background: #f1c40f; }
 
-/* line 14, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 14, ../SCSS/_form.scss */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -513,7 +513,7 @@ select {
   padding: 4px;
   vertical-align: middle; }
 
-/* line 24, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 24, ../SCSS/_form.scss */
 input[type="color"] {
   background: #fcfdfd;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -521,7 +521,7 @@ input[type="color"] {
   display: inline-block;
   vertical-align: middle; }
 
-/* line 33, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 33, ../SCSS/_form.scss */
 input:not([type]) {
   -webkit-appearance: none;
   background-clip: padding-box;
@@ -531,7 +531,7 @@ input:not([type]) {
   padding: 8px;
   text-align: left; }
 
-/* line 58, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 58, ../SCSS/_form.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
@@ -550,17 +550,17 @@ select:focus,
 textarea:focus {
   border-color: #3498db; }
 
-/* line 62, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 62, ../SCSS/_form.scss */
 input:not([type]):focus {
   border-color: #3498db; }
 
-/* line 68, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 68, ../SCSS/_form.scss */
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
   outline: 1px thin rgba(0, 0, 0, 0.12); }
 
-/* line 87, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 87, ../SCSS/_form.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="email"][disabled],
@@ -581,53 +581,53 @@ textarea[disabled] {
   color: rgba(0, 0, 0, 0.54);
   cursor: not-allowed; }
 
-/* line 93, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 93, ../SCSS/_form.scss */
 input:not([type])[disabled] {
   background-color: rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.54);
   cursor: not-allowed; }
 
-/* line 101, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 101, ../SCSS/_form.scss */
 input[readonly],
 select[readonly],
 textarea[readonly] {
   border-color: rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.54); }
 
-/* line 108, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 108, ../SCSS/_form.scss */
 input:focus:invalid,
 textarea:focus:invalid,
 select:focus:invalid {
   border-color: #d62c1a;
   color: #e74c3c; }
 
-/* line 115, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 115, ../SCSS/_form.scss */
 input[type="file"]:focus:invalid:focus,
 input[type="radio"]:focus:invalid:focus,
 input[type="checkbox"]:focus:invalid:focus {
   outline-color: #e74c3c; }
 
-/* line 119, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 119, ../SCSS/_form.scss */
 select {
   -webkit-appearance: menulist-button;
   border: 1px solid rgba(0, 0, 0, 0.12);
   vertical-align: sub; }
 
-/* line 125, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 125, ../SCSS/_form.scss */
 select[multiple] {
   height: auto; }
 
-/* line 129, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 129, ../SCSS/_form.scss */
 label {
   line-height: 2; }
 
-/* line 133, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 133, ../SCSS/_form.scss */
 fieldset {
   border: 0;
   margin: 0;
   padding: 8px 0; }
 
-/* line 139, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 139, ../SCSS/_form.scss */
 legend {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.8);
@@ -636,7 +636,7 @@ legend {
   padding: 8px 0;
   width: 100%; }
 
-/* line 148, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_form.scss */
+/* line 148, ../SCSS/_form.scss */
 textarea {
   background: #fcfdfd;
   border: 1px solid rgba(0, 0, 0, 0.12);
@@ -647,7 +647,7 @@ textarea {
   padding: 8px;
   vertical-align: middle; }
 
-/* line 3, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_buttons.scss */
+/* line 3, ../SCSS/_buttons.scss */
 input[type=submit],
 input[type=reset],
 button {
@@ -663,20 +663,20 @@ button {
   vertical-align: middle;
   white-space: nowrap; }
 
-/* line 19, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_buttons.scss */
+/* line 19, ../SCSS/_buttons.scss */
 input[type=submit]::-moz-focus-inner,
 input[type=reset]::-moz-focus-inner,
 button::-moz-focus-inner {
   padding: 0; }
 
-/* line 25, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_buttons.scss */
+/* line 25, ../SCSS/_buttons.scss */
 input[type=submit]:hover,
 input[type=reset]:hover,
 button:hover {
   background: #217dbb;
   border-color: 1px solid rgba(0, 0, 0, 0.54); }
 
-/* line 32, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_buttons.scss */
+/* line 32, ../SCSS/_buttons.scss */
 input[type=submit]:active,
 input[type=reset]:active,
 button:active {
@@ -685,7 +685,7 @@ button:active {
   box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2);
   outline-offset: -2px; }
 
-/* line 41, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_buttons.scss */
+/* line 41, ../SCSS/_buttons.scss */
 input[type=submit]:focus,
 input[type=reset]:focus,
 button:focus {
@@ -694,44 +694,44 @@ button:focus {
   box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.2);
   outline: 0; }
 
-/* line 49, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_buttons.scss */
+/* line 49, ../SCSS/_buttons.scss */
 input[type=submit]:disabled,
 button:disabled {
   background: rgba(0, 0, 0, 0.12);
   color: rgba(0, 0, 0, 0.38);
   cursor: not-allowed; }
 
-/* line 1, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_tables.scss */
+/* line 1, ../SCSS/_tables.scss */
 table {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   margin-bottom: 16px; }
 
-/* line 6, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_tables.scss */
+/* line 6, ../SCSS/_tables.scss */
 caption {
   padding: 8px 0; }
 
-/* line 10, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_tables.scss */
+/* line 10, ../SCSS/_tables.scss */
 thead th {
   border: 0;
   border-bottom: 2px solid rgba(0, 0, 0, 0.12);
   text-align: left; }
 
-/* line 16, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_tables.scss */
+/* line 16, ../SCSS/_tables.scss */
 tr {
   margin-bottom: 8px; }
 
-/* line 21, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_tables.scss */
+/* line 21, ../SCSS/_tables.scss */
 th,
 td {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 16px;
   vertical-align: inherit; }
 
-/* line 27, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_tables.scss */
+/* line 27, ../SCSS/_tables.scss */
 tfoot tr {
   text-align: left; }
 
-/* line 31, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_tables.scss */
+/* line 31, ../SCSS/_tables.scss */
 tfoot td {
   color: rgba(0, 0, 0, 0.54);
   font-size: 8px;
@@ -857,7 +857,7 @@ body > .wrapper {
     body > .wrapper {
       padding-top: 0; } }
 
-/* line 1, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+/* line 1, ../SCSS/_grid.scss */
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -868,30 +868,30 @@ body > .wrapper {
   overflow: hidden;
   *zoom: 1; }
   @media only screen and (max-width: 1000px) {
-    /* line 1, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 1, ../SCSS/_grid.scss */
     .grid {
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(3, auto);
       grid-gap: 25px 25px; } }
   @media only screen and (max-width: 768px) {
-    /* line 1, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 1, ../SCSS/_grid.scss */
     .grid {
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(4, auto);
       grid-gap: 20px 20px; } }
   @media only screen and (max-width: 480px) {
-    /* line 1, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 1, ../SCSS/_grid.scss */
     .grid {
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(5, auto);
       grid-gap: 15px 15px; } }
   @media only screen and (max-width: 320px) {
-    /* line 1, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 1, ../SCSS/_grid.scss */
     .grid {
       grid-template-columns: repeat(1, 1fr);
       grid-template-rows: repeat(7, auto);
       grid-gap: 10px 10px; } }
-  /* line 37, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 37, ../SCSS/_grid.scss */
   .grid > div {
     position: relative;
     display: inline-block;
@@ -910,254 +910,254 @@ body > .wrapper {
     -moz-transition: all 0.15s ease-out 0s;
     -o-transition: all 0.15s ease-out 0s;
     transition: all 0.15s ease-out 0s; }
-    /* line 53, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 53, ../SCSS/_grid.scss */
     .grid > div:hover {
       -webkit-animation: bounce 0.8s ease-out;
       -moz-animation: bounce 0.8s ease-out;
       -ms-animation: bounce 0.8s ease-out;
       animation: bounce 0.8s ease-out; }
-    /* line 56, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 56, ../SCSS/_grid.scss */
     .grid > div:active {
       -webkit-transform: scale(0.9, 0.9);
       -moz-transform: scale(0.9, 0.9);
       -ms-transform: scale(0.9, 0.9);
       -o-transform: scale(0.9, 0.9);
       transform: scale(0.9, 0.9); }
-    /* line 60, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 60, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(3n+4), .grid > div:nth-of-type(5n+12) {
       margin-right: 0; }
-    /* line 63, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 63, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(3n+10) {
       margin-right: 2%; }
     @media only screen and (max-width: 1000px) {
-      /* line 37, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+      /* line 37, ../SCSS/_grid.scss */
       .grid > div {
         padding: 0 2%;
         width: 19.88%;
         margin-right: 1.5% !important;
         margin-bottom: 14px; }
-        /* line 73, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 73, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(2n+3), .grid > div:nth-of-type(4n+9) {
           margin-right: 0 !important; }
-        /* line 76, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 76, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(4n+7) {
           margin-right: 1.5% !important; } }
     @media only screen and (max-width: 768px) {
-      /* line 37, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+      /* line 37, ../SCSS/_grid.scss */
       .grid > div {
         padding: 0 1.5%;
         width: 29.33%;
         margin-right: 1.5% !important;
         margin-bottom: 15px; }
-        /* line 87, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 87, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(2n+3), .grid > div:nth-of-type(4n+9) {
           margin-right: 1.5% !important; }
-        /* line 91, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 91, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(2), .grid > div:nth-of-type(3), .grid > div:nth-of-type(3n+6) {
           margin-right: 0 !important; } }
     @media only screen and (max-width: 480px) {
-      /* line 37, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+      /* line 37, ../SCSS/_grid.scss */
       .grid > div {
         padding: 20px 1%;
         width: 47.5%;
         margin-right: 1% !important;
         margin-bottom: 12px; }
-        /* line 102, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 102, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(2), .grid > div:nth-of-type(3), .grid > div:nth-of-type(3n+6) {
           margin-right: 1% !important; }
-        /* line 106, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 106, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(2n+1) {
           margin-right: 0 !important; } }
     @media only screen and (max-width: 320px) {
-      /* line 37, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+      /* line 37, ../SCSS/_grid.scss */
       .grid > div {
         padding: 20px 1%;
         width: 98%;
         margin-right: 0;
         margin-bottom: 10px; } }
-    /* line 118, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 118, ../SCSS/_grid.scss */
     .grid > div a {
       position: absolute;
       margin: 0;
       bottom: 20px;
       letter-spacing: 1px;
       color: #fcfdfd; }
-      /* line 125, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+      /* line 125, ../SCSS/_grid.scss */
       .grid > div a:hover, .grid > div a:focus {
         text-decoration: none; }
-    /* line 130, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 130, ../SCSS/_grid.scss */
     .grid > div.gridgood {
       width: auto !important;
       padding: 0 20px !important;
       margin: 0 !important;
       float: none !important; }
-    /* line 138, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 138, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(1) {
       grid-column: 1/span 2;
       grid-row: 1/span 2;
       width: 34.8%;
       background-image: url(../img/icons/call.png); }
-      /* line 142, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+      /* line 142, ../SCSS/_grid.scss */
       .grid > div:nth-of-type(1).gridgood {
         height: auto; }
       @media only screen and (max-width: 1000px) {
-        /* line 138, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 138, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(1) {
           width: 45.2%; } }
       @media only screen and (max-width: 768px) {
-        /* line 138, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 138, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(1) {
           width: 63.16%; } }
       @media only screen and (max-width: 480px) {
-        /* line 138, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 138, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(1) {
           width: 98%; } }
       @media only screen and (max-width: 320px) {
-        /* line 138, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+        /* line 138, ../SCSS/_grid.scss */
         .grid > div:nth-of-type(1) {
           grid-column: 1/span 1;
           grid-row: 1/span 1; } }
-      /* line 166, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+      /* line 166, ../SCSS/_grid.scss */
       .grid > div:nth-of-type(1) a {
         font-size: 30px; }
-    /* line 171, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 171, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(2) {
       background-color: #e74c3c;
       background-image: url(../img/icons/problems.png); }
-    /* line 176, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 176, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(3) {
       background-color: #2ecc71;
       background-image: url(../img/icons/solved.png); }
-    /* line 181, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 181, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(4) {
       background-color: #9b59b6;
       background-image: url(../img/icons/specialists.png); }
-    /* line 186, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 186, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(5) {
       background-color: #2980b9;
       background-image: url(../img/icons/software.png); }
-    /* line 191, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 191, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(6) {
       background-color: #2980b9;
       background-image: url(../img/icons/hardware.png); }
-    /* line 196, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+    /* line 196, ../SCSS/_grid.scss */
     .grid > div:nth-of-type(7) {
       background-color: #2c3e50;
       background-image: url(../img/icons/settings.png); }
 
 @-webkit-keyframes bounce {
-  /* line 204, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 204, ../SCSS/_grid.scss */
   0% {
     background-position: 25% 25%; }
 
-  /* line 205, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 205, ../SCSS/_grid.scss */
   30% {
     background-position: 25% 10%; }
 
-  /* line 206, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 206, ../SCSS/_grid.scss */
   50% {
     background-position: 25% 25%; }
 
-  /* line 207, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 207, ../SCSS/_grid.scss */
   70% {
     background-position: 25% 18%; }
 
-  /* line 208, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 208, ../SCSS/_grid.scss */
   80% {
     background-position: 25% 25%; }
 
-  /* line 209, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 209, ../SCSS/_grid.scss */
   90% {
     background-position: 25% 21%; }
 
-  /* line 210, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 210, ../SCSS/_grid.scss */
   100% {
     background-position: 25% 25%; } }
 
 @-moz-keyframes bounce {
-  /* line 204, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 204, ../SCSS/_grid.scss */
   0% {
     background-position: 25% 25%; }
 
-  /* line 205, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 205, ../SCSS/_grid.scss */
   30% {
     background-position: 25% 10%; }
 
-  /* line 206, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 206, ../SCSS/_grid.scss */
   50% {
     background-position: 25% 25%; }
 
-  /* line 207, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 207, ../SCSS/_grid.scss */
   70% {
     background-position: 25% 18%; }
 
-  /* line 208, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 208, ../SCSS/_grid.scss */
   80% {
     background-position: 25% 25%; }
 
-  /* line 209, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 209, ../SCSS/_grid.scss */
   90% {
     background-position: 25% 21%; }
 
-  /* line 210, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 210, ../SCSS/_grid.scss */
   100% {
     background-position: 25% 25%; } }
 
 @-ms-keyframes bounce {
-  /* line 204, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 204, ../SCSS/_grid.scss */
   0% {
     background-position: 25% 25%; }
 
-  /* line 205, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 205, ../SCSS/_grid.scss */
   30% {
     background-position: 25% 10%; }
 
-  /* line 206, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 206, ../SCSS/_grid.scss */
   50% {
     background-position: 25% 25%; }
 
-  /* line 207, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 207, ../SCSS/_grid.scss */
   70% {
     background-position: 25% 18%; }
 
-  /* line 208, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 208, ../SCSS/_grid.scss */
   80% {
     background-position: 25% 25%; }
 
-  /* line 209, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 209, ../SCSS/_grid.scss */
   90% {
     background-position: 25% 21%; }
 
-  /* line 210, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 210, ../SCSS/_grid.scss */
   100% {
     background-position: 25% 25%; } }
 
 @keyframes bounce {
-  /* line 204, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 204, ../SCSS/_grid.scss */
   0% {
     background-position: 25% 25%; }
 
-  /* line 205, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 205, ../SCSS/_grid.scss */
   30% {
     background-position: 25% 10%; }
 
-  /* line 206, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 206, ../SCSS/_grid.scss */
   50% {
     background-position: 25% 25%; }
 
-  /* line 207, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 207, ../SCSS/_grid.scss */
   70% {
     background-position: 25% 18%; }
 
-  /* line 208, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 208, ../SCSS/_grid.scss */
   80% {
     background-position: 25% 25%; }
 
-  /* line 209, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 209, ../SCSS/_grid.scss */
   90% {
     background-position: 25% 21%; }
 
-  /* line 210, /Volumes/Data WD 3TB/Documents/Web Dev/Cogs/SCSS/_grid.scss */
+  /* line 210, ../SCSS/_grid.scss */
   100% {
     background-position: 25% 25%; } }
 
