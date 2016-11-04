@@ -1,5 +1,5 @@
 project_type = :stand_alone
-environment = :environment
+environment = :production
 output_style = :nested
 sass_dir = "SCSS"
 css_dir = "site"

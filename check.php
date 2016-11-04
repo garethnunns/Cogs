@@ -2,7 +2,7 @@
 	session_start();
 
 	if(!isset($_SESSION['user'])) {
-		header("refresh:1; url=login");
-		exit('Not logged in');
+		header("refresh:0; url=login");
+		exit();
 	}
 ?>

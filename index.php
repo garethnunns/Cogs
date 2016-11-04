@@ -1,5 +1,5 @@
-<?php 
-	if((isset($_GET['fallback'])) && ($_GET['fallback']!='login')) require_once 'check.php';
+<?php
+	if(((isset($_GET['fallback'])) && ($_GET['fallback']!='login')) || empty(ltrim($_SERVER['REQUEST_URI'],'/'))) require_once 'check.php';
 ?><!DOCTYPE html>
 <html>
 	<head>
@@ -24,22 +24,23 @@
 			</div>
 		</header>
 
-		<div class="wrapper" id="content" <?php if(isset($_GET['fallback'])) echo 'class="fallback"'; ?>>
-			<?php
-				if(isset($_GET['fallback'])) include 'pages/'.$_GET['fallback'].'.php';
-				else echo '<p class="noJS error">JavaScript is not currently enabled - this will decrease the user experience but the site is still usable, please continue to the <a href="'.(isset($_SESSION['user']) ? 'home">home' : 'login">login').' page</a></p>'; // homepage
-			?>
-		</div>
-
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="site/jquery.mobile.custom.min.js"></script>
 		<script type="text/javascript">
-			$('.noJS').remove();
+			console.log('<?php echo $_SERVER['REQUEST_URI']?>');
 
-			$('header a').off('click touchend').on('click touchend', function (e) {
-					e.preventDefault();
-					loadPage(this.href);
-				});
+			// functions
+			function noJS() {
+				$('.noJS').remove();
+			}
+
+			function tempError(error) {
+				$('<p class="error">'+error+'</p>').prependTo("#content").delay(2000).slideUp(500);
+			}
+
+			function lastSplit(char,string) {
+				return string.split(char)[string.split(char).length-1];
+			}
 
 			function JSifyLinks() {
 				$('#content a').off('click touchend').on('click touchend', function (e) {
@@ -50,32 +51,37 @@
 
 			function loadPage(page) {
 				page = lastSplit('/',page) // some browsers add on the full URL before, this removes it
-				if(page=='') page = 'grid';
+				if(page=='') page = 'home';
 				$.ajax({
 					type: "GET",
 					url: 'pages/'+page+".php",
 					success: function(data, status, xhr) { // on loading the page...
-						var refresh = xhr.getResponseHeader('refresh');
-						if(refresh) loadPage('login'); // not logged in
+						var refresh = xhr.getResponseHeader('refresh'); // the loaded page is doing a redirect
+						if(refresh) loadPage(lastSplit('=',refresh)); // go to the redirected page
 						else { // logged in
 							$("#content").fadeTo(150,0, function() { // fade out then put the new content in
 								$("#content").html(data);
+								history.pushState(null, null, page);
 								JSifyLinks();
 								$("#content").fadeTo(350,1);
 							});
 						}
 					}, error: function(error) { // when there's a link to a page that doesn't exist
 						console.log('Tried to load "'+page+'" and got a '+error.status);
-						tempError('There was an error loading the page, please try again');
+						loadPage('404');
 						JSifyLinks(); // might need to JSify the links up again, probably not
 					}
 				});
 			}
 
-			$(document).ready(function(){
-				loadPage('login');
+
+
+			$('header a').off('click touchend').on('click touchend', function (e) {
+				e.preventDefault();
+				loadPage(this.href);
 			});
 
+			//loadPage(window.location.pathname);
 
 			// move logo over when searching
 			$('#search').focus(function() {
@@ -85,14 +91,14 @@
 			$('#search').blur(function() {
 				$('.logo').removeClass('searching');
 			});
-
-			function tempError(error) {
-				$('<p class="error">'+error+'</p>').prependTo("#content").delay(2000).slideUp(500);
-			}
-
-			function lastSplit(char,string) {
-				return string.split(char)[string.split(char).length-1];
-			}
 		</script>
+
+		<div class="wrapper" id="content" <?php if(isset($_GET['fallback'])) echo 'class="fallback"'; ?>>
+			<?php
+				if(isset($_GET['fallback']) && file_exists($file = 'pages/'.$_GET['fallback'].'.php')) include $file;
+				else if (isset($_GET['fallback'])) include 'pages/404.php';
+				else include 'pages/home.php';
+			?>
+		</div>
 	</body>
 </html>

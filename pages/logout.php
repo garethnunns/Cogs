@@ -1,9 +1,11 @@
 <?php
 	session_start();
 	unset($_SESSION['user']);
-	exit('Logged out');
 ?>
 
+<p class="noJS">Logged out</p>
+
 <script type="text/javascript">
+	noJS();
 	loadPage('login');
 </script>
