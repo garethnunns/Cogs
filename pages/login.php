@@ -1,3 +1,12 @@
+<?php
+	session_start();
+
+	if(isset($_SESSION['user'])) {
+		header("refresh:0; url=home");
+		exit();
+	}
+?>
+
 <form action="/login.php" method="POST" id="login">
 	<h3>Please login</h3>
 	<p><input type="text" name="username" placeholder="Username"></p>

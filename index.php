@@ -27,8 +27,6 @@
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 		<script src="site/jquery.mobile.custom.min.js"></script>
 		<script type="text/javascript">
-			console.log('<?php echo $_SERVER['REQUEST_URI']?>');
-
 			// functions
 			function noJS() {
 				$('.noJS').remove();
@@ -43,13 +41,13 @@
 			}
 
 			function JSifyLinks() {
-				$('#content a').off('click touchend').on('click touchend', function (e) {
+				$('#content :not(.grid) a').off('click touchend').on('click touchend', function (e) {
 					e.preventDefault();
 					loadPage(this.href);
 				});
 			}
 
-			function loadPage(page) {
+			function loadPage(page, historyPush = true) { // load the [page] and then whether it should be added to the history
 				page = lastSplit('/',page) // some browsers add on the full URL before, this removes it
 				if(page=='') page = 'home';
 				$.ajax({
@@ -61,7 +59,7 @@
 						else { // logged in
 							$("#content").fadeTo(150,0, function() { // fade out then put the new content in
 								$("#content").html(data);
-								history.pushState(null, null, page);
+								if(historyPush) history.pushState(null, null, page);
 								JSifyLinks();
 								$("#content").fadeTo(350,1);
 							});
@@ -75,15 +73,16 @@
 			}
 
 
-
 			$('header a').off('click touchend').on('click touchend', function (e) {
 				e.preventDefault();
 				loadPage(this.href);
 			});
 
-			//loadPage(window.location.pathname);
+			$(window).on('popstate', function() {
+				loadPage(window.location.pathname, false);
+			});
 
-			// move logo over when searching
+			// move logo over when searching on mobiles
 			$('#search').focus(function() {
 				$('.logo').addClass('searching');
 			});

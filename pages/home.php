@@ -9,18 +9,20 @@
 </div>
 
 <script type="text/javascript">
+	$('.grid > div').each(function () {
+		$(this).data('link', $(this).children()[0].href);
+		$(this).off('click vclick').on('click vclick', function() {
+			loadPage($(this).data('link')); // make the whole tile a link
+		});
+	});
+	$('.grid > div > a').each(function() { // make the links not interfere with the tiles
+		$(this).replaceWith('<p>'+$(this).text()+'</p>');
+	});
+
 	function squareGrid() {
 		$('.grid > div').each(function () { // all of the items in the grid
 			if(CSS.supports("display", "grid")) $(this).addClass('gridgood'); // future proofing
 			$(this).height($(this).outerWidth()); // make the height the same as the width
-			$(this).off('click vclick').on('click vclick', function() {
-				loadPage($(this).children()[0].href); // make the whole tile a link
-			});
-		});
-		$('.grid > div > a').each(function() { // turn off the text links
-			$(this).off('click touchend').on('click touchend', function (e) {
-				e.preventDefault();
-			});
 		});
 	}
 
