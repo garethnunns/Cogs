@@ -1,5 +1,9 @@
 <?php
+	session_start();
+
 	if(((isset($_GET['fallback'])) && ($_GET['fallback']!='login')) || empty(ltrim($_SERVER['REQUEST_URI'],'/'))) require_once 'check.php';
+	else if($_GET['fallback']=='login' && isset($_SESSION['user']))
+		header('Location: home');
 ?><!DOCTYPE html>
 <html>
 	<head>
