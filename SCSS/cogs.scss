@@ -130,6 +130,8 @@ body > .wrapper {
 
 @import 'grid';
 
+// login page
+
 .error {
 	font-weight: 700;
 	color: $red;
@@ -137,4 +139,46 @@ body > .wrapper {
 
 #login {
 	text-align: center;
+}
+
+// problems
+
+.problems {
+	tr:nth-of-type(3n+2), tr:nth-of-type(3n+3) {
+		cursor: pointer;
+	}
+
+	th, td {
+		text-align: left;
+	}
+
+	.numCalls {
+		text-align: center;
+
+		span {
+			font-size: $font-size-h1;
+		}
+	}
+
+	.responses {
+
+		.response {
+			margin-bottom: $md-pad;
+			@include clearfix;
+
+			.staff {
+				float: left;
+				width: 160px;
+				padding: 6px 20px 0 0;
+			}
+
+			.notes {
+				margin-left: 200px;
+
+				h3:first-of-type {
+					margin-top: 0;
+				}
+			}
+		}
+	}
 }

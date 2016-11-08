@@ -595,8 +595,8 @@ button:disabled {
   cursor: not-allowed; }
 
 table {
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  margin-bottom: 16px; }
+  margin-bottom: 16px;
+  width: 100%; }
 
 caption {
   padding: 8px 0; }
@@ -973,3 +973,24 @@ body > .wrapper {
 
 #login {
   text-align: center; }
+
+.problems tr:nth-of-type(3n+2), .problems tr:nth-of-type(3n+3) {
+  cursor: pointer; }
+.problems th, .problems td {
+  text-align: left; }
+.problems .numCalls {
+  text-align: center; }
+  .problems .numCalls span {
+    font-size: 36px; }
+.problems .responses .response {
+  margin-bottom: 16px;
+  overflow: hidden;
+  *zoom: 1; }
+  .problems .responses .response .staff {
+    float: left;
+    width: 160px;
+    padding: 6px 20px 0 0; }
+  .problems .responses .response .notes {
+    margin-left: 200px; }
+    .problems .responses .response .notes h3:first-of-type {
+      margin-top: 0; }
