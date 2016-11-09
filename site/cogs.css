@@ -978,6 +978,13 @@ body > .wrapper {
   cursor: pointer; }
 .problems th, .problems td {
   text-align: left; }
+@media only screen and (max-width: 768px) {
+  .problems tr:nth-of-type(3n+2) td:nth-of-type(2), .problems th:nth-of-type(2) {
+    display: none; } }
+@media only screen and (max-width: 480px) {
+  .problems tr:nth-of-type(3n+2) td:nth-of-type(3), .problems th:nth-of-type(3),
+  .problems tr:nth-of-type(3n+2) td:nth-of-type(n+5), .problems tr:nth-of-type(3n+3) td, .problems th:nth-of-type(3) {
+    display: none; } }
 .problems .numCalls {
   text-align: center; }
   .problems .numCalls span {
@@ -990,7 +997,15 @@ body > .wrapper {
     float: left;
     width: 160px;
     padding: 6px 20px 0 0; }
+    @media only screen and (max-width: 768px) {
+      .problems .responses .response .staff {
+        float: none;
+        width: 100%;
+        padding: 0; } }
   .problems .responses .response .notes {
     margin-left: 200px; }
     .problems .responses .response .notes h3:first-of-type {
       margin-top: 0; }
+    @media only screen and (max-width: 768px) {
+      .problems .responses .response .notes {
+        margin-left: 0; } }
