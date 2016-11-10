@@ -1,0 +1,69 @@
+.problems {
+	th, td {
+		text-align: left;
+	}
+
+	tr:nth-of-type(3n+2), tr:nth-of-type(3n+3) {
+		cursor: pointer;
+	}
+
+	tr:nth-of-type(3n+2) td:nth-of-type(1) {
+		font-weight: bold;
+	}
+
+	@include breakpoint(small-tablet) {
+		tr:nth-of-type(3n+2) td:nth-of-type(2), th:nth-of-type(2) {
+			display: none;
+		}
+	}
+
+	@include breakpoint(phone) {
+		tr:nth-of-type(3n+2) td:nth-of-type(3), th:nth-of-type(3),
+		tr:nth-of-type(3n+2) td:nth-of-type(n+5), tr:nth-of-type(3n+3) td, th:nth-of-type(3) {
+			display: none;
+		}
+	}
+
+	.numCalls {
+		text-align: center;
+
+		span {
+			font-size: $font-size-h1;
+		}
+	}
+
+	.responses {
+		.assign {
+			text-align: center;
+		}
+
+		.response {
+			margin-bottom: $md-pad;
+			@include clearfix;
+
+			.staff {
+				float: left;
+				width: 160px;
+				padding: 6px 20px 0 0;
+
+				@include breakpoint(small-tablet) {
+					float: none;
+					width: 100%;
+					padding: 0;
+				}
+			}
+
+			.notes {
+				margin-left: 200px;
+
+				h3:first-of-type {
+					margin-top: 0;
+				}
+
+				@include breakpoint(small-tablet) {
+					margin-left: 0;
+				}
+			}
+		}
+	}
+}

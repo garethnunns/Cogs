@@ -2,7 +2,11 @@
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 
-<h1>Welcome Gareth</h1>
+<?php
+	if(!isset($_SESSION['welcome']))
+		echo "<h1>Welcome {$tlogin[$_SESSION['user']]['name']}</h1>";
+	$_SESSION['welcome'] = false;
+?>
 
 <div class="grid">
 	<div><a href="call">New call</a></div><div><a href="problems">Problems</a></div><div><a href="solved">Solved</a></div><div><a href="specialists">Specialists</a></div><div><a href="software">Software</a></div><div><a href="hardware">Hardware</a></div><div><a href="settings">Settings</a></div>
