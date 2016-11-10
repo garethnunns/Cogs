@@ -7,19 +7,20 @@
 		cursor: pointer;
 	}
 
-	tr:nth-of-type(3n+2) td:nth-of-type(1) {
+	tr:nth-of-type(3n+2) td:nth-of-type(1), tr:nth-of-type(3n+2) td:nth-of-type(2) {
 		font-weight: bold;
 	}
 
 	@include breakpoint(small-tablet) {
-		tr:nth-of-type(3n+2) td:nth-of-type(2), th:nth-of-type(2) {
+		tr:nth-of-type(3n+2) td:nth-of-type(3), th:nth-of-type(3),
+		tr:nth-of-type(3n+2) td:nth-of-type(4), th:nth-of-type(4) {
 			display: none;
 		}
 	}
 
 	@include breakpoint(phone) {
-		tr:nth-of-type(3n+2) td:nth-of-type(3), th:nth-of-type(3),
-		tr:nth-of-type(3n+2) td:nth-of-type(n+5), tr:nth-of-type(3n+3) td, th:nth-of-type(3) {
+		tr:nth-of-type(3n+2) td:nth-of-type(4), th:nth-of-type(4),
+		tr:nth-of-type(3n+2) td:nth-of-type(n+6), tr:nth-of-type(3n+3) td, th:nth-of-type(3) {
 			display: none;
 		}
 	}

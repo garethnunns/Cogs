@@ -6,6 +6,7 @@
 
 <table class="problems">
 	<tr>
+		<th>ID</th>
 		<th>Title</th>
 		<th>Customers</th>
 		<th>Operators</th>

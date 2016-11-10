@@ -43,6 +43,7 @@
 				array_push($ops, $ass['op']);
 
 		echo "<tr>
+		<td rowspan='2'>{$problem['id']}</td>
 		<td rowspan='2'>{$problem['title']}</td>
 
 		<td rowspan='2'>";
@@ -84,7 +85,7 @@
 		</tr>
 
 		<tr class='responses'>
-		<td colspan='6'>
+		<td colspan='7'>
 		<h2>{$problem['title']}</h2>";
 		
 		$shown = array();

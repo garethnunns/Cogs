@@ -974,14 +974,15 @@ body > .wrapper {
   text-align: left; }
 .problems tr:nth-of-type(3n+2), .problems tr:nth-of-type(3n+3) {
   cursor: pointer; }
-.problems tr:nth-of-type(3n+2) td:nth-of-type(1) {
+.problems tr:nth-of-type(3n+2) td:nth-of-type(1), .problems tr:nth-of-type(3n+2) td:nth-of-type(2) {
   font-weight: bold; }
 @media only screen and (max-width: 768px) {
-  .problems tr:nth-of-type(3n+2) td:nth-of-type(2), .problems th:nth-of-type(2) {
+  .problems tr:nth-of-type(3n+2) td:nth-of-type(3), .problems th:nth-of-type(3),
+  .problems tr:nth-of-type(3n+2) td:nth-of-type(4), .problems th:nth-of-type(4) {
     display: none; } }
 @media only screen and (max-width: 480px) {
-  .problems tr:nth-of-type(3n+2) td:nth-of-type(3), .problems th:nth-of-type(3),
-  .problems tr:nth-of-type(3n+2) td:nth-of-type(n+5), .problems tr:nth-of-type(3n+3) td, .problems th:nth-of-type(3) {
+  .problems tr:nth-of-type(3n+2) td:nth-of-type(4), .problems th:nth-of-type(4),
+  .problems tr:nth-of-type(3n+2) td:nth-of-type(n+6), .problems tr:nth-of-type(3n+3) td, .problems th:nth-of-type(3) {
     display: none; } }
 .problems .numCalls {
   text-align: center; }

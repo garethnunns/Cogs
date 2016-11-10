@@ -9,8 +9,9 @@
 		array('username' => 'mike', 'password' => 'ross', 'name' => 'Mike Ross', 'job' => 'Specialist'),
 	);
 
-	$tproblems = array(
+	$tproblems = array( // put in all of the problems, with the highest ID at the top
 		array(
+			'id' => 925,
 			'title' => 'Popup Ads Appearing',
 			'calls' => array(
 				array(
@@ -45,6 +46,7 @@
 			)
 		),
 		array(
+			'id' => 912,
 			'title' => 'Computer is slow due to lack of space',
 			'calls' => array(
 				array(
