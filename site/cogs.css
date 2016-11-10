@@ -636,7 +636,7 @@ header {
   background-color: #2980b9;
   color: white;
   text-align: center;
-  z-index: 10; }
+  z-index: 10001; }
   @media only screen and (max-width: 768px) {
     header {
       position: static;
@@ -715,6 +715,8 @@ header {
   margin: 0 auto;
   width: 96%;
   max-width: 1000px; }
+  .wrapper#content {
+    padding-bottom: 15px; }
 
 body > .wrapper {
   padding-top: 90px; }

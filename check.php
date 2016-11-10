@@ -7,7 +7,10 @@
 	}
 
 	// internationalisation - yay...
-	date_default_timezone_set("Europe/London");
+	if(isset($_SESSION['timezone']))
+		date_default_timezone_set($_SESSION['timezone']);
+	else
+		date_default_timezone_set("Europe/London");
 	$format = 'j/n/y \a\t H:i';
 
 	require_once dirname(__FILE__).'/functions.php';

@@ -19,7 +19,7 @@ header {
 	background-color: $accent;
 	color: white;
 	text-align: center;
-	z-index: 10;
+	z-index: 10001;
 
 	@include breakpoint(small-tablet) {
 		position: static;
@@ -118,6 +118,10 @@ header {
 	margin: 0 auto;
 	width: 96%;
 	max-width: 1000px;
+
+	&#content {
+		padding-bottom: 15px;
+	}
 }
 
 body > .wrapper {

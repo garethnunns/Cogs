@@ -1,6 +1,6 @@
 <?php
 	function longAgo($newDate) {
-		if($date = strtotime($newDate)) {
+		if($date = strtotime($newDate.' '.date_default_timezone_get())) {
 			if(($diff = time() - $date) <= 30)
 				return 'A few seconds ago';
 			else if($diff <= 4*60)
@@ -12,6 +12,11 @@
 			else if($diff < 365*24*60*60)
 				return floor($diff/(24*60*60)).' days ago';
 		}
+	}
+
+	function isValidTimezone($timezone) {
+		@$tz=timezone_open($timezone);
+		return $tz!==FALSE;
 	}
 
 
@@ -171,7 +176,7 @@
 		}
 
 		$ret .= "</strong>
-		<br>" . date($format,strtotime($response['date']));
+		<br>" . date($format,strtotime($response['date'].' '.date_default_timezone_get()));
 
 		if($ago = longAgo($response['date']))
 			$ret .= '<br><em>('.$ago.')</em>';

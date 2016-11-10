@@ -2,7 +2,7 @@
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 
-<h1>Solved</h1>
+<h1>Solved Problems</h1>
 
 <table class="problems">
 	<tr>
