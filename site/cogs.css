@@ -307,33 +307,33 @@ h6 {
 h1 {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   font-size: 36px;
-  font-weight: 500;
+  font-weight: 400;
   margin: 20px 0 16px; }
 
 h2 {
   font-size: 30px;
-  font-weight: 500;
+  font-weight: 400;
   margin: 20px 0 16px; }
 
 h3 {
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 400;
   margin: 16px 0 4px; }
 
 h4 {
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 16px 0 4px; }
 
 h5 {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 16px 0 4px; }
 
 h6 {
   color: rgba(0, 0, 0, 0.54);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 16px 0 4px; }
 
 small {
@@ -1017,3 +1017,10 @@ body > .wrapper {
 
 #login {
   text-align: center; }
+
+.specialists {
+  text-align: center; }
+  .specialists td:nth-of-type(1), .specialists td:nth-of-type(2) {
+    font-weight: 700; }
+  .specialists .numProbs span {
+    font-size: 36px; }
