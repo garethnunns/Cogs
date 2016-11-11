@@ -321,4 +321,15 @@
 			)
 		)
 	);
+
+//add GMT to dates for internationalisation
+foreach ($tproblems as $pkey => $problem) // look at each problem individually
+	foreach ($problem as $rskey => $responses) // look at each element in the array - calls/messages/assigns
+		if(is_array($responses))
+			if($responses['date'])
+				$tproblems[$pkey][$rskey]['date'] .= ' GMT';
+			else
+				foreach ($responses as $rkey => $response) // loop through calls/messages/assigns
+					if($response['date'])
+						$tproblems[$pkey][$rskey][$rkey]['date'] .= ' GMT';
 ?>
