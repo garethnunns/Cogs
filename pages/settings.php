@@ -24,10 +24,9 @@
 	<input type="hidden" name="timezone">
 </form>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9DcqlMad06yazL8O2Gyffmovc2_9ZqRc"></script>
 <script type="text/javascript" src="/site/jquery.timezone-picker.js"></script>
 <script>
-//$(function() {
+$.getScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyB9DcqlMad06yazL8O2Gyffmovc2_9ZqRc", function() {
 	$("#zonepicker").timezonePicker({
 		initialLat: 20,
 		initialLng: 0,
@@ -51,7 +50,7 @@
 			minZoom: 2
 		}
 	});
-//});
+});
 
 function updateSettings() {
 	var tz = $('input[name="timezone"]').val();
