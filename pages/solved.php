@@ -16,7 +16,7 @@
 <?php
 	foreach ($tproblems as $problem) {
 		if($problem['solution']) { // it has been solved
-			outputProblem($problem);
+			outputProblem($problem,true);
 		}
 	}
 ?>

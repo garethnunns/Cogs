@@ -21,7 +21,7 @@
 
 
 	// temp functions
-	function outputProblem($problem) {
+	function outputProblem($problem,$solved) {
 		global $format, $tlogin, $tproblems;
 
 		$customers = array();
@@ -61,14 +61,23 @@
 
 		<td rowspan='2' class='numCalls'>
 		<span>".count($problem['calls'])."</span>
-		<br>".(count($problem['calls'])==1 ? 'Call' : 'Calls')."</td>
+		<br>".(count($problem['calls'])==1 ? 'Call' : 'Calls')."</td>";
 
-		<td>Solved</td>
-		<td>";
+		if($problem['solution']) {
+			echo "<td>Solved</td><td>";
 		
-		echo date($format,strtotime($problem['solution']['date']));
-		if($ago = longAgo($problem['solution']['date']))
-			echo '<br>('.$ago.')';
+			echo date($format,strtotime($problem['solution']['date']));
+			if($ago = longAgo($problem['solution']['date']))
+				echo '<br>('.$ago.')';
+		}
+		else {
+			echo "<td>Most recent</td><td>";
+
+			echo date($format,strtotime($problem['calls'][0]['date']));
+			
+			if($ago = longAgo($problem['calls'][0]['date']))
+				echo '<br>('.$ago.')';
+		}
 
 		echo "</td>
 		</tr>
@@ -137,13 +146,15 @@
 				}
 			}
 
-			$solDate = strtotime($problem['solution']['date']);
-			if($solDate > $high)
-				$high = $solDate;
-			if($solDate == $highest) {
-				echo outputResponse($problem['solution'],'solution',$format);
-				unset($problem['solution']);
-				continue;
+			if($solved) {
+				$solDate = strtotime($problem['solution']['date']);
+				if($solDate > $high)
+					$high = $solDate;
+				if($solDate == $highest) {
+					echo outputResponse($problem['solution'],'solution',$format);
+					unset($problem['solution']);
+					continue;
+				}
 			}
 
 			$highest = $high;
