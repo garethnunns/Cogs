@@ -382,6 +382,7 @@
 
 
 	);
+	ksort($tHard); // sort them by ID
 
 	$tSoft = array(
 		260 => array(
@@ -409,13 +410,13 @@
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
 		),
-		230 => array(
+		231 => array(
 			'name' => 'Adobe Dreamweaver',
 			'license' => '123456675734',
 			'os' => 'Windows 10'
 		)
-
 	);
+	ksort($tSoft); // sort them by ID
 
 	//settings
 	$tLanguages = array( // sourced using https://r12a.github.io/apps/subtags/

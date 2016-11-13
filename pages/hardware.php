@@ -13,7 +13,6 @@
 	</tr>
 
 <?php
-	ksort($tHard);
 	foreach ($tHard as $id => $hard) {
 		echo "<tr>
 		<td>{$id}</td>

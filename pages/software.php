@@ -14,7 +14,6 @@
 	</tr>
 
 <?php
-	ksort($tSoft);
 	foreach ($tSoft as $id => $soft) {
 		echo "<tr>
 		<td>{$id}</td>
