@@ -351,34 +351,34 @@
 			'name' => 'Microsoft Surface Pro 4',
 			'type' => 'Tablet'
 		),
-		143 array(
+		143 => array(
 			'name' => 'iPad Air 3',
 			'type' => 'Tablet'
 		),
-		168 array(
+		168 => array(
 			'name' => 'One Plus 2',
 			'type' => 'Phone'
 		),
-		323 array(
+		323 => array(
 			'name' => 'HP ProDesk 400 G3',
 			'type' => 'Desktop'
 		),
-		325 array(
+		325 => array(
 			'name' => 'Dell Vostro 3250',
 			'type' => 'Desktop'
 		),
-		328 array(
+		328 => array(
 			'name' => 'Lenovo ThinkCentre M700',
 			'type' => 'Desktop'
 		),
-		329 array(
+		329 => array(
 			'name' => 'HP 255 G4',
 			'type' => 'Laptop'
 		),
-		334 array(
+		334 => array(
 			'name' => 'Dell Inspiron 15-5559',
 			'type' => 'Laptop'
-		),
+		)
 
 
 	);
@@ -398,17 +398,17 @@
 			'name' => 'Microsoft Word',
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
-		),
+		)，
 		235 => array(
 			'name' => 'Microsoft Powerpoint',
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
-		),
+		)，
 		239 => array(
 			'name' => 'Microsoft access',
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
-		),
+		)，
 		230 => array(
 			'name' => 'Adobe Dreamweaver',
 			'license' => '123456675734',
