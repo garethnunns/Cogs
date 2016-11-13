@@ -333,6 +333,41 @@
 						if($response['date'])
 							$tproblems[$pkey][$rskey][$rkey]['date'] .= ' GMT';
 
+
+	$tHard = array( // put them in any order
+		160 => array(
+			'name' => 'Mac Pro 6-Core',
+			'type' => 'Desktop'
+		),
+		112 => array(
+			'name' => 'Dell Inspiron 15',
+			'type' => 'Laptop'
+		),
+		130 => array(
+			'name' => 'iPhone 5',
+			'type' => 'Phone'
+		)
+	);
+
+	$tSoft = array( // replace the existing and then delete these comments
+		260 => array(
+			'name' => 'Sublime Text',
+			'license' => 'license123',
+			'os' => 'Ubuntu 16.10'
+		),
+		212 => array(
+			'name' => 'MAMP Pro',
+			'license' => '9939-3209-2323',
+			'os' => 'Mac OSX'
+		),
+		230 => array(
+			'name' => 'Microsoft Word',
+			'license' => 'clippy-rip',
+			'os' => 'Windows 10'
+		)
+	);
+
+	//settings
 	$tLanguages = array( // sourced using https://r12a.github.io/apps/subtags/
 		"en" => "English",
 		"de" => "German",

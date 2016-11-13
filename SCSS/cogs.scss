@@ -148,9 +148,53 @@ body > .wrapper {
 table {
 	.numProbs { // is used in many tables
 		text-align: center;
-		
+
 		span {
 			font-size: $font-size-h1;
+		}
+	}
+}
+
+.hardware {
+	tr:nth-of-type(2n+2) {
+		cursor: pointer;
+	}
+
+	tr:nth-of-type(2n+2) td:nth-of-type(1) {
+		font-weight: bold;
+	}
+
+	@include breakpoint(small-tablet) {
+		th:nth-of-type(3), tr:nth-of-type(2n) > *:nth-of-type(3) { // type column
+			display: none;
+		}
+	}
+
+	@include breakpoint(phone) {
+		tr:nth-of-type(2n+2) > td:nth-of-type(5) { // solved row
+			display: none;
+		}
+	}
+}
+
+.software {
+	tr:nth-of-type(2n+2) {
+		cursor: pointer;
+	}
+
+	tr:nth-of-type(2n+2) td:nth-of-type(1) {
+		font-weight: bold;
+	}
+
+	@include breakpoint(small-tablet) {
+		th:nth-of-type(3), tr:nth-of-type(2n) > *:nth-of-type(3) { // OS column
+			display: none;
+		}
+	}
+
+	@include breakpoint(phone) {
+		tr:nth-of-type(2n+2) > td:nth-of-type(6) { // solved row
+			display: none;
 		}
 	}
 }
