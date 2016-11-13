@@ -27,6 +27,10 @@
 				var refresh = xhr.getResponseHeader('refresh');
 				if(refresh) loadPage(lastSplit('=',refresh));
 				tempError(data);
+			},
+			error: function(error) { // when there's a link to a page that doesn't exist
+				console.log('Tried to load login.php and got a '+error.status);
+				tempError("We tried to log you in but there was an unexpected error");
 			}
 		})
 	});
