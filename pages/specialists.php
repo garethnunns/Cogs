@@ -31,7 +31,7 @@
 					}
 
 				if(isset($asskey)) { // found an assignment
-					if($id == $problem['assign'][$asskey])
+					if($id == $problem['assign'][$asskey]['op'])
 						array_push($probs['unsolved'], $key);
 				}
 			}
