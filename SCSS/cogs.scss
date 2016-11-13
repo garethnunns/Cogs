@@ -132,7 +132,7 @@ body > .wrapper {
 	}
 }
 
-@import 'grid', 'problems', 'specialists', 'settings';
+@import 'grid', 'problems', 'specialists', 'software', 'hardware', 'settings';
 
 // login page
 
@@ -155,47 +155,36 @@ table {
 	}
 }
 
-.hardware {
-	tr:nth-of-type(2n+2) {
-		cursor: pointer;
-	}
+.call {
+	.item {
+		@include clearfix;
 
-	tr:nth-of-type(2n+2) td:nth-of-type(1) {
-		font-weight: bold;
-	}
+		h3 {
+			float: left;
+			width: auto;
+			max-width: 50%;
+		}
 
-	@include breakpoint(small-tablet) {
-		th:nth-of-type(3), tr:nth-of-type(2n) > *:nth-of-type(3) { // type column
-			display: none;
+		.data {
+			margin: $md-pad 0 $xs-pad;
+			padding-top: 5px;
+			text-align: right;
+
+			input {
+				width: 70%;
+			}
 		}
 	}
 
-	@include breakpoint(phone) {
-		tr:nth-of-type(2n+2) > td:nth-of-type(5) { // solved row
-			display: none;
-		}
-	}
-}
+	.ware {
+		@include clearfix;
+		.hardware {
+			float: left;
+			width: 50%;
 
-.software {
-	tr:nth-of-type(2n+2) {
-		cursor: pointer;
-	}
-
-	tr:nth-of-type(2n+2) td:nth-of-type(1) {
-		font-weight: bold;
-	}
-
-	@include breakpoint(small-tablet) {
-		th:nth-of-type(3), tr:nth-of-type(2n) > *:nth-of-type(3) { // OS column
-			display: none;
-		}
-	}
-
-	@include breakpoint(phone) {
-		th:nth-of-type(4), tr:nth-of-type(2n) > *:nth-of-type(4), // license column
-		tr:nth-of-type(2n+2) > td:nth-of-type(6) { // solved column
-			display: none;
+			@include breakpoint(small-tablet) {
+				float: none;
+			}
 		}
 	}
 }
