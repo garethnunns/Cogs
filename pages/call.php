@@ -16,10 +16,11 @@
 
 	<div class="item">
 		<h3>Problem</h3>
-		<div class="data">
+		<div class="data" id="problem">
 			<input type="text" name="problem" placeholder="Existing problem or new problem" />
 		</div>
 	</div>
+	<div id="resProblem"></div>
 
 	<h2>Call Details</h2>
 
@@ -88,7 +89,7 @@
 					$('#resCaller p').off('click vclick').on('click vclick', function(){
 						var selected = $(this).html();
 						$('[name="caller"]').fadeOut(300,function(){
-							$('<p class="selected">'+selected+'<br><a href="#" class="change">Change</a></p>').hide().appendTo('#caller').fadeIn().on('click vlick',function(e){
+							$('<p>'+selected+'<br><a href="#" class="change">Change</a></p>').hide().appendTo('#caller').fadeIn().on('click vlick',function(e){
 								e.preventDefault();
 								$(this).fadeOut(300, function(){
 									$('[name="caller"]').fadeIn(300).focus();
@@ -107,6 +108,48 @@
 		else {
 			$('#resCaller').slideUp();
 			$('#resCaller').html('');
+		}
+	}
+
+	$('[name="problem"]').on('focus keyup',searchProblems);
+
+	$('[name="problem"]').blur(function(){
+		$('#resProblem').slideUp();
+	});
+
+	function searchProblems() {
+		var search = $('[name="problem"]').val();
+		if($.trim(search)) {
+			$.ajax({
+				type: "GET",
+				url: '../ajax/problems.php',
+				data: {'s':search},
+				success: function(data) {
+					$('#resProblem').html(data);
+					$('#resProblem').slideDown();
+
+					$('#resProblem p').off('click vclick').on('click vclick', function(){
+						var selected = $(this).html();
+						$('[name="problem"]').fadeOut(300,function(){
+							$('<p>'+selected+'<br><a href="#" class="change">Change</a></p>').hide().appendTo('#problem').fadeIn().on('click vlick',function(e){
+								e.preventDefault();
+								$(this).fadeOut(300, function(){
+									$('[name="problem"]').fadeIn(300).focus();
+								}).remove();
+							});
+
+						});
+					});
+				},
+				error: function(error) { // when there's a link to a page that doesn't exist
+					console.log('Tried to load ajax/problem.php and got a '+error.status);
+					tempError("There was an error looking for problems, please try again");
+				}
+			});
+		}
+		else {
+			$('#resProblem').slideUp();
+			$('#resProblem').html('');
 		}
 	}
 
