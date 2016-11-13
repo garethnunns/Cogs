@@ -132,7 +132,7 @@ body > .wrapper {
 	}
 }
 
-@import 'grid', 'problems', 'specialists', 'software', 'hardware', 'settings';
+@import 'grid', 'call', 'problems', 'specialists', 'software', 'hardware', 'settings';
 
 // login page
 
@@ -151,40 +151,6 @@ table {
 
 		span {
 			font-size: $font-size-h1;
-		}
-	}
-}
-
-.call {
-	.item {
-		@include clearfix;
-
-		h3 {
-			float: left;
-			width: auto;
-			max-width: 50%;
-		}
-
-		.data {
-			margin: $md-pad 0 $xs-pad;
-			padding-top: 5px;
-			text-align: right;
-
-			input {
-				width: 70%;
-			}
-		}
-	}
-
-	.ware {
-		@include clearfix;
-		.hardware {
-			float: left;
-			width: 50%;
-
-			@include breakpoint(small-tablet) {
-				float: none;
-			}
 		}
 	}
 }

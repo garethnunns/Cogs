@@ -542,7 +542,8 @@ textarea {
   border-radius: 4px;
   display: block;
   margin-bottom: 8px;
-  width: 100%;
+  width: 90%;
+  width: calc(100% - calc(2 * 8px));
   max-width: 100%;
   padding: 8px;
   vertical-align: middle; }
@@ -971,6 +972,48 @@ body > .wrapper {
   100% {
     background-position: 25% 25%; } }
 
+form.call .item {
+  overflow: hidden;
+  *zoom: 1; }
+  form.call .item h3 {
+    float: left;
+    width: auto;
+    max-width: 50%; }
+    @media only screen and (max-width: 480px) {
+      form.call .item h3 {
+        float: none;
+        max-width: 100%; } }
+  form.call .item .data {
+    margin: 16px 0 4px;
+    text-align: right; }
+    @media only screen and (max-width: 480px) {
+      form.call .item .data {
+        text-align: left; } }
+    form.call .item .data input {
+      width: 70%; }
+      @media only screen and (max-width: 480px) {
+        form.call .item .data input {
+          width: 90%;
+          width: calc(100% - calc(2 * 4px) - 2px); } }
+form.call div[id^="res"] {
+  display: none;
+  margin-left: 30%;
+  margin-left: calc(30% - 4px - 1px); }
+  @media only screen and (max-width: 480px) {
+    form.call div[id^="res"] {
+      margin-left: 0; } }
+  form.call div[id^="res"] p {
+    cursor: pointer; }
+form.call .ware {
+  overflow: hidden;
+  *zoom: 1; }
+  form.call .ware .hardware {
+    float: left;
+    width: 50%; }
+    @media only screen and (max-width: 768px) {
+      form.call .ware .hardware {
+        float: none; } }
+
 .problems th, .problems td {
   text-align: left; }
 .problems tr:nth-of-type(3n+2), .problems tr:nth-of-type(3n+3) {
@@ -1082,26 +1125,3 @@ table .numProbs {
   text-align: center; }
   table .numProbs span {
     font-size: 36px; }
-
-.call .item {
-  overflow: hidden;
-  *zoom: 1; }
-  .call .item h3 {
-    float: left;
-    width: auto;
-    max-width: 50%; }
-  .call .item .data {
-    margin: 16px 0 4px;
-    padding-top: 5px;
-    text-align: right; }
-    .call .item .data input {
-      width: 70%; }
-.call .ware {
-  overflow: hidden;
-  *zoom: 1; }
-  .call .ware .hardware {
-    float: left;
-    width: 50%; }
-    @media only screen and (max-width: 768px) {
-      .call .ware .hardware {
-        float: none; } }

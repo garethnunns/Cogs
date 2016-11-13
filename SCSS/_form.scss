@@ -151,7 +151,8 @@ textarea {
   border-radius: $br;
   display: block;
   margin-bottom: $sm-pad;
-  width: 100%;
+  width: 90%;
+  width: calc(100% - calc(2 * #{$sm-pad}));
   max-width: 100%;
   padding: $sm-pad;
   vertical-align: middle;

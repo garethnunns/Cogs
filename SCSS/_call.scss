@@ -1,0 +1,60 @@
+form.call {
+	.item {
+		@include clearfix;
+
+		h3 {
+			float: left;
+			width: auto;
+			max-width: 50%;
+
+			@include breakpoint(phone) {
+				float: none;
+				max-width: 100%;
+			}
+		}
+
+		.data {
+			margin: $md-pad 0 $xs-pad;
+			text-align: right;
+
+			@include breakpoint(phone) {
+				text-align: left;
+			}
+
+			input {
+				width: 70%;
+
+				@include breakpoint(phone) {
+					width: 90%;
+					width: calc(100% - calc(2 * #{$xs-pad}) - 2px); // last 2px for borders
+				}
+			}
+		}
+	}
+
+	div[id^="res"] {
+		display: none;
+		margin-left: 30%;
+		margin-left: calc(30% - #{$xs-pad} - 1px);
+
+		@include breakpoint(phone) {
+			margin-left: 0;
+		}
+
+		p {
+			cursor: pointer;
+		}
+	}
+
+	.ware {
+		@include clearfix;
+		.hardware {
+			float: left;
+			width: 50%;
+
+			@include breakpoint(small-tablet) {
+				float: none;
+			}
+		}
+	}
+}
