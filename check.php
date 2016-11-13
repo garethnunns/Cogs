@@ -6,13 +6,18 @@
 		exit();
 	}
 
+	require_once dirname(__FILE__).'/functions.php';
+	require_once dirname(__FILE__).'/database.php';
+
 	// internationalisation - yay...
 	if(isset($_SESSION['timezone']))
 		date_default_timezone_set($_SESSION['timezone']);
 	else
 		date_default_timezone_set("Europe/London");
-	$format = 'j/n/y \a\t H:i';
 
-	require_once dirname(__FILE__).'/functions.php';
-	require_once dirname(__FILE__).'/database.php';
+	if(!isset($_SESSION['lang']))
+		$_SESSION['lang'] = 'en';
+
+	if(isset($_SESSION['format'])) $format = $tFormats[$_SESSION['format']];
+	else $format = 'j/n/y \a\t H:i';
 ?>

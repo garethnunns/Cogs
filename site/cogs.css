@@ -1027,6 +1027,28 @@ body > .wrapper {
   .specialists .numProbs span {
     font-size: 36px; }
 
+#settings .set {
+  overflow: hidden;
+  *zoom: 1; }
+  #settings .set h3 {
+    float: left;
+    width: auto;
+    max-width: 70%; }
+    #settings .set h3 label {
+      cursor: pointer; }
+  #settings .set .setting {
+    margin: 16px 0 4px;
+    padding-top: 5px;
+    text-align: right; }
+#settings #zonepicker {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  *zoom: 1; }
+  @media only screen and (max-width: 768px) {
+    #settings #zonepicker {
+      height: 350px !important; } }
+
 .error {
   font-weight: 700;
   color: #e74c3c; }

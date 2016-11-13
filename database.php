@@ -322,14 +322,27 @@
 		)
 	);
 
-//add GMT to dates for internationalisation
-foreach ($tproblems as $pkey => $problem) // look at each problem individually
-	foreach ($problem as $rskey => $responses) // look at each element in the array - calls/messages/assigns
-		if(is_array($responses))
-			if($responses['date'])
-				$tproblems[$pkey][$rskey]['date'] .= ' GMT';
-			else
-				foreach ($responses as $rkey => $response) // loop through calls/messages/assigns
-					if($response['date'])
-						$tproblems[$pkey][$rskey][$rkey]['date'] .= ' GMT';
+	//add GMT to dates for internationalisation
+	foreach ($tproblems as $pkey => $problem) // look at each problem individually
+		foreach ($problem as $rskey => $responses) // look at each element in the array - calls/messages/assigns
+			if(is_array($responses))
+				if($responses['date'])
+					$tproblems[$pkey][$rskey]['date'] .= ' GMT';
+				else
+					foreach ($responses as $rkey => $response) // loop through calls/messages/assigns
+						if($response['date'])
+							$tproblems[$pkey][$rskey][$rkey]['date'] .= ' GMT';
+
+	$tLanguages = array( // sourced using https://r12a.github.io/apps/subtags/
+		"en" => "English",
+		"de" => "German",
+		"ar" => "Arabic",
+		"cmn" => "Chinese"
+	);
+
+	$tFormats = array( // find out more: http://php.net/manual/en/function.date.php
+		'd/m/yy hh:mm' => 'j/n/y \a\t H:i',
+		'hh:mm d mmm yy' => 'H:i \o\n j M y',
+		'yyyy-mm-dd hh:mm' => 'Y-m-d H:i'
+	);
 ?>

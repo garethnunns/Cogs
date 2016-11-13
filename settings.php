@@ -1,6 +1,16 @@
 <?php
 	require_once 'check.php';
 
+	$_SESSION['fonts'] = isset($_POST['fonts']);
+
+	if($tFormats[$_POST['format']]) $_SESSION['format'] = $_POST['format'];
+	else $errors['format'] = "Date format not recognised";
+
+	if($tLanguages[$_POST['lang']]) $_SESSION['lang'] = $_POST['lang'];
+	else $errors['language'] = "Date format not recognised";
+
+	$_SESSION['autoTrans'] = isset($_POST['guessLang']);
+
 	if(isValidTimezone($_POST['timezone']))
 		$_SESSION['timezone'] = $_POST['timezone'];
 	else
