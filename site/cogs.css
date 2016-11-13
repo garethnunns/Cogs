@@ -601,7 +601,7 @@ table {
 caption {
   padding: 8px 0; }
 
-thead th {
+th {
   border: 0;
   border-bottom: 2px solid rgba(0, 0, 0, 0.12);
   text-align: left; }
@@ -1024,8 +1024,6 @@ body > .wrapper {
   @media only screen and (max-width: 480px) {
     .specialists td:nth-of-type(5) {
       display: none; } }
-  .specialists .numProbs span {
-    font-size: 36px; }
 
 #settings .set {
   overflow: hidden;
@@ -1055,3 +1053,8 @@ body > .wrapper {
 
 #login {
   text-align: center; }
+
+table .numProbs {
+  text-align: center; }
+  table .numProbs span {
+    font-size: 36px; }

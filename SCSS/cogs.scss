@@ -144,3 +144,13 @@ body > .wrapper {
 #login {
 	text-align: center;
 }
+
+table {
+	.numProbs { // is used in many tables
+		text-align: center;
+		
+		span {
+			font-size: $font-size-h1;
+		}
+	}
+}
