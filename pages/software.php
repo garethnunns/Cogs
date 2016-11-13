@@ -2,7 +2,7 @@
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 
-<h1>Hardware</h1>
+<h1>Software</h1>
 
 <table class="software">
 	<tr>
