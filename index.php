@@ -53,6 +53,14 @@
 				});
 			}
 
+			function largeFonts() {
+				$('#content *:not(:has(*)), #content *:has(>br)').each(function() {
+					var size = parseFloat($(this).css('font-size').split('px'));
+					size = Math.floor(size*1.3);
+					$(this).css({'font-size':size+'px'});
+				});
+			}
+
 			function loadPage(page, historyPush = true) { // load the [page] and then whether it should be added to the history
 				page = lastSplit('/',page) // some browsers add on the full URL before, this removes it
 				if(page=='') page = 'home';
@@ -67,6 +75,7 @@
 								$("#content").html(data);
 								if(historyPush) history.pushState(null, null, page);
 								JSifyLinks();
+								<?php if($_SESSION['fonts']) echo 'largeFonts();' ?>
 								$("#content").fadeTo(350,1);
 							});
 						}
@@ -105,5 +114,9 @@
 				else include 'pages/home.php';
 			?>
 		</div>
+
+		<script type="text/javascript">
+			<?php if($_SESSION['fonts']) echo 'largeFonts();' ?>
+		</script>
 	</body>
 </html>
