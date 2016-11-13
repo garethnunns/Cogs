@@ -1,14 +1,14 @@
 <?php
 	// fake database
 	$tlogin = array(
-		array('username' => 'gareth', 'password' => 'nunns', 'name' => 'Gareth Nunns', 'job' => 'Genius'),//0
-		array('username' => 'donna', 'password' => 'paulsen', 'name' => 'Donna Paulsen', 'job' => 'Helpdesk Operator'),//1
-		array('username' => 'jessica', 'password' => 'pearson', 'name' => 'Jessica Pearson', 'job' => 'Specialist'),//2
-		array('username' => 'aloma', 'password' => 'wright', 'name' => 'Aloma Wright', 'job' => 'Helpdesk Operator'),//3
-		array('username' => 'mike', 'password' => 'ross', 'name' => 'Mike Ross', 'job' => 'Specialist'),//4
-		array('username' => 'clara', 'password' => 'thompson', 'name' => 'Clara Thompson', 'job' => 'Specialist'),//5
-		array('username' => 'nick', 'password' => 'gibson', 'name' => 'Nick Gibson', 'job' => 'Specialist'),//6
-		array('username' => 'bert', 'password' => 'fletcher', 'name' => 'Bert Fletcher', 'job' => 'Specialist')//7
+		array('username' => 'gareth', 'password' => 'nunns', 'name' => 'Gareth Nunns', 'job' => 'Genius'),
+		array('username' => 'donna', 'password' => 'paulsen', 'name' => 'Donna Paulsen', 'job' => 'Helpdesk Operator'),
+		array('username' => 'jessica', 'password' => 'pearson', 'name' => 'Jessica Pearson', 'job' => 'Specialist'),
+		array('username' => 'aloma', 'password' => 'wright', 'name' => 'Aloma Wright', 'job' => 'Helpdesk Operator'),
+		array('username' => 'mike', 'password' => 'ross', 'name' => 'Mike Ross', 'job' => 'Specialist'),
+		array('username' => 'clara', 'password' => 'thompson', 'name' => 'Clara Thompson', 'job' => 'Specialist'),
+		array('username' => 'nick', 'password' => 'gibson', 'name' => 'Nick Gibson', 'job' => 'Specialist'),
+		array('username' => 'bert', 'password' => 'fletcher', 'name' => 'Bert Fletcher', 'job' => 'Specialist')
 	);
 	
 	$tproblems = array(
@@ -334,7 +334,7 @@
 							$tproblems[$pkey][$rskey][$rkey]['date'] .= ' GMT';
 
 
-	$tHard = array( // put them in any order
+	$tHard = array( 
 		160 => array(
 			'name' => 'Mac Pro 6-Core',
 			'type' => 'Desktop'
@@ -346,10 +346,44 @@
 		130 => array(
 			'name' => 'iPhone 5',
 			'type' => 'Phone'
-		)
+		),
+		123 => array(
+			'name' => 'Microsoft Surface Pro 4',
+			'type' => 'Tablet'
+		),
+		143 array(
+			'name' => 'iPad Air 3',
+			'type' => 'Tablet'
+		),
+		168 array(
+			'name' => 'One Plus 2',
+			'type' => 'Phone'
+		),
+		323 array(
+			'name' => 'HP ProDesk 400 G3',
+			'type' => 'Desktop'
+		),
+		325 array(
+			'name' => 'Dell Vostro 3250',
+			'type' => 'Desktop'
+		),
+		328 array(
+			'name' => 'Lenovo ThinkCentre M700',
+			'type' => 'Desktop'
+		),
+		329 array(
+			'name' => 'HP 255 G4',
+			'type' => 'Laptop'
+		),
+		334 array(
+			'name' => 'Dell Inspiron 15-5559',
+			'type' => 'Laptop'
+		),
+
+
 	);
 
-	$tSoft = array( // replace the existing and then delete these comments
+	$tSoft = array(
 		260 => array(
 			'name' => 'Sublime Text',
 			'license' => 'license123',
@@ -364,7 +398,23 @@
 			'name' => 'Microsoft Word',
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
+		),
+		235 => array(
+			'name' => 'Microsoft Powerpoint',
+			'license' => 'clippy-rip',
+			'os' => 'Windows 10'
+		),
+		239 => array(
+			'name' => 'Microsoft access',
+			'license' => 'clippy-rip',
+			'os' => 'Windows 10'
+		),
+		230 => array(
+			'name' => 'Adobe Dreamweaver',
+			'license' => '123456675734',
+			'os' => 'Windows 10'
 		)
+
 	);
 
 	//settings
@@ -372,7 +422,7 @@
 		"en" => "English",
 		"de" => "German",
 		"ar" => "Arabic",
-		"cmn" => "Chinese"
+		"cmn" => "Mandarin"
 	);
 
 	$tFormats = array( // find out more: http://php.net/manual/en/function.date.php
