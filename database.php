@@ -398,17 +398,17 @@
 			'name' => 'Microsoft Word',
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
-		)，
+		),
 		235 => array(
 			'name' => 'Microsoft Powerpoint',
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
-		)，
+		),
 		239 => array(
 			'name' => 'Microsoft access',
 			'license' => 'clippy-rip',
 			'os' => 'Windows 10'
-		)，
+		),
 		230 => array(
 			'name' => 'Adobe Dreamweaver',
 			'license' => '123456675734',
