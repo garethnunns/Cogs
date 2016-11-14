@@ -88,6 +88,15 @@
 	<div id="zonepicker"></div>
 </form>
 
+<hr>
+
+<h3>Password</h3>
+<p>Update your password</p>
+<p>Current password: <input type="password" name="ps-current"></p>
+<p>New password: <input type="password" name="ps-new"></p>
+<p>Confirm password: <input type="password" name="ps-confirm"></p>
+<p><input type="submit" value="Update password">
+
 <script type="text/javascript" src="/site/jquery.timezone-picker.js"></script>
 <script>
 $('.noJS').remove();
