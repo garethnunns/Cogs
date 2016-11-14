@@ -86,16 +86,24 @@
 
 	<p id="tzlabel"></p>
 	<div id="zonepicker"></div>
+
+	<hr>
+	<div class="set">
+		<h3>Availibility</h3>
+		<div class="setting">
+			<input type="text" name="avail" placeholder="e.g. Away til 12/7/18">
+		</div>
+	</div>
+	<p>Let colleagues know when you're avilable so you don't get overlaoded with work</p>
+
+	<h3>Password</h3>
+	<p>Update your password</p>
+	<p>Current password: <input type="password" name="ps-current"></p>
+	<p>New password: <input type="password" name="ps-new"></p>
+	<p>Confirm password: <input type="password" name="ps-confirm"></p>
+	<p><input type="submit" value="Update password"></p>
+
 </form>
-
-<hr>
-
-<h3>Password</h3>
-<p>Update your password</p>
-<p>Current password: <input type="password" name="ps-current"></p>
-<p>New password: <input type="password" name="ps-new"></p>
-<p>Confirm password: <input type="password" name="ps-confirm"></p>
-<p><input type="submit" value="Update password">
 
 <script type="text/javascript" src="/site/jquery.timezone-picker.js"></script>
 <script>
