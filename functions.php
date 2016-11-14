@@ -42,7 +42,7 @@
 			if(!in_array($ass['op'],$ops))
 				array_push($ops, $ass['op']);
 
-		echo "<tr>
+		echo "<tr id='prob{$problem['id']}'>
 		<td rowspan='2'>{$problem['id']}</td>
 		<td rowspan='2'>{$problem['title']}</td>
 

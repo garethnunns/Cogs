@@ -406,8 +406,8 @@
 			'os' => 'Windows 10'
 		),
 		239 => array(
-			'name' => 'Microsoft access',
-			'license' => 'clippy-rip',
+			'name' => 'Microsoft Access',
+			'license' => 'access-me',
 			'os' => 'Windows 10'
 		),
 		231 => array(

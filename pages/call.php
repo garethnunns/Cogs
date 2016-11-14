@@ -38,19 +38,34 @@
 		<div class="hardware">
 			<h3>Related Hardware</h3>
 			<p><input type="text" name="hardware" placeholder="Search hardware"></p>
+			<table id="hardList">
+<?php
+	foreach ($tHard as $id => $hard)
+		echo "<tr><td>$id</td><td>{$hard['name']}</td><td><button>Add</button>";
+?>
+			</table>
 		</div><div class="software">
-		<h3>Related Software</h3>
-		<p><input type="text" name="software" placeholder="Search software"></p>
+			<h3>Related Software</h3>
+			<p><input type="text" name="software" placeholder="Search software"></p>
+			<table id="softList">
+<?php
+	foreach ($tSoft as $id => $soft)
+		echo "<tr><td>$id</td><td>{$soft['name']}</td><td><button>Add</button>";
+?>
+			</table>
 		</div>
 	</div>
 
-	<input type="submit" value="Add call">
+	<h2>Assign specialist</h2>
+	<p><input type="text" name="specialist" placeholder="Search for a specialist"></p>
+
+	<p><input type="submit" value="Add call"></p>
 
 </form>
 
-<h1>All problems</h1>
+<h1 id="allProblemsTitle">All problems</h1>
 
-<table class="problems">
+<table class="problems" id="allProblems">
 	<tr>
 		<th>ID</th>
 		<th>Title</th>
@@ -95,7 +110,6 @@
 									$('[name="caller"]').fadeIn(300).focus();
 								}).remove();
 							});
-
 						});
 					});
 				},
@@ -128,17 +142,23 @@
 					$('#resProblem').html(data);
 					$('#resProblem').slideDown();
 
-					$('#resProblem p').off('click vclick').on('click vclick', function(){
+					$('#resProblem p').off('click vclick').on('click vclick', function(){ // chose one of the results
 						var selected = $(this).html();
+						var id = '#prob'+$(this).data('id');
 						$('[name="problem"]').fadeOut(300,function(){
-							$('<p>'+selected+'<br><a href="#" class="change">Change</a></p>').hide().appendTo('#problem').fadeIn().on('click vlick',function(e){
+							$('<p>'+selected+'<br><a href="#" class="change">Change</a></p>').hide().appendTo('#problem').fadeIn().on('click vlick',function(e){ // decided to change what they selected
 								e.preventDefault();
 								$(this).fadeOut(300, function(){
 									$('[name="problem"]').fadeIn(300).focus();
 								}).remove();
+								$('#allProblemsTitle').text('All problems');
+								$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').show();
+								$('#allProblems '+id).trigger('click');
 							});
-
 						});
+						$('#allProblemsTitle').text('Problem '+$(this).data('id'));
+						$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').hide();
+						$('#allProblems '+id).show().trigger('click').next().show();
 					});
 				},
 				error: function(error) { // when there's a link to a page that doesn't exist
@@ -152,6 +172,39 @@
 			$('#resProblem').html('');
 		}
 	}
+	
+	$('[name="hardware"]').on('focus keyup',function() {
+		searchWare('#hardList',$(this).val());
+	});
+
+	$('[name="software"]').on('focus keyup',function() {
+		searchWare('#softList',$(this).val());
+	});
+
+	$('#hardList button, #softList button').on('click vclick',function(e){
+		e.preventDefault();
+		$(this).parent().parent().toggleClass('selected');
+		$(this).toggleClass('delete');
+		$(this).text($(this).text()=="Add" ? 'Remove' : 'Add');
+	});
+	
+	function searchWare(list,search) {
+		$(list+' tr').each(function() {
+			var haystack = $(this).text();
+			if(haystack.match("Add$"))
+				haystack.slice(0, -3);
+			else if(haystack.match("Remove$"))
+				haystack.slice(0, -6);
+			if((search.length && haystack.match(new RegExp(search, "i"))) || $(this).is('.selected')) 
+				$(this).show();
+			else
+				$(this).hide();
+		});
+	}
+
+	$('#hardList tr:not(.selected), #softList tr:not(.selected)').each(function() {
+		$(this).hide();
+	});
 
 	$('tr:nth-of-type(3n+4)').hide().each(function() {
 		$(this).children().first().children().slideUp();

@@ -1009,10 +1009,18 @@ form.call .ware {
   *zoom: 1; }
   form.call .ware .hardware {
     float: left;
-    width: 50%; }
+    width: 49%; }
     @media only screen and (max-width: 768px) {
       form.call .ware .hardware {
-        float: none; } }
+        float: none;
+        width: 100%; } }
+  form.call .ware .software {
+    margin-left: 51%;
+    width: 49%; }
+    @media only screen and (max-width: 768px) {
+      form.call .ware .software {
+        margin-left: 0;
+        width: 100%; } }
 
 .problems th, .problems td {
   text-align: left; }
@@ -1069,27 +1077,27 @@ form.call .ware {
     .specialists td:nth-of-type(5) {
       display: none; } }
 
-.software tr:nth-of-type(2n+2) {
+table.software tr:nth-of-type(2n+2) {
   cursor: pointer; }
-.software tr:nth-of-type(2n+2) td:nth-of-type(1) {
+table.software tr:nth-of-type(2n+2) td:nth-of-type(1) {
   font-weight: bold; }
 @media only screen and (max-width: 768px) {
-  .software th:nth-of-type(3), .software tr:nth-of-type(2n) > *:nth-of-type(3) {
+  table.software th:nth-of-type(3), table.software tr:nth-of-type(2n) > *:nth-of-type(3) {
     display: none; } }
 @media only screen and (max-width: 480px) {
-  .software th:nth-of-type(4), .software tr:nth-of-type(2n) > *:nth-of-type(4),
-  .software tr:nth-of-type(2n+2) > td:nth-of-type(6) {
+  table.software th:nth-of-type(4), table.software tr:nth-of-type(2n) > *:nth-of-type(4),
+  table.software tr:nth-of-type(2n+2) > td:nth-of-type(6) {
     display: none; } }
 
-.hardware tr:nth-of-type(2n+2) {
+table.hardware tr:nth-of-type(2n+2) {
   cursor: pointer; }
-.hardware tr:nth-of-type(2n+2) td:nth-of-type(1) {
+table.hardware tr:nth-of-type(2n+2) td:nth-of-type(1) {
   font-weight: bold; }
 @media only screen and (max-width: 768px) {
-  .hardware th:nth-of-type(3), .hardware tr:nth-of-type(2n) > *:nth-of-type(3) {
+  table.hardware th:nth-of-type(3), table.hardware tr:nth-of-type(2n) > *:nth-of-type(3) {
     display: none; } }
 @media only screen and (max-width: 480px) {
-  .hardware tr:nth-of-type(2n+2) > td:nth-of-type(5) {
+  table.hardware tr:nth-of-type(2n+2) > td:nth-of-type(5) {
     display: none; } }
 
 #settings .set {
@@ -1125,3 +1133,8 @@ table .numProbs {
   text-align: center; }
   table .numProbs span {
     font-size: 36px; }
+
+.delete {
+  background-color: #e74c3c; }
+  .delete:hover, .delete:focus {
+    background-color: #d62c1a; }

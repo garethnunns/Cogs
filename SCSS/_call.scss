@@ -11,6 +11,10 @@ form.call {
 				float: none;
 				max-width: 100%;
 			}
+
+			.selected {
+
+			}
 		}
 
 		.data {
@@ -50,10 +54,20 @@ form.call {
 		@include clearfix;
 		.hardware {
 			float: left;
-			width: 50%;
+			width: 49%;
 
 			@include breakpoint(small-tablet) {
 				float: none;
+				width: 100%;
+			}
+		}
+		.software {
+			margin-left: 51%;
+			width: 49%;
+
+			@include breakpoint(small-tablet) {
+				margin-left: 0;
+				width: 100%;
 			}
 		}
 	}
