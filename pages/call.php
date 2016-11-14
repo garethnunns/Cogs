@@ -56,8 +56,78 @@
 		</div>
 	</div>
 
-	<h2>Assign specialist</h2>
-	<p><input type="text" name="specialist" placeholder="Search for a specialist"></p>
+	<h2>Assign a specialist</h2>
+	<p id="specSearch"><input type="text" name="specialist" placeholder="Search for a specialist"> or <a href="specialists">view all specialists &raquo;</a></p>
+	<div id="assigned"></div>
+
+
+	<div id="specialists">
+		<div id="found"></div>
+
+		<div id="recommended">
+			<h3>Recommended Specialists</h3>
+			<table class="specialists">
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Phone</th>
+					<th colspan="2">Problems</th>
+					<th>Availability</th>
+					<th>Assign</th>
+				</tr>
+<?php
+	$rand3 = [];
+	$i=0;
+
+	while ($i <= 3) { 
+		$rand = mt_rand(0,count($tlogin)-1);
+		if(!in_array($rand, $rand3) && $tlogin[$rand]['job']=='Specialist') {
+			$rand3[$rand] = $rand;
+			$i++;
+		}
+	}
+
+	foreach ($rand3 as $key => $value)
+		$rand3[$key] = $tlogin[$value];
+
+	foreach ($rand3 as $id => $spec) {
+		$avail = ["Full Time","Monday - Wednesday","Weekends","Weekdays 9:00 - 13:00","On holiday, back in ".mt_rand(2, 10)." days"];
+
+		$probs = array("unsolved"=>array(),"solved"=>array());
+
+		foreach ($tproblems as $key => $problem) {
+			$high = 0;
+
+			if($problem['solution']['op']==$id)
+				array_push($probs['solved'], $key);
+			else {
+				foreach ($problem['assign'] as $asskey => $ass)
+					if(strtotime($ass['date']) > $high) {
+						$high = strtotime($ass['date']);
+						$highkey = $asskey;
+					}
+
+				if(isset($asskey)) { // found an assignment
+					if($id == $problem['assign'][$asskey]['op'])
+						array_push($probs['unsolved'], $key);
+				}
+			}
+		}
+
+		echo "<tr>
+		<td>{$id}</td>
+		<td>{$spec['name']}</td>
+		<td>ext ".mt_rand(10000, 55555)."</td>
+		<td class='numProbs'><span>".count($probs['unsolved'])."</span><br>Unsolved</td>
+		<td class='numProbs'><span>".mt_rand(0, 25)."</span><br>Solved this week</td>
+		<td>".$avail[array_rand($avail,1)]."</td>
+		<td><button>Assign</button></td>
+		</tr>";
+	}
+?>
+			</table>
+		</div>
+	</div>
 
 	<p><input type="submit" value="Add call"></p>
 
@@ -84,6 +154,7 @@
 </table>
 
 <script type="text/javascript">
+	// searching for a caller
 	$('[name="caller"]').on('focus keyup',searchCallers);
 
 	$('[name="caller"]').blur(function(){
@@ -125,11 +196,14 @@
 		}
 	}
 
+	// the problems box
 	$('[name="problem"]').on('focus keyup',searchProblems);
 
 	$('[name="problem"]').blur(function(){
 		$('#resProblem').slideUp();
 	});
+
+	$('#specialists #recommended').hide();
 
 	function searchProblems() {
 		var search = $('[name="problem"]').val();
@@ -154,11 +228,14 @@
 								$('#allProblemsTitle').text('All problems');
 								$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').show();
 								$('#allProblems '+id).trigger('click');
+								$('#specialists #recommended').hide();
 							});
 						});
 						$('#allProblemsTitle').text('Problem '+$(this).data('id'));
 						$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').hide();
 						$('#allProblems '+id).show().trigger('click').next().show();
+						$('#specialists #recommended').show();
+						specButtons();
 					});
 				},
 				error: function(error) { // when there's a link to a page that doesn't exist
@@ -172,7 +249,9 @@
 			$('#resProblem').html('');
 		}
 	}
-	
+
+
+	// search hardware/software
 	$('[name="hardware"]').on('focus keyup',function() {
 		searchWare('#hardList',$(this).val());
 	});
@@ -213,4 +292,51 @@
 	$('tr:nth-of-type(3n+2), tr:nth-of-type(3n+3)').on('click vclick', function() {
 		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().slideToggle(300);
 	});
+
+	// searching for a caller
+	$('[name="specialist"]').on('focus keyup',searchSpecs);
+
+	$('[name="specialist"]').blur(function(){
+		$('#specialists #found').slideUp();
+	});
+
+	function searchSpecs() {
+		var search = $('[name="specialist"]').val();
+		if($.trim(search)) {
+			$.ajax({
+				type: "GET",
+				url: '../ajax/specialists.php',
+				data: {'s':search},
+				success: function(data) {
+					$('#specialists #found').html(data);
+					$('#specialists #found').slideDown();
+					specButtons();
+				},
+				error: function(error) { // when there's a link to a page that doesn't exist
+					console.log('Tried to load ajax/specialists.php and got a '+error.status);
+					tempError("There was an error looking for specialists, please try again");
+				}
+			});
+		}
+		else {
+			$('#specialists #found').slideUp();
+			$('#specialists #found').html('');
+		}
+	}
+
+	function specButtons() {
+		$('#specialists button').off('click vclick').on('click vclick', function(e) {
+			e.preventDefault();
+			$('#specSearch').slideUp();
+			$('#assigned').html('');
+			$('<span>Assigned to <strong>'+$(this).parent().siblings(':nth-of-type(2)').text()+'</strong></span><br>').hide().appendTo('#assigned').fadeIn();
+			$('#specialists #recommended').hide();
+			$('<a href="#" class="delete">Remove</a><br><br>').hide().fadeIn().appendTo('#assigned').on('click vclick',function(e){
+				e.preventDefault();
+				$('#specSearch').slideDown();
+				$('#assigned').fadeOut();
+				$('#specialists #recommended').show();
+			});
+		});
+	}
 </script>

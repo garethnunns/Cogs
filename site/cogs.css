@@ -1063,19 +1063,19 @@ form.call .ware {
       .problems .responses .response .notes {
         margin-left: 0; } }
 
-.specialists {
+table.specialists th, table.specialists td {
   text-align: center; }
-  .specialists td:nth-of-type(1), .specialists td:nth-of-type(2) {
-    font-weight: 700; }
-  @media only screen and (max-width: 1000px) {
-    .specialists td:nth-of-type(6), .specialists th:nth-of-type(5) {
-      display: none; } }
-  @media only screen and (max-width: 768px) {
-    .specialists td:nth-of-type(3), .specialists th:nth-of-type(3) {
-      display: none; } }
-  @media only screen and (max-width: 480px) {
-    .specialists td:nth-of-type(5) {
-      display: none; } }
+table.specialists td:nth-of-type(1), table.specialists td:nth-of-type(2) {
+  font-weight: 700; }
+@media only screen and (max-width: 1000px) {
+  table.specialists td:nth-of-type(6), table.specialists th:nth-of-type(5) {
+    display: none; } }
+@media only screen and (max-width: 768px) {
+  table.specialists td:nth-of-type(3), table.specialists th:nth-of-type(3) {
+    display: none; } }
+@media only screen and (max-width: 480px) {
+  table.specialists td:nth-of-type(5) {
+    display: none; } }
 
 table.software tr:nth-of-type(2n+2) {
   cursor: pointer; }
@@ -1134,7 +1134,12 @@ table .numProbs {
   table .numProbs span {
     font-size: 36px; }
 
-.delete {
+button.delete {
   background-color: #e74c3c; }
-  .delete:hover, .delete:focus {
+  button.delete:hover, button.delete:focus {
     background-color: #d62c1a; }
+
+a.delete {
+  color: #e74c3c; }
+  a.delete:hover, a.delete:focus {
+    color: #d62c1a; }

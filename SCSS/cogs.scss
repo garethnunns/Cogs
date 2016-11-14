@@ -155,10 +155,18 @@ table {
 	}
 }
 
-.delete {
+button.delete {
 	background-color: $red;
 
 	&:hover, &:focus {
 		background-color: darken($red,10%);
+	}
+}
+
+a.delete {
+	color: $red;
+
+	&:hover, &:focus {
+		color: darken($red,10%);
 	}
 }
