@@ -97,13 +97,15 @@ header {
 			border-bottom: 1px solid transparent;
 			border-radius: 0;
 			color: white;
-			@include single-transition(all, 0.25s, ease-out, 0s);
+			color: rgba(255,255,255,0);
+			@include single-transition(all, 0.35s, ease-out, 0s);
 
 			&:focus {
 				width: 200px;
 				border: none;
 				outline: none;
 				border-bottom: 1px solid white;
+				color: white;
 
 				@include breakpoint(phone) {
 					width: 150px;

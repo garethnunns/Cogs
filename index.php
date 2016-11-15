@@ -63,6 +63,12 @@
 
 			function loadPage(page, historyPush = true) { // load the [page] and then whether it should be added to the history
 				page = lastSplit('/',page) // some browsers add on the full URL before, this removes it
+				var hash = false;
+				var url = page;
+				if(page.indexOf('#')!==-1) {
+					hash = page.substring(page.indexOf('#'));
+					page = page.split('#')[0];
+				}
 				if(page=='') page = 'home';
 				$.ajax({
 					type: "GET",
@@ -72,11 +78,16 @@
 						if(refresh) loadPage(lastSplit('=',refresh)); // go to the redirected page
 						else { // logged in
 							$("#content").fadeTo(150,0, function() { // fade out then put the new content in
+								if(historyPush) history.pushState(null, null, url);
 								$("#content").html(data);
-								if(historyPush) history.pushState(null, null, page);
 								JSifyLinks();
 								<?php if($_SESSION['fonts']) echo 'largeFonts();' ?>
 								$("#content").fadeTo(350,1);
+
+								if(hash && $(hash).length)
+									$('html, body').animate({
+										scrollTop: $(hash).offset().top-80
+									}, 400);
 							});
 						}
 					}, error: function(error) { // when there's a link to a page that doesn't exist
@@ -86,6 +97,45 @@
 					}
 				});
 			}
+
+			function search() {
+				var search = $('header #search').val();
+				var page = window.location.pathname.substring(1);
+				var pages = ['home','call','settings']
+				var page = pages.indexOf(page)==-1 ? page : '';
+				if($.trim(search)) {
+					$.ajax({
+						type: "GET",
+						url: '../ajax/search.php',
+						data: {'s':search,'page':page},
+						success: function(data) {
+							$('#content :not(#searchResults)').fadeOut(250,function() {
+								if(!$('#searchResults').length) $('<div id="searchResults"></div>').appendTo('#content').hide();
+								$('#searchResults').html('');
+								$(data).appendTo('#searchResults');
+								$('#searchResults').fadeIn();
+								JSifyLinks();
+							});
+						},
+						error: function(error) { // when there's a link to a page that doesn't exist
+							console.log('Tried to load ajax/search.php and got a '+error.status);
+							tempError("There was an error looking for callers, please try again");
+						}
+					});
+				}
+				else hideSearch();
+			}
+
+			function hideSearch() {
+				$('#content #searchResults').fadeOut(250, function(){
+					$('#content :not(#searchResults,script)').fadeIn();
+					$('#content #searchResults').remove();
+				});
+			}
+
+			$('header #search').on('focus keyup',search);
+
+			//$('header #search').blur(hideSearch);
 
 
 			$('header a').off('click touchend').on('click touchend', function (e) {

@@ -698,16 +698,18 @@ header {
       border-bottom: 1px solid transparent;
       border-radius: 0;
       color: white;
-      -webkit-transition: all 0.25s ease-out;
+      color: rgba(255, 255, 255, 0);
+      -webkit-transition: all 0.35s ease-out;
       -webkit-transition-delay: 0s;
-      -moz-transition: all 0.25s ease-out 0s;
-      -o-transition: all 0.25s ease-out 0s;
-      transition: all 0.25s ease-out 0s; }
+      -moz-transition: all 0.35s ease-out 0s;
+      -o-transition: all 0.35s ease-out 0s;
+      transition: all 0.35s ease-out 0s; }
       header .right-buttons input:focus {
         width: 200px;
         border: none;
         outline: none;
-        border-bottom: 1px solid white; }
+        border-bottom: 1px solid white;
+        color: white; }
         @media only screen and (max-width: 480px) {
           header .right-buttons input:focus {
             width: 150px; } }

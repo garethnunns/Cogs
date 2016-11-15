@@ -15,7 +15,7 @@
 
 <?php
 	foreach ($tSoft as $id => $soft) {
-		echo "<tr>
+		echo "<tr id='soft$id'>
 		<td>{$id}</td>
 		<td>{$soft['name']}</td>
 		<td>{$soft['os']}</td>
@@ -46,4 +46,11 @@
 	$('tr:nth-of-type(2n+2)').on('click vclick', function() {
 		$(this).next().toggle().children().first().children().slideToggle();
 	});
+
+	if(window.location.hash) {
+		$(window.location.hash).trigger('click');
+		$('html, body').delay(300).animate({
+			scrollTop: $(window.location.hash).offset().top-80
+		}, 400);
+	}
 </script>
