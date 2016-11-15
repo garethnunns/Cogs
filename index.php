@@ -120,22 +120,19 @@
 						}
 					});
 				}
-				else {
-					$('#content #searchResults').fadeOut(250, function(){
-						$('#content :not(#searchResults)').fadeIn();
-						$('#content #searchResults').remove();
-					});
-				}
+				else hideSearch();
+			}
+
+			function hideSearch() {
+				$('#content #searchResults').fadeOut(250, function(){
+					$('#content :not(#searchResults,script)').fadeIn();
+					$('#content #searchResults').remove();
+				});
 			}
 
 			$('header #search').on('focus keyup',search);
 
-			$('header #search').blur(function () {
-				$('#content #searchResults').fadeOut(250, function(){
-					$('#content :not(#searchResults)').fadeIn();
-					$('#content #searchResults').remove();
-				});
-			});
+			//$('header #search').blur(hideSearch);
 
 
 			$('header a').off('click touchend').on('click touchend', function (e) {

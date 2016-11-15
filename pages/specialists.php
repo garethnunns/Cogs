@@ -38,7 +38,7 @@
 		}
 
 		if($spec['job']=='Specialist') {
-			echo "<tr>
+			echo "<tr id='spec$id'>
 			<td>{$id}</td>
 			<td>{$spec['name']}</td>
 			<td>ext ".mt_rand(10000, 55555)."</td>
