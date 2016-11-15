@@ -28,4 +28,11 @@
 	$('tr:nth-of-type(3n+2), tr:nth-of-type(3n+3)').on('click vclick', function() {
 		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().slideToggle(300);
 	});
+
+	if(window.location.hash) {
+		$(window.location.hash).trigger('click');
+		$('html, body').delay(300).animate({
+			scrollTop: $(window.location.hash).offset().top-80
+		}, 400);
+	}
 </script>

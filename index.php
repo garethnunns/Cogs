@@ -64,6 +64,7 @@
 			function loadPage(page, historyPush = true) { // load the [page] and then whether it should be added to the history
 				page = lastSplit('/',page) // some browsers add on the full URL before, this removes it
 				var hash = false;
+				var url = page;
 				if(page.indexOf('#')!==-1) {
 					hash = page.substring(page.indexOf('#'));
 					page = page.split('#')[0];
@@ -77,15 +78,15 @@
 						if(refresh) loadPage(lastSplit('=',refresh)); // go to the redirected page
 						else { // logged in
 							$("#content").fadeTo(150,0, function() { // fade out then put the new content in
+								if(historyPush) history.pushState(null, null, url);
 								$("#content").html(data);
-								if(historyPush) history.pushState(null, null, page);
 								JSifyLinks();
 								<?php if($_SESSION['fonts']) echo 'largeFonts();' ?>
 								$("#content").fadeTo(350,1);
 
 								if(hash && $(hash).length)
 									$('html, body').animate({
-										scrollTop: $(hash).offset().top
+										scrollTop: $(hash).offset().top-80
 									}, 400);
 							});
 						}
