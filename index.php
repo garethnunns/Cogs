@@ -100,11 +100,14 @@
 
 			function search() {
 				var search = $('header #search').val();
+				var page = window.location.pathname.substring(1);
+				var pages = ['home','call','settings']
+				var page = pages.indexOf(page)==-1 ? page : '';
 				if($.trim(search)) {
 					$.ajax({
 						type: "GET",
 						url: '../ajax/search.php',
-						data: {'s':search},
+						data: {'s':search,'page':page},
 						success: function(data) {
 							$('#content :not(#searchResults)').fadeOut(250,function() {
 								if(!$('#searchResults').length) $('<div id="searchResults"></div>').appendTo('#content').hide();

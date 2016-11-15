@@ -40,7 +40,7 @@
 			else echo '<p class="error">No solved problems could be found</p>';
 		}
 
-		if(!$_GET['page'] || $_GET['page']=='solved') {
+		if(!$_GET['page'] || $_GET['page']=='specialists') {
 			$specs = [];
 
 			foreach ($tlogin as $id => $spec)
