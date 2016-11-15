@@ -12,6 +12,8 @@
 	<div><a href="call">New call</a></div><div><a href="problems">Problems</a></div><div><a href="solved">Solved</a></div><div><a href="specialists">Specialists</a></div><div><a href="software">Software</a></div><div><a href="hardware">Hardware</a></div><div><a href="settings">Settings</a></div>
 </div>
 
+<img src="/img/chart.png">
+
 <script type="text/javascript">
 	$('.grid > div').each(function () {
 		$(this).data('link', $(this).children()[0].href);
