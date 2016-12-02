@@ -8,4 +8,7 @@ All the styling is written in [SCSS](http://sass-lang.com), with some of the und
 
 ## JS
 
-We currently only use [jQuery](https://jquery.com), this might change in future.
+The libraries we use are:
+* [jQuery](https://jquery.com) for selectors and animations
+* [jQuery Mobile](https://jquerymobile.com/) for mobile event
+* [Timezone Picker](https://github.com/dosx/timezone-picker) for the timezone map on the settings page
