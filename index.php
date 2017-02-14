@@ -1,4 +1,6 @@
 <?php
+	require_once 'site/secure.php';
+
 	session_start();
 
 	if(((isset($_GET['fallback'])) && ($_GET['fallback']!='login')) || empty(ltrim($_SERVER['REQUEST_URI'],'/'))) require_once 'check.php';
