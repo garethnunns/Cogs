@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`problem` (
   `title` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`idProblem`),
   INDEX `type_idx` (`idType` ASC),
-  CONSTRAINT `type`
+  CONSTRAINT `probType`
     FOREIGN KEY (`idType`)
     REFERENCES `team21`.`type` (`idType`)
     ON DELETE CASCADE
@@ -255,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`solved` (
   `date` DATETIME NOT NULL,
   PRIMARY KEY (`idProblem`, `specialist`),
   INDEX `specialist_idx` (`specialist` ASC),
-  CONSTRAINT `problem`
+  CONSTRAINT `solvedProblem`
     FOREIGN KEY (`idProblem`)
     REFERENCES `team21`.`problem` (`idProblem`)
     ON DELETE CASCADE
@@ -306,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`softProb` (
   PRIMARY KEY (`idProblem`, `idSoft`, `idOS`),
   INDEX `software_idx` (`idSoft` ASC),
   INDEX `OS_idx` (`idOS` ASC),
-  CONSTRAINT `problem`
+  CONSTRAINT `softProblem`
     FOREIGN KEY (`idProblem`)
     REFERENCES `team21`.`problem` (`idProblem`)
     ON DELETE CASCADE
@@ -349,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`hard` (
   `notes` TEXT NULL,
   PRIMARY KEY (`idHard`),
   INDEX `type_idx` (`idHardType` ASC),
-  CONSTRAINT `type`
+  CONSTRAINT `hardType`
     FOREIGN KEY (`idHardType`)
     REFERENCES `team21`.`hardType` (`idHardType`)
     ON DELETE CASCADE
@@ -367,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`hardProb` (
   `idHard` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idProblem`, `idHard`),
   INDEX `hardware_idx` (`idHard` ASC),
-  CONSTRAINT `problem`
+  CONSTRAINT `hardProblem`
     FOREIGN KEY (`idProblem`)
     REFERENCES `team21`.`problem` (`idProblem`)
     ON DELETE CASCADE
@@ -390,12 +390,12 @@ CREATE TABLE IF NOT EXISTS `team21`.`deptEmp` (
   `idEmp` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idDept`, `idEmp`),
   INDEX `emp_idx` (`idEmp` ASC),
-  CONSTRAINT `dept`
+  CONSTRAINT `consDept`
     FOREIGN KEY (`idDept`)
     REFERENCES `team21`.`dept` (`idDept`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `emp`
+  CONSTRAINT `consEmp`
     FOREIGN KEY (`idEmp`)
     REFERENCES `team21`.`emp` (`idEmp`)
     ON DELETE CASCADE
@@ -418,7 +418,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`assign` (
   INDEX `problem_idx` (`idProblem` ASC),
   INDEX `assBy_idx` (`assBy` ASC),
   INDEX `assTo_idx` (`assTo` ASC),
-  CONSTRAINT `problem`
+  CONSTRAINT `assProblem`
     FOREIGN KEY (`idProblem`)
     REFERENCES `team21`.`problem` (`idProblem`)
     ON DELETE CASCADE
@@ -451,12 +451,12 @@ CREATE TABLE IF NOT EXISTS `team21`.`message` (
   PRIMARY KEY (`idMessage`),
   INDEX `specialist_idx` (`specialist` ASC),
   INDEX `problem_idx` (`idProblem` ASC),
-  CONSTRAINT `specialist`
+  CONSTRAINT `messySpecialist`
     FOREIGN KEY (`specialist`)
     REFERENCES `team21`.`emp` (`idEmp`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `problem`
+  CONSTRAINT `messyProblem`
     FOREIGN KEY (`idProblem`)
     REFERENCES `team21`.`problem` (`idProblem`)
     ON DELETE CASCADE
