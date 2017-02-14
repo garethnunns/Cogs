@@ -1,4 +1,15 @@
 <?php
+/*
+A list of software, where the user can see & update all the software and operating systems
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 

@@ -1,4 +1,15 @@
 <?php
+/*
+Checks the user is logged in
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	session_start();
 
 	if(!isset($_SESSION['user'])) {

@@ -1,4 +1,15 @@
 <?php
+/*
+Outputs a list of problems solved by that user (or if it's a receptionist all of the solved problems), that the user then interacts with and adds details to, like calls, messages, solutions, etc.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 

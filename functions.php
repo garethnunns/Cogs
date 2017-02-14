@@ -1,4 +1,15 @@
 <?php
+/*
+Functions used across the site.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	function longAgo($newDate) {
 		if($date = strtotime($newDate.' '.date_default_timezone_get())) {
 			if(($diff = time() - $date) <= 30)

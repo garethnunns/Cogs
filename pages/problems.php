@@ -1,4 +1,15 @@
 <?php
+/*
+Outputs a list of unsolved problems assigned to that user, or all of them if they're a receptionist they'll see all of the problems, that the user then interacts with and adds details to, like calls, messages, solutions, etc. This can then be updated by adding these attributes and editing existing ones.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 

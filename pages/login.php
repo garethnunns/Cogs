@@ -1,4 +1,15 @@
 <?php
+/*
+Page to let the user log in
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	if(isset($_SESSION['user'])) {
 		header("refresh:0; url=home");
 		exit();

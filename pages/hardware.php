@@ -1,4 +1,15 @@
 <?php
+/*
+A list of hardware, split into types, makes, models and then each individual item. It also let's you know how many problems there have been within each level. The user can add items, models, makes and types. They can mark a item as no longer owned but none of the items can be deleted.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 

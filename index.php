@@ -1,4 +1,15 @@
 <?php
+/*
+This is the main page which acts as a wrapper, either including the requested page through PHP or calling it via AJAX.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once 'site/secure.php';
 
 	session_start();

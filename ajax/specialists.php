@@ -1,4 +1,15 @@
 <?php
+/*
+Search results when searching for specialists
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once dirname(__FILE__).'/../check.php';
 
 	if(!empty($_GET['s'])) {

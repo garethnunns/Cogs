@@ -1,4 +1,15 @@
 <?php
+/*
+Logs the user in and sets session variable
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	session_start();
 
 	include 'database.php';

@@ -1,4 +1,15 @@
 <?php
+/*
+Sets the users settings - could probably move to the AJAX folder?
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once 'check.php';
 
 	$_SESSION['fonts'] = isset($_POST['fonts']);

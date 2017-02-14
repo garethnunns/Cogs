@@ -1,4 +1,16 @@
 <?php
+/*
+Search results.
+When you're on a specific page it will search the items on that page (e.g. on the problems page it will search all problems), otherwise it will search all the tables
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once dirname(__FILE__).'/../check.php';
 
 	if(isset($_GET['s'])) {

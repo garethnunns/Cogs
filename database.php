@@ -1,4 +1,15 @@
 <?php
+/*
+Used during prototyping, we can soon delete this and it won't be submitted.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	// fake database
 	$tlogin = array(
 		array('username' => 'gareth', 'password' => 'nunns', 'name' => 'Gareth Nunns', 'job' => 'Genius'),

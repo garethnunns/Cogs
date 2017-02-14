@@ -1,4 +1,15 @@
 <?php
+/*
+Add or update specialists in a list. See their details, like phone, site, availability.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
 	require_once dirname(__FILE__).'/../check.php';
 ?>
 
