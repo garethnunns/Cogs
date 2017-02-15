@@ -4,6 +4,11 @@ Creates the database (and wipes the existing one)
 Change log
 ==========
 
+15/2/17 - Gareth Nunns
+Added owned boolean to hardItem
+Changed call.title to subject
+Removed the probCall table as there's no need to have a call related to more than one problem
+
 14/2/17 - Gareth Nunns
 Renamed constraints to make them unique names
 
@@ -187,34 +192,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `team21`.`call`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `team21`.`call` ;
-
-CREATE TABLE IF NOT EXISTS `team21`.`call` (
-  `idCall` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `caller` INT UNSIGNED NOT NULL,
-  `op` INT UNSIGNED NOT NULL,
-  `time` DATETIME NOT NULL,
-  `title` VARCHAR(45) NOT NULL,
-  `notes` TEXT NULL,
-  PRIMARY KEY (`idCall`),
-  INDEX `caller_idx` (`caller` ASC),
-  INDEX `operator_idx` (`op` ASC),
-  CONSTRAINT `caller`
-    FOREIGN KEY (`caller`)
-    REFERENCES `team21`.`emp` (`idEmp`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `operator`
-    FOREIGN KEY (`op`)
-    REFERENCES `team21`.`emp` (`idEmp`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `team21`.`problem`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `team21`.`problem` ;
@@ -234,22 +211,33 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `team21`.`probCall`
+-- Table `team21`.`call`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `team21`.`probCall` ;
+DROP TABLE IF EXISTS `team21`.`call` ;
 
-CREATE TABLE IF NOT EXISTS `team21`.`probCall` (
+CREATE TABLE IF NOT EXISTS `team21`.`call` (
+  `idCall` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `idProblem` INT UNSIGNED NOT NULL,
-  `idCall` INT UNSIGNED NOT NULL,
-  INDEX `call_idx` (`idCall` ASC),
-  PRIMARY KEY (`idCall`, `idProblem`),
-  INDEX `problem_idx` (`idProblem` ASC),
-  CONSTRAINT `call`
-    FOREIGN KEY (`idCall`)
-    REFERENCES `team21`.`call` (`idCall`)
+  `caller` INT UNSIGNED NOT NULL,
+  `op` INT UNSIGNED NOT NULL,
+  `time` DATETIME NOT NULL,
+  `subject` VARCHAR(45) NOT NULL,
+  `notes` TEXT NULL,
+  PRIMARY KEY (`idCall`),
+  INDEX `caller_idx` (`caller` ASC),
+  INDEX `operator_idx` (`op` ASC),
+  INDEX `callProblem_idx` (`idProblem` ASC),
+  CONSTRAINT `caller`
+    FOREIGN KEY (`caller`)
+    REFERENCES `team21`.`emp` (`idEmp`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `problem`
+  CONSTRAINT `operator`
+    FOREIGN KEY (`op`)
+    REFERENCES `team21`.`emp` (`idEmp`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `callProblem`
     FOREIGN KEY (`idProblem`)
     REFERENCES `team21`.`problem` (`idProblem`)
     ON DELETE CASCADE
@@ -274,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`solved` (
     REFERENCES `team21`.`problem` (`idProblem`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `specialist`
+  CONSTRAINT `solvedSpecialist`
     FOREIGN KEY (`specialist`)
     REFERENCES `team21`.`emp` (`idEmp`)
     ON DELETE CASCADE
@@ -506,6 +494,7 @@ DROP TABLE IF EXISTS `team21`.`hardItem` ;
 CREATE TABLE IF NOT EXISTS `team21`.`hardItem` (
   `idhardItem` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `idHard` INT UNSIGNED NOT NULL,
+  `owned` TINYINT(1) NULL DEFAULT 1,
   PRIMARY KEY (`idhardItem`, `idHard`),
   INDEX `hardThing_idx` (`idHard` ASC),
   CONSTRAINT `hardThing`
