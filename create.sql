@@ -9,6 +9,8 @@ Added owned boolean to hardItem
 Changed call.title to subject
 Removed the probCall table as there's no need to have a call related to more than one problem
 Added autoincrement to timezone table
+idProblem auto increments
+Changed call.time to date
 
 14/2/17 - Gareth Nunns
 Renamed constraints to make them unique names
@@ -198,7 +200,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `team21`.`problem` ;
 
 CREATE TABLE IF NOT EXISTS `team21`.`problem` (
-  `idProblem` INT UNSIGNED NOT NULL,
+  `idProblem` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `idType` INT UNSIGNED NOT NULL,
   `title` VARCHAR(200) NOT NULL,
   PRIMARY KEY (`idProblem`),
@@ -221,7 +223,7 @@ CREATE TABLE IF NOT EXISTS `team21`.`call` (
   `idProblem` INT UNSIGNED NOT NULL,
   `caller` INT UNSIGNED NOT NULL,
   `op` INT UNSIGNED NOT NULL,
-  `time` DATETIME NOT NULL,
+  `date` DATETIME NOT NULL,
   `subject` VARCHAR(45) NOT NULL,
   `notes` TEXT NULL,
   PRIMARY KEY (`idCall`),
