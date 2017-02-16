@@ -29,9 +29,9 @@ Added SQL and made it user specific
 <?php
 $stmt = $conn->prepare(SELECT * FROM problem LEFT JOIN message ON problem.idProblem = message.idProblem LEFT JOIN emp ON message.specialist = emp.idEmp LEFT JOIN jobTitle ON emp.jobTitle =jobTitle.idJobTitle LEFT JOIN assign ON problem.idProblem = assign.idProblem LEFT JOIN calls ON problem.idProblem = calls.idProblem LEFT JOIN type ON problem.idType =type.idType WHERE emp.idEmp = :empid GROUP BY problem.idProblem, message.date);
 if ($_SESSION['sudo']){
-	$stmt->bindParam(':empid', *)
+	$stmt->bindParam(':empid', *);
 } else{
-	$stmt->bindParam(':empid', $_SESSION[empid])	
+	$stmt->bindParam(':empid', $_SESSION[empid]);	
 }
 	/*foreach ($tproblems as $problem)
 		if(!$problem['solution']) // it hasn't been solved
