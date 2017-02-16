@@ -4,6 +4,9 @@ Creates the database (and wipes the existing one)
 Change log
 ==========
 
+16/2/17 - Gareth Nunns
+Changed call to calls
+
 15/2/17 - Gareth Nunns
 Added owned boolean to hardItem
 Changed call.title to subject
@@ -214,19 +217,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `team21`.`call`
+-- Table `team21`.`calls`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `team21`.`call` ;
+DROP TABLE IF EXISTS `team21`.`calls` ;
 
-CREATE TABLE IF NOT EXISTS `team21`.`call` (
-  `idCall` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `team21`.`calls` (
+  `idCalls` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `idProblem` INT UNSIGNED NOT NULL,
   `caller` INT UNSIGNED NOT NULL,
   `op` INT UNSIGNED NOT NULL,
   `date` DATETIME NOT NULL,
   `subject` VARCHAR(45) NOT NULL,
   `notes` TEXT NULL,
-  PRIMARY KEY (`idCall`),
+  PRIMARY KEY (`idCalls`),
   INDEX `caller_idx` (`caller` ASC),
   INDEX `operator_idx` (`op` ASC),
   INDEX `callProblem_idx` (`idProblem` ASC),
