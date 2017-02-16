@@ -7,6 +7,8 @@ Change log
 
 14/2/17 - Gareth Nunns
 Added changelog
+14/2/17 - Lewys Bonds
+Added SQL and made it user specific
 
 */
 
@@ -25,14 +27,20 @@ Added changelog
 	</tr>
 
 <?php
-	foreach ($tproblems as $problem)
+$stmt = $conn->prepare(SELECT * FROM problem LEFT JOIN message ON problem.idProblem = message.idProblem LEFT JOIN emp ON message.specialist = emp.idEmp LEFT JOIN jobTitle ON emp.jobTitle =jobTitle.idJobTitle LEFT JOIN assign ON problem.idProblem = assign.idProblem LEFT JOIN calls ON problem.idProblem = calls.idProblem LEFT JOIN type ON problem.idType =type.idType WHERE emp.idEmp = :empid GROUP BY problem.idProblem, message.date);
+if ($_SESSION['sudo']){
+	$stmt->bindParam(':empid', *)
+} else{
+	$stmt->bindParam(':empid', $_SESSION[empid])	
+}
+	/*foreach ($tproblems as $problem)
 		if(!$problem['solution']) // it hasn't been solved
-			outputProblem($problem,false);
+			outputProblem($problem,false);*/
 ?>
 </table>
 
 <script type="text/javascript">
-	$('tr:nth-of-type(3n+4)').hide().each(function() {
+	/*$('tr:nth-of-type(3n+4)').hide().each(function() {
 		$(this).children().first().children().slideUp();
 	});
 
@@ -45,5 +53,5 @@ Added changelog
 		$('html, body').delay(300).animate({
 			scrollTop: $(window.location.hash).offset().top-80
 		}, 400);
-	}
+	}*\
 </script>
