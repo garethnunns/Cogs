@@ -5,6 +5,9 @@ This is the main page which acts as a wrapper, either including the requested pa
 Change log
 ==========
 
+18/2/17 - Gareth Nunns
+Fixed noJS functionality
+
 14/2/17 - Gareth Nunns
 Added changelog
 
@@ -51,6 +54,8 @@ Added changelog
 				$('.noJS').remove();
 			}
 
+			$(document).ready(noJS);
+
 			function tempError(error) {
 				$('<p class="error">'+error+'</p>').prependTo("#content").delay(2000).slideUp(500);
 			}
@@ -93,6 +98,7 @@ Added changelog
 							$("#content").fadeTo(150,0, function() { // fade out then put the new content in
 								if(historyPush) history.pushState(null, null, url);
 								$("#content").html(data);
+								$('#content .noJS').remove();
 								JSifyLinks();
 								<?php if($_SESSION['fonts']) echo 'largeFonts();' ?>
 								$("#content").fadeTo(350,1);

@@ -5,10 +5,31 @@ Functions used across the site.
 Change log
 ==========
 
+18/2/17 - Gareth Nunns
+Added translate function outline
+
 14/2/17 - Gareth Nunns
 Added changelog
 
 */
+
+	function translate($phrase, $lang) {
+		/*
+		Function to output $phrase in $lang
+
+		Psuedocode:
+		function translate(phrase, lang) {
+		    if (phrase exists in langStor with language lang)
+		        return database result;
+		    else if (autoTrans == true)
+		        return autoTranslate(phrase, lang);
+		    else
+		        return phrase;
+		}
+		*/
+
+		return $phrase;
+	}
 
 	function longAgo($newDate) {
 		if($date = strtotime($newDate.' '.date_default_timezone_get())) {

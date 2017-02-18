@@ -5,6 +5,9 @@ Adding a call to system - so all the fields that this requires, and referencing 
 Change log
 ==========
 
+18/2/17 - Gareth Nunns
+Linked callers search to database
+
 14/2/17 - Gareth Nunns
 Added changelog
 
@@ -23,7 +26,13 @@ Added changelog
 			<input type="text" name="caller" placeholder="Name or ext. of caller" />
 		</div>
 	</div>
+
+	<p class="noJS">Please enter the ID of the person calling</p>
+	<input type="number" name="idcaller" placeholder="ID of caller" />
+
 	<div id="resCaller"></div>
+
+
 
 	<div class="item">
 		<h3>Problem</h3>
@@ -166,13 +175,16 @@ Added changelog
 
 <script type="text/javascript">
 	// searching for a caller
-	$('[name="caller"]').on('focus keyup',searchCallers);
+	$('[name="idcaller"]').hide();
 
-	$('[name="caller"]').blur(function(){
+	$('[name="caller"]').on('focus keyup',searchCallers); // search when the user types
+
+	$('[name="caller"]').blur(function() { // hide the results when they're not searching
 		$('#resCaller').slideUp();
 	});
 
 	function searchCallers() {
+		// output the list of found callers
 		var search = $('[name="caller"]').val();
 		if($.trim(search)) {
 			$.ajax({
@@ -184,6 +196,9 @@ Added changelog
 					$('#resCaller').slideDown();
 
 					$('#resCaller p').off('click vclick').on('click vclick', function(){
+						// update the hidden field
+						$('[name="idcaller"]').val($(this).data('id'));
+						// get the html
 						var selected = $(this).html();
 						$('[name="caller"]').fadeOut(300,function(){
 							$('<p>'+selected+'<br><a href="#" class="change">Change</a></p>').hide().appendTo('#caller').fadeIn().on('click vlick',function(e){
