@@ -1,0 +1,53 @@
+<?php
+/*
+Add or update specialists in a list. See their details, like phone, site, availability.
+
+Change log
+==========
+
+14/2/17 - Gareth Nunns
+Added changelog
+
+*/
+
+	require_once dirname(__FILE__).'/../check.php';
+?>
+
+<h1>Specialists</h1>
+
+<table class="specialists">
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+		<th>Phone</th>
+		<th colspan="2">Problems</th>
+		<th>Availability</th>
+	</tr>
+<?php
+		$avail = ["Full Time","Monday - Wednesday","Weekends","Weekdays 9:00 - 13:00","On holiday, back in ".mt_rand(2, 10)." days"];
+
+		$sql = "SELECT emp.idEmp as 'ID', emp.firstName  AS 'Name', tel as 'Phone', count(emp.surname)as 'UnsolvedProblems', count(solved.specialist) as 'SolvedProblem' 
+		FROM assign 
+		LEFT JOIN emp ON assign.assTo=emp.idEmp
+		LEFT JOIN specialist ON emp.idEmp=specialist.idEmp
+		LEFT JOIN solved ON specialist.idEmp=solved.specialist
+		WHERE assign.idProblem IN (SELECT idProblem as 'Unsolved Problem' FROM problem WHERE idProblem NOT IN (SELECT idProblem FROM solved))
+		GROUP BY emp.idEmp";
+
+
+	$sth = $dbh->prepare($sql);
+	$sth->execute();
+
+
+		if($sth->rowCount())
+				foreach ($sth->fetchAll() as $row) {
+			echo "<tr>
+			<td>{$row['ID']}</td>
+			<td>{$row['Name']}</td>
+			<td>{$row['Phone']}</td>
+			<td class='numProbs'><span>{$row['Unsolved Problems']}</span><br>Unsolved</td>
+			<td class='numProbs'><span>{$row['Solved Problems']}</span><br>Solved this week</td>
+			<td>".$avail[array_rand($avail,1)]."</td>
+			</tr>";
+		}
+?>
