@@ -20,32 +20,35 @@ Added changelog
 	if(isset($_POST['username']) && isset($_POST['password'])) {  
 		
 		$username = $_POST['username'];
-		$password = password_hash($_POST['password'], PASSWORD_BCRYPT); // hash password
+		$password = $_POST['password'];
 		
 		$sql = "
-SELECT login.idEmp
-FROM login
+SELECT login.idEmp, login.password, emp.jobTitle
+FROM login, emp
 WHERE login.username = :user
-AND login.password = :pass";
+AND login.idEmp = emp.idEmp";
 
 		$sth = $dbh->prepare($sql);
 
 		// sanitize inputs
 		$sth->bindParam(':user', $username);
-		$sth->bindParam(':pass', $password);
 
 		$sth->execute();
 
 		// output the results (if there were any)
-		if(!$sth->rowCount()) echo translate('Your userame or password is invalid');
+		if(!$sth->rowCount()) 
+			echo translate('Your userame or password is invalid');
 		else {
 			$user = $sth->fetch(PDO::FETCH_OBJ);
-			$_SESSION['user'] = $user->idEmp;
-			//$_SESSION['user'] = $user->jobTitle != 2;
-			header("refresh:0; url=home");
+			if(password_verify($password, $user->password)) {
+				$_SESSION['user'] = $user->idEmp;
+				$_SESSION['user'] = $user->jobTitle != 2;
+				header("refresh:0; url=home");
+			}
+			else 
+				echo translate('Your userame or password is invalid');
 		}
 	}
-	else {
+	else 
 		echo translate('Please enter a username and password');
-	}
 ?>
