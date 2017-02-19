@@ -6,98 +6,166 @@ When you're on a specific page it will search the items on that page (e.g. on th
 Change log
 ==========
 
+16/2/17 - Joe Yelland (The boss)
+Added ability for the search bar to query the database when user is typing.
+
 14/2/17 - Gareth Nunns
 Added changelog
 
 */
 
-	require_once dirname(__FILE__).'/../check.php';
+	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 
 	if(isset($_GET['s'])) {
 		echo "<h1>Searching for '".htmlspecialchars($_GET['s'])."'</h1>";
-
+		//Searching through problems when on the problems page
 		if(!$_GET['page'] || $_GET['page']=='problems') {
-			$problems = [];
+			
+			$sqlproblems = "SELECT problem.idProblem, problem.title, COUNT(calls.idCalls) AS 'calls', COUNT(solved.idProblem) AS 'solved'
+			FROM problem
+			LEFT JOIN calls ON problem.idProblem = calls.idProblem
+			LEFT JOIN solved ON problem.idProblem = solved.idProblem
+			WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved)
+			AND (problem.title LIKE :psp
+			OR problem.idProblem LIKE :sp)
+			GROUP BY problem.idProblem
+			ORDER BY problem.idProblem";
 
-			foreach ($tproblems as $problem)
-				if(stripos($problem['title'], $_GET['s'])!==false && !$problem['solution'])
-					$problems[$problem['id']] = $problem['title'];
+			$sth = $dbh->prepare($sqlproblems);
+
+			// sanitize inputs
+			$sp = $_GET['s'].'%';
+			$psp = '%'.$sp;
+
+			$sth->bindParam(':sp', $sp);
+			$sth->bindParam(':psp', $psp);
+
+			$sth->execute();
 
 			echo "<h3>Problems</h3>";
 
-			if(count($problems)) {
-				krsort($problems);
-
-				foreach ($problems as $id => $prob)
-					echo "<p><a href='/problems#prob$id'><strong>$id</strong> - $prob</a></p>";
-			}
+			// output the results (if there were any)
+			if($sth->rowCount())
+				foreach ($sth->fetchAll() as $row) 
+					echo "<p><a href='/problems#prob{$row['idProblem']}'><strong>{$row['idProblem']}</strong> - {$row['title']} ({$row['calls']} ".translate($row['calls'] == 1 ? 'call' : 'calls').") - ".translate($row['solved'] ? 'Solved' : 'Unsolved')."</a></p>";
 			else echo '<p class="error">No unsolved problems could be found</p>';
 		}
-
+		//Searching through solved problems when on the solved page page
 		if(!$_GET['page'] || $_GET['page']=='solved') {
-			$problems = [];
+			
+			$sqlsolved = "SELECT problem.idProblem, problem.title, COUNT(calls.idCalls) AS 'calls', COUNT(solved.idProblem) AS 'solved'
+			FROM problem
+			LEFT JOIN calls ON problem.idProblem = calls.idProblem
+			LEFT JOIN solved ON problem.idProblem = solved.idProblem
+			WHERE problem.idProblem IN (SELECT solved.idProblem FROM solved)
+			AND (problem.title LIKE :psp
+			OR problem.idProblem LIKE :sp)
+			GROUP BY problem.idProblem
+			ORDER BY problem.idProblem";
+			$sth = $dbh->prepare($sqlsolved);
 
-			foreach ($tproblems as $problem)
-				if(stripos($problem['title'], $_GET['s'])!==false && $problem['solution'])
-					$problems[$problem['id']] = $problem['title'];
+			// sanitize inputs
+			$sp = $_GET['s'].'%';
+			$psp = '%'.$sp;
 
-			echo "<h3>Solved problems</h3>";
+			$sth->bindParam(':sp', $sp);
+			$sth->bindParam(':psp', $psp);
 
-			if(count($problems)) {
-				krsort($problems);
+			$sth->execute();
 
-				foreach ($problems as $id => $prob)
-					echo "<p><a href='/solved#prob$id'><strong>$id</strong> - $prob</a></p>";
-			}
+			echo "<h3>Solved Problems</h3>";
+
+			// output the results (if there were any)
+			if($sth->rowCount())
+				foreach ($sth->fetchAll() as $row) 
+					echo "<p><a href='/solved#prob{$row['idProblem']}'><strong>{$row['idProblem']}</strong> - {$row['title']} ({$row['calls']} ".translate($row['calls'] == 1 ? 'call' : 'calls').") - ".translate($row['solved'] ? 'Solved' : 'Unsolved')."</a></p>";
 			else echo '<p class="error">No solved problems could be found</p>';
 		}
-
+		//Searching through specialists when on the specialists page
 		if(!$_GET['page'] || $_GET['page']=='specialists') {
-			$specs = [];
+			$sqlspecialist = "SELECT emp.idEmp, emp.firstName, emp.surname 
+			FROM emp 
+			WHERE jobTitle = 2
+			AND (emp.firstName LIKE :psp
+			OR emp.firstName LIKE :sp)
+			GROUP BY emp.idEmp
+			ORDER BY emp.idEmp";
+			$sth = $dbh->prepare($sqlspecialist);
 
-			foreach ($tlogin as $id => $spec)
-				if(stripos($spec['name'], $_GET['s'])!==false && $spec['job']=="Specialist")
-					$specs[$id] = $spec['name'];
+			// sanitize inputs
+			$sp = $_GET['s'].'%';
+			$psp = '%'.$sp;
+
+			$sth->bindParam(':sp', $sp);
+			$sth->bindParam(':psp', $psp);
+
+			$sth->execute();
 
 			echo "<h3>Specialists</h3>";
 
-			if(count($specs)) {
-				krsort($specs);
-
-				foreach ($specs as $id => $spec)
-					echo "<p><a href='/specialists#spec$id'><strong>$id</strong> - $spec</a></p>";
-			}
+			// output the results (if there were any)
+			if($sth->rowCount())
+				foreach ($sth->fetchAll() as $row) 
+					echo "<p><a href='/specialists#prob{$row['idEmp']}'><strong>{$row['idEmp']}</strong> - {$row['firstName']} {$row['surname']}</a></p>";
 			else echo '<p class="error">No specialists could be found</p>';
+
 		}
-
+		//Searching through software on the software page
 		if(!$_GET['page'] || $_GET['page']=='software') {
-			$softs = [];
+			$sqlsoftware = "SELECT soft.idSoft, soft.name, soft.license 
+			FROM soft 
+			WHERE (soft.name LIKE :psp
+			OR soft.name LIKE :sp)
+			GROUP BY soft.idSoft
+			ORDER BY soft.idSoft";
+			$sth = $dbh->prepare($sqlsoftware);
 
-			foreach ($tSoft as $id => $soft)
-				if(stripos($soft['name'], $_GET['s'])!==false)
-					$softs[$id] = $soft['name'];
+			// sanitize inputs
+			$sp = $_GET['s'].'%';
+			$psp = '%'.$sp;
+
+			$sth->bindParam(':sp', $sp);
+			$sth->bindParam(':psp', $psp);
+
+			$sth->execute();
 
 			echo "<h3>Software</h3>";
 
-			if(count($softs))
-				foreach ($softs as $id => $soft)
-					echo "<p><a href='/software#soft$id'><strong>$id</strong> - $soft</a></p>";
-			else  echo '<p class="error">No software could be found</p>';
+			// output the results (if there were any)
+			if($sth->rowCount())
+				foreach ($sth->fetchAll() as $row) 
+					echo "<p><a href='/software#prob{$row['idSoft']}'><strong>{$row['idSoft']}</strong> - {$row['name']} - {$row['license']}</a></p>";
+			else echo '<p class="error">No software could be found</p>';
+
 		}
-
+		//Searching through hardware on the hardware page
 		if(!$_GET['page'] || $_GET['page']=='hardware') {
-			$hards = [];
+			$sqlhardware = "SELECT hard.idHard, hard.make, hard.model 
+			FROM hard
+			WHERE (hard.make LIKE :psp
+			OR hard.make LIKE :sp)
+			GROUP BY hard.idHard
+			ORDER BY hard.idHard";
+			$sth = $dbh->prepare($sqlhardware);
 
-			foreach ($tHard as $id => $hard)
-				if(stripos($hard['name'], $_GET['s'])!==false)
-					$hards[$id] = $hard['name'];
+			// sanitize inputs
+			$sp = $_GET['s'].'%';
+			$psp = '%'.$sp;
 
-			echo "<h3>Harware</h3>";
+			$sth->bindParam(':sp', $sp);
+			$sth->bindParam(':psp', $psp);
 
-			if(count($hards))
-				foreach ($hards as $id => $hard)
-					echo "<p><a href='/hardware#hard$id'><strong>$id</strong> - $hard</a></p>";
-			else  echo '<p class="error">No software could be found</p>';
+			$sth->execute();
+
+			echo "<h3>Hardware</h3>";
+
+			// output the results (if there were any)
+			if($sth->rowCount())
+				foreach ($sth->fetchAll() as $row) 
+					echo "<p><a href='/hardware#prob{$row['idHard']}'><strong>{$row['idHard']}</strong> - {$row['make']} - {$row['model']}</a></p>";
+			else echo '<p class="error">No hardware could be found</p>';
+
 		}
 	}
 ?>

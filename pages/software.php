@@ -7,6 +7,8 @@ Change log
 
 14/2/17 - Gareth Nunns
 Added changelog
+18/2/17 - Danny Jaine
+Added SQL 
 
 */
 
@@ -25,6 +27,22 @@ Added changelog
 	</tr>
 
 <?php
+
+	$sql="
+SELECT * 
+FROM soft
+LEFT JOIN softProb
+ON soft.idSoft = softProb.idSoft
+LEFT JOIN problem
+ON softProb.idProblem = problem.idProblem
+LEFT JOIN type
+ON problem.idType = type.idType
+LEFT JOIN specialist
+ON type.idType = specialist.idType
+LEFT JOIN OS
+ON softProb.idOS = OS.idOS
+ORDER BY soft.idSoft ASC
+	
 	foreach ($tSoft as $id => $soft) {
 		echo "<tr id='soft$id'>
 		<td>{$id}</td>

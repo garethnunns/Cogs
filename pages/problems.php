@@ -23,16 +23,9 @@ Added changelog
 
 <h1>Problems</h1>
 
-<table class="problems">
-	<tr>
-		<th>ID</th>
-		<th>Title</th>
-		<th>Customers</th>
-		<th>Operators</th>
-		<th colspan="3">Activity</th>
-	</tr>
-
 <?php
+
+	session_start();
 
 	$sql = "
 SELECT problem.idProblem, problem.title, type.idType, type.name AS type,
@@ -73,31 +66,38 @@ LEFT JOIN jobTitle as callerJob ON calleremp.jobTitle = callerJob.idJobTitle
 LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
-WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved)
+WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved) ";
 
-ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC
+	if(!$_SESSION['sudo'])
+		$sql .= " AND assign.assTo = '{$_SESSION['user']}' AND (SELECT MAX(assDate) FROM assign AS a1 WHERE a1.idProblem = assign.idProblem) ";
 
--- temporarily removed
--- WHERE emp.idEmp = :empid";
-
-/*
-if ($_SESSION['sudo']){
-	$stmt->bindParam(':empid', *);
-} else{
-	$stmt->bindParam(':empid', $_SESSION[empid]);	
-}
-*/
+	$sql .= "ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 
 	$sth = $dbh->prepare($sql);
 
 	$sth->execute();
 
-	$problems = storeProblems($sth->fetchAll());
-
-	foreach ($problems as $id => $problem)
-		outputProblem($id,$problem);
+	if($sth->rowCount()) {
 ?>
-</table>
+	<table class="problems">
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Customers</th>
+			<th>Operators</th>
+			<th colspan="3">Activity</th>
+		</tr>
+<?php
+		$problems = storeProblems($sth->fetchAll());
+
+		foreach ($problems as $id => $problem)
+			outputProblem($id,$problem);
+
+		echo '</table>';
+	}
+	else
+		echo '<p>'.translate('There are currently no problems assigned to you :)').'</p>';
+?>
 
 <script type="text/javascript">
 	$('tr:nth-of-type(3n+4)').hide().each(function() {

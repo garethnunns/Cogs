@@ -60,4 +60,23 @@ Added changelog
 		}
 	}
 ?>
+
+
+<!– 
+SQL code for table
+SELECT emp.idEmp as 'ID', CONCAT(firstName, ' ', surname) AS "Name", tel as "Phone", count(solved.specialist)
+FROM emp
+LEFT JOIN specialist ON emp.idEmp=specialist.idEmp
+LEFT JOIN solved ON specialist.idEmp=solved.specialist
+WHERE jobTitle = 2
+GROUP BY emp.idEmp
+
+Still need to incoprate the following sql to the last column so that specialist with no unsolved problems show update
+
+SELECT count(emp.surname)as "Unsolved Problems"
+FROM assign RIGHT JOIN emp
+ON assign.assTo=emp.idEmp
+WHERE assign.idProblem IN (SELECT idProblem as "Unsolved Problem" FROM problem WHERE idProblem NOT IN (SELECT idProblem FROM solved))
+GROUP BY emp.firstName
+->
 </table>
