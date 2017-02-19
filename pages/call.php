@@ -165,11 +165,55 @@ Added changelog
 	</tr>
 
 <?php
-	foreach ($tproblems as $problem)
-		if(!$problem['solution']) // it hasn't been solved
-			outputProblem($problem,false);
-		else
-			outputProblem($problem,true);
+	$sql = "
+SELECT problem.idProblem, problem.title, type.idType, type.name AS type,
+
+-- messages
+message.idMessage, message.date AS messDate, message.subject AS messSub, message.message AS messMess, message.specialist AS messSpec,
+CONCAT(memp.firstName, ' ', memp.surname) AS messName, memp.tel AS messTel, mempJob.name AS messJob,
+
+-- assignments
+assign.idAssign, assign.assBy, CONCAT(assByemp.firstName, ' ', assByemp.surname) AS assByName,
+assign.assTo, CONCAT(assToemp.firstName, ' ', assToemp.surname) AS assToName, assDate,
+
+-- calls
+calls.idCalls, calls.caller, CONCAT(calleremp.firstName, ' ', calleremp.surname) AS callerName, calleremp.tel AS callerTel, callerJob.name AS callerJob,
+calls.op, CONCAT(opemp.firstName, ' ', opemp.surname) AS opName, opemp.tel AS opTel, opJob.name AS opJob,
+calls.date AS callDate, calls.subject AS callSubject, calls.notes AS callNotes
+
+FROM problem
+
+-- JOINS
+-- type
+LEFT JOIN type ON problem.idType = type.idType 
+
+-- messages
+LEFT JOIN message ON problem.idProblem = message.idProblem
+LEFT JOIN emp AS memp ON message.specialist = memp.idEmp
+LEFT JOIN jobTitle as mempJob ON memp.jobTitle = mempJob.idJobTitle
+
+-- assignments
+LEFT JOIN assign ON problem.idProblem = assign.idProblem
+LEFT JOIN emp AS assByemp ON assign.assBy = assByemp.idEmp
+LEFT JOIN emp AS assToemp ON assign.assTo = assToemp.idEmp
+
+-- calls
+LEFT JOIN calls ON problem.idProblem = calls.idProblem
+LEFT JOIN emp AS calleremp ON calls.caller = calleremp.idEmp
+LEFT JOIN jobTitle as callerJob ON calleremp.jobTitle = callerJob.idJobTitle
+LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
+LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
+
+ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
+
+	$sth = $dbh->prepare($sql);
+
+	$sth->execute();
+
+	$problems = storeProblems($sth->fetchAll());
+
+	foreach ($problems as $id => $problem)
+		outputProblem($id,$problem);
 ?>
 </table>
 
