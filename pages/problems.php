@@ -73,6 +73,8 @@ LEFT JOIN jobTitle as callerJob ON calleremp.jobTitle = callerJob.idJobTitle
 LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
+WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved)
+
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC
 
 -- temporarily removed

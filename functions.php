@@ -345,7 +345,7 @@ Added changelog
 				</div>
 
 				<div class='notes'>
-				<h3>".($event['type']=='solution' ? 'Solution' : $event['subject'])."</h3>
+				<h3>".($event['type']=='solved' ? 'Solution' : $event['subject'])."</h3>
 				<p>{$event['message']}</p>
 				</div>
 				</div>";
