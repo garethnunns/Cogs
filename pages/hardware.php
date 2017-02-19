@@ -7,6 +7,8 @@ Change log
 
 14/2/17 - Gareth Nunns
 Added changelog
+17/2/17 - Danny Jaine
+Added SQL
 
 */
 
@@ -24,6 +26,21 @@ Added changelog
 	</tr>
 
 <?php
+$sql="	
+SELECT * 
+FROM hard
+LEFT JOIN hardType
+ON hard.idHardType = hardType.idHardType
+LEFT JOIN hardItem
+ON hard.idHard = hardItem.idHard
+LEFT JOIN hardProb 
+ON hard.idHard = hardProb.idHard
+LEFT JOIN problem
+ON hardProb.idProblem = problem.idProblem
+LEFT JOIN type
+ON problem.idType = type.idType
+ORDER BY hard.idHard ASC
+	
 	foreach ($tHard as $id => $hard) {
 		echo "<tr id='hard$id'>
 		<td>{$id}</td>
