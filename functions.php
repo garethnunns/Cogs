@@ -191,6 +191,8 @@ Added changelog
 	}
 
 	function outputProblem($id,$problem) {
+		global $format;
+
 		// empty arrays to store the names in
 		$customers = array();
 		$ops = array();
