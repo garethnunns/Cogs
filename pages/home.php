@@ -5,28 +5,47 @@ Mostly for navigation to the other pages through the grid, as well as having the
 Change log
 ==========
 
+19/2/17 - Gareth Nunns
+Updated name at the top
+
 14/2/17 - Gareth Nunns
 Added changelog
 
 */
 
-	require_once dirname(__FILE__).'/../check.php';
-?>
+	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 
-<?php
-	if(!isset($_SESSION['welcome']))
-		echo "<h1>Welcome {$tlogin[$_SESSION['user']]['name']}</h1>";
-	$_SESSION['welcome'] = false;
+	session_start();
+
+	if(!isset($_SESSION['welcome'])) { // we haven't welcomed the user
+		$sql = "SELECT CONCAT(emp.firstName, ' ', emp.surname) AS name
+				FROM emp
+				WHERE emp.idEmp = {$_SESSION['user']}";
+
+		$sth = $dbh->prepare($sql);
+
+		$sth->execute();
+
+		if(!$sth->rowCount()) // we should really be able to find them in the database
+			echo '<p class="error">'.translate('There has been a fundamental here').'</p>';
+		else { 
+			echo "<h1>Welcome ".$sth->fetchColumn()." #{$_SESSION['user']}</h1>"; // say hellp
+			$_SESSION['welcome'] = true; // we've already welcomed them, so don't do it again
+		}
+	}
 ?>
 
 <div class="grid">
 	<div><a href="call">New call</a></div><div><a href="problems">Problems</a></div><div><a href="solved">Solved</a></div><div><a href="specialists">Specialists</a></div><div><a href="software">Software</a></div><div><a href="hardware">Hardware</a></div><div><a href="settings">Settings</a></div>
 </div>
 
-<img src="/img/chart.png">
+<p style="text-align: center"><a href="users">Add users</a></p>
+
+<!--<img src="/img/chart.png">-->
 
 <script type="text/javascript">
-	$('.grid > div').each(function () {
+	$('.grid > div').each(function () { // for all the tiles in the grid
 		$(this).data('link', $(this).children()[0].href);
 		$(this).off('click vclick').on('click vclick', function() {
 			loadPage($(this).data('link')); // make the whole tile a link

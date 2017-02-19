@@ -42,7 +42,7 @@ AND login.idEmp = emp.idEmp";
 			$user = $sth->fetch(PDO::FETCH_OBJ);
 			if(password_verify($password, $user->password)) {
 				$_SESSION['user'] = $user->idEmp;
-				$_SESSION['user'] = $user->jobTitle != 2;
+				$_SESSION['sudo'] = $user->jobTitle != 2;
 				header("refresh:0; url=home");
 			}
 			else 
