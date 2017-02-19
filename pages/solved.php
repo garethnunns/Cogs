@@ -4,6 +4,8 @@ Outputs a list of problems solved by that user (or if it's a receptionist all of
 
 Change log
 ==========
+18/2/17 - Lewys Bonds
+added the solved to the SQL
 
 18/2/17 - Gareth Nunns
 Added same functionality as problems page - needs to be converted to have solutions
@@ -55,6 +57,10 @@ calls.idCalls, calls.caller, CONCAT(calleremp.firstName, ' ', calleremp.surname)
 calls.op, CONCAT(opemp.firstName, ' ', opemp.surname) AS opName, opemp.tel AS opTel, opJob.name AS opJob,
 calls.date AS callDate, calls.subject AS callSubject, calls.notes AS callNotes
 
+-- solved
+solved.idProblem AS solvedId, solved.specialist AS specName, solved.message AS solvedMess, solved.date AS solvedDate
+
+
 FROM problem
 
 -- JOINS
@@ -78,8 +84,16 @@ LEFT JOIN jobTitle as callerJob ON calleremp.jobTitle = callerJob.idJobTitle
 LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
-WHERE problem.idProblem IN (SELECT solved.idProblem FROM solved)
+-- solved 
+LEFT JOIN solved ON problem.idProblem = solved.idProblem
+LEFT JOIN emp AS specemp ON solved.specialist = emp.idEmp 
+LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
 
+
+
+WHERE problem.idProblem IN (SELECT solved.idProblem FROM solved)
+WHERE problem.idProblem IN (SELECT TOP 1 idProblem FROM assign WHERE assDate ASC )
+ 
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC
 
 -- temporarily removed
