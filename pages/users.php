@@ -61,21 +61,45 @@ Created and completed page
 						$sth = $dbh->prepare("INSERT INTO deptEmp VALUES (?, $idemp);");
 						$sth->execute(array($dept));
 					}
+
+					echo "<p><strong>Successfully added {$_POST['firstName']} {$_POST['surname']}</strong></p>";
 				}
 			}
 		}
 		catch (PDOException $e) {
-			echo $e->getMessage();
+			echo "<p class='error'>".$e->getMessage()."</p>";
 		}
+	}
+
+	if(isset($_GET['edit'])) { // viewing the edit page
+		try {
+			$sql = "SELECT emp.*, login.username, login.timezone, login.lang, login.availablity
+					FROM emp
+					LEFT JOIN login ON emp.idEmp = login.idEmp
+					WHERE emp.idEmp = ?";
+
+			$sth = $dbh->prepare($sql);
+
+			$sth->execute(array($_GET['edit']));
+
+			$user = $sth->fetch(PDO::FETCH_OBJ);
+		}
+		catch (PDOException $e) {
+			echo "<p class='error'>".$e->getMessage()."</p>";
+		}
+	}
+
+	if(isset($_POST['edit'])) { // editing a user
+
 	}
 ?>
 
 <h1>Users</h1>
 
 <form method="POST">
-	<h2>Add user</h2>
-	<p>Name<?php asterisk('emp.firstName'); ?>: <input name="firstName" type="text" placeholder="First Name"> 
-	<input name="surname" type="text" placeholder="Surname"></p>
+	<h2><?php echo (!isset($_GET['edit']) ? 'Add' : 'Edit'); ?> user</h2>
+	<p>Name<?php asterisk('emp.firstName'); ?>: <input name="firstName" type="text" placeholder="First Name" value="<?php echo $user->firstName ?>"> 
+	<input name="surname" type="text" placeholder="Surname" value="<?php echo $user->surname ?>"></p>
 
 	<p>Job title<?php asterisk('emp.jobTitle'); ?>: <select name="jobTitle">
 <?php
@@ -85,13 +109,21 @@ Created and completed page
 	$sth->execute();
 
 	foreach ($sth->fetchAll() as $row)
-		echo "<option value='{$row['idJobTitle']}'>{$row['name']}</option>";
+		echo "<option value='{$row['idJobTitle']}' ".($user->jobTitle==$row['idJobTitle'] ? 'selected':'').">{$row['name']}</option>";
 ?>
 	</select></p>
 
 	<p>Specialism:<br><select name="specialisms[]" multiple="multiple">
 <?php
-	$sql = "SELECT * FROM type ORDER BY name";
+	$sql = "SELECT *, (
+				SELECT COUNT(t2.idType) FROM type AS t2 WHERE t2.idType IN (
+					SELECT specialist.idType 
+					FROM specialist 
+					WHERE specialist.idEmp = {$user->idEmp}
+					AND t1.idType = specialist.idType
+				)
+			) AS selected
+			FROM type AS t1";
 	$sth = $dbh->prepare($sql);
 
 	$sth->execute();
@@ -103,7 +135,8 @@ Created and completed page
 	foreach ($sth->fetchAll() as $row)
 		$types[$row['idType']] = array(
 			'name' => $row['name'],
-			'cat' => $row['category']
+			'cat' => $row['category'],
+			'selected' => ($row['selected'] ? 'selected' : '')
 		);
 
 	function categories($type,$types){
@@ -121,19 +154,26 @@ Created and completed page
 	});
 
 	foreach ($types as $id => $type)
-		echo "<option value='$id'>{$type['path']}</option>";
+		echo "<option value='$id' {$type['selected']}>{$type['path']}</option>";
 ?>
 	</select></p>
 
 	<p>Department:<br><select name="dept[]" multiple="multiple">
 <?php
-	$sql = "SELECT * FROM dept ORDER BY name";
+	$sql = "SELECT *, (
+				SELECT COUNT(d2.idDept) 
+				FROM deptEmp AS d2 
+				WHERE d2.idEmp = {$user->idEmp}
+				AND d1.idDept = d2.idDept
+			) AS selected
+			FROM dept AS d1
+			ORDER BY name";
 	$sth = $dbh->prepare($sql);
 
 	$sth->execute();
 
 	foreach ($sth->fetchAll() as $row)
-		echo "<option value='{$row['idDept']}'>{$row['name']}</option>";
+		echo "<option value='{$row['idDept']}' ".($row['selected'] ? 'selected':'').">{$row['name']}</option>";
 ?>
 	</select></p>
 
@@ -145,20 +185,20 @@ Created and completed page
 	$sth->execute();
 
 	foreach ($sth->fetchAll() as $row)
-		echo "<option value='{$row['idSite']}'>{$row['name']}</option>";
+		echo "<option value='{$row['idSite']}' ".($user->site==$row['idSite'] ? 'selected':'').">{$row['name']}</option>";
 ?>
 	</select></p>
 
-	<p>Phone<?php asterisk('emp.tel'); ?>: <input name="tel" type="tel"></p>
-	<p>Email<?php asterisk('emp.email'); ?>: <input name="email" type="email"></p>
+	<p>Phone<?php asterisk('emp.tel'); ?>: <input name="tel" type="tel" value="<?php echo $user->tel ?>"></p>
+	<p>Email<?php asterisk('emp.email'); ?>: <input name="email" type="email" value="<?php echo $user->email ?>"></p>
 
 	<h3>Login details</h3>
 	<p><em>Optional section</em></p>
 
-	<p>Username<?php asterisk('login.username'); ?>: <input name="username" type="text"></p>
+	<p>Username<?php asterisk('login.username'); ?>: <input name="username" type="text" value="<?php echo $user->username ?>"></p>
 	<p>Password<?php asterisk('login.password'); ?>: <input name="password" type="password"></p>
 
-	<p>Availability<?php asterisk('login.availablity'); ?>: <input name="availability" type="text"></p>
+	<p>Availability<?php asterisk('login.availablity'); ?>: <input name="availability" type="text" value="<?php echo $user->availablity ?>"></p>
 
 	<p>Timezone<?php asterisk('login.timezone'); ?>: <select name="timezone">
 <?php
@@ -168,7 +208,7 @@ Created and completed page
 	$sth->execute();
 
 	foreach ($sth->fetchAll() as $row)
-		echo "<option value='{$row['idTimezone']}'>".str_replace('/', ' - ', str_replace('_', ' ', $row['name']))."</option>";
+		echo "<option value='{$row['idTimezone']}' ".($user->timezone==$row['idTimezone'] ? 'selected':'').">".str_replace('/', ' - ', str_replace('_', ' ', $row['name']))."</option>";
 ?>
 	</select></p>
 
@@ -180,12 +220,15 @@ Created and completed page
 	$sth->execute();
 
 	foreach ($sth->fetchAll() as $row)
-		echo "<option value='{$row['idLang']}'>{$row['name']}</option>";
+		echo "<option value='{$row['idLang']}' ".($user->lang==$row['idLang'] ? 'selected':'').">{$row['name']}</option>";
 ?>
 	</select></p>
 
-	<input name="add" type="submit" value="Add user" />
-	<input name="edit" type="submit" value="Edit user" />
+<?php
+	if(!isset($_GET['edit'])) echo '<input name="add" type="submit" value="Add user" />';
+	else echo '<input name="edit" type="submit" value="Edit user" />';
+?>
+
 </form>
 
 <h2>Current users</h2>
