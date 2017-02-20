@@ -13,7 +13,8 @@ Added changelog
 
 */
 
-	require_once dirname(__FILE__).'/../check.php';
+	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 ?>
 
 <form method="POST" class="call">
