@@ -5,12 +5,16 @@ Add or update specialists in a list. See their details, like phone, site, availa
 Change log
 ==========
 
+19/2/17 - Ryan Roberts
+Connected it to the database
+
 14/2/17 - Gareth Nunns
 Added changelog
 
 */
 
-	require_once dirname(__FILE__).'/../check.php';
+	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 ?>
 
 <h1>Specialists</h1>
@@ -24,59 +28,42 @@ Added changelog
 		<th>Availability</th>
 	</tr>
 <?php
-	foreach ($tlogin as $id => $spec) {
-		$avail = ["Full Time","Monday - Wednesday","Weekends","Weekdays 9:00 - 13:00","On holiday, back in ".mt_rand(2, 10)." days"];
+	$sql = "
+SELECT emp.idEmp, CONCAT(emp.firstName, ' ', emp.surname) AS 'name', emp.tel, 
+(SELECT COUNT(a2.idAssign) FROM assign AS a2
+	WHERE a2.assTo = emp.idEmp
+	AND a2.assTo IN (
+        SELECT a3.assTo FROM assign as a3
+		WHERE a3.idProblem IN (
+            SELECT problem.idProblem FROM problem 
+            WHERE problem.idProblem NOT IN (
+                SELECT idProblem FROM solved
+            )
+        )
+    ) AND a2.assDate = (SELECT MAX(a1.assDate) FROM assign AS a1 WHERE a1.idProblem = a2.idProblem)
+) as unsolved, 
+(SELECT COUNT(s1.idProblem) FROM solved AS s1 WHERE s1.specialist = emp.idEmp AND s1.date >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY) AS numSolved, login.availablity
+FROM emp
+LEFT JOIN login ON emp.idEmp = login.idEmp";
 
-		$probs = array("unsolved"=>array(),"solved"=>array());
 
-		foreach ($tproblems as $key => $problem) {
-			$high = 0;
+	$sth = $dbh->prepare($sql);
+	$sth->execute();
 
-			if($problem['solution']['op']==$id)
-				array_push($probs['solved'], $key);
-			else {
-				foreach ($problem['assign'] as $asskey => $ass)
-					if(strtotime($ass['date']) > $high) {
-						$high = strtotime($ass['date']);
-						$highkey = $asskey;
-					}
 
-				if(isset($asskey)) { // found an assignment
-					if($id == $problem['assign'][$asskey]['op'])
-						array_push($probs['unsolved'], $key);
-				}
-			}
-		}
-
-		if($spec['job']=='Specialist') {
-			echo "<tr id='spec$id'>
-			<td>{$id}</td>
-			<td>{$spec['name']}</td>
-			<td>ext ".mt_rand(10000, 55555)."</td>
-			<td class='numProbs'><span>".count($probs['unsolved'])."</span><br>Unsolved</td>
-			<td class='numProbs'><span>".mt_rand(0, 25)."</span><br>Solved this week</td>
-			<td>".$avail[array_rand($avail,1)]."</td>
+	if($sth->rowCount())
+		foreach ($sth->fetchAll() as $row) {
+			echo "<tr>
+			<td>{$row['idEmp']}</td>
+			<td>{$row['name']}</td>
+			<td>{$row['tel']}</td>
+			<td class='numProbs'><span>{$row['unsolved']}</span><br>Unsolved</td>
+			<td class='numProbs'><span>{$row['numSolved']}</span><br>Solved this week</td>
+			<td>{$row['availablity']}</td>
 			</tr>";
-		}
+
+			// FIXME
+			echo "<tr><td colspan='6'><p>List of problems for the specialist with ID: {$row['idEmp']}</p></td></tr>";
 	}
 ?>
-
-
-<!– 
-SQL code for table
-SELECT emp.idEmp as 'ID', CONCAT(firstName, ' ', surname) AS "Name", tel as "Phone", count(solved.specialist)
-FROM emp
-LEFT JOIN specialist ON emp.idEmp=specialist.idEmp
-LEFT JOIN solved ON specialist.idEmp=solved.specialist
-WHERE jobTitle = 2
-GROUP BY emp.idEmp
-
-Still need to incoprate the following sql to the last column so that specialist with no unsolved problems show update
-
-SELECT count(emp.surname)as "Unsolved Problems"
-FROM assign RIGHT JOIN emp
-ON assign.assTo=emp.idEmp
-WHERE assign.idProblem IN (SELECT idProblem as "Unsolved Problem" FROM problem WHERE idProblem NOT IN (SELECT idProblem FROM solved))
-GROUP BY emp.firstName
-->
 </table>
