@@ -37,7 +37,7 @@ Added changelog
 	$sth->execute();
 
 	// output the results (if there were any)
-	echo "<p>Create a new problem with the title <strong>'{$_GET['s']}'</strong></p>";
+	echo "<p data-id='-1'>Create a new problem with the title <strong>'{$_GET['s']}'</strong></p>";
 	if($sth->rowCount())
 		foreach ($sth->fetchAll() as $row) 
 			echo "<p data-id='{$row['idProblem']}'><strong>{$row['idProblem']}</strong> - {$row['title']} ({$row['calls']} ".translate($row['calls'] == 1 ? 'call' : 'calls').") - ".translate($row['solved'] ? 'Solved' : 'Unsolved')."</p>";

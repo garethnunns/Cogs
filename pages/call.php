@@ -5,6 +5,9 @@ Adding a call to system - so all the fields that this requires, and referencing 
 Change log
 ==========
 
+20/2/17 - Gareth Nunns
+Completed functionality
+
 18/2/17 - Gareth Nunns
 Linked callers search to database
 
@@ -17,28 +20,54 @@ Added changelog
 	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 
 	if(isset($_POST['add'])) { // adding a call
-		// add the new problem (if there is one)
-		if(isset($_POST['newproblem'])) { // the user chose to create a new problem
-			$prob = $dbh->lastInsertId();
-		}
-		else $prob = $_POST['idproblem'];
+		try {
+			// add the new problem (if there is one)
+			if($_POST['idproblem']=='-1') { // the user chose to create a new problem
+				if(!empty($_POST['newtype']) &&
+					valid('type.name',$_POST['newtype'])) { // add new type (if there is one)
 
-		// add the call
-		if(valid('calls.subject',$_POST['subject']) &&
-			valid('calls.notes',$_POST['notes']) &&
-			isset($_POST['idcaller']) && 
-			isset($_POST['idproblem'])) { // validation
-			try {
+					$sth = $dbh->prepare("INSERT INTO type (name, category) VALUES (?, ?)");
+
+					$sth->execute(array($_POST['newtype'],$_POST['type']));
+
+					$type = $dbh->lastInsertId(); // get the type we just popped in
+
+					echo "<p>Added {$_POST['newtype']} with ID $type</p>";
+				}
+				else $type = $_POST['type'];
+
+				if(!empty($_POST['newproblem']) && 
+					valid('problem.title',$_POST['newproblem'])) { // add new type (if there is one)
+
+					$sth = $dbh->prepare("INSERT INTO problem (idType, title) VALUES (?, ?)");
+
+					$sth->execute(array($type,$_POST['newproblem']));
+
+					$prob = $dbh->lastInsertId(); // get that new problem
+
+					echo "<p>Created problem #$prob: {$_POST['newproblem']}</p>";
+				}
+			}
+			else $prob = $_POST['idproblem'];
+
+			// add the call
+			if(valid('calls.subject',$_POST['subject']) &&
+				valid('calls.notes',$_POST['notes']) &&
+				isset($_POST['idcaller']) && 
+				isset($_POST['idproblem'])) { // validation
+
 				$sth = $dbh->prepare("INSERT INTO calls (idProblem, caller, op, `date`, subject, notes) 
 					VALUES (?, ?, ?, ?, ?, ?)");
 
 				$sth->execute(array($prob, $_POST['idcaller'], $_SESSION['user'], gmdate('Y-m-d H:i:s'), $_POST['subject'], $_POST['notes']));
 
 				$call = $dbh->lastInsertId();
+
+				echo "<p>Added '{$_POST['subject']}' as call #$call to problem #$prob</p>";
 			}
-			catch (PDOException $e) {
-				echo $e->getMessage();
-			}
+		}
+		catch (PDOException $e) {
+			echo $e->getMessage();
 		}
 	}
 ?>
@@ -58,7 +87,7 @@ Added changelog
 		$sth->execute();
 
 		if(!$sth->rowCount()) // we should really be able to find them in the database
-			echo '<p class="error">'.translate('There has been a fundamental here').'</p>';
+			echo '<p class="error">'.translate('There has been a fundamental problem here').'</p>';
 		else { 
 			$user = $sth->fetch(PDO::FETCH_OBJ);
 			echo "<p>This call will be logged to <strong>{$user->name} #{$_SESSION['user']}</strong> on <strong>{$user->tel}</strong></p>";
@@ -70,7 +99,7 @@ Added changelog
 ?>
 
 	<div class="item">
-		<h3>Caller</h3>
+		<h3>Caller<?php asterisk('calls.caller'); ?></h3>
 		<div class="data" id="caller">
 			<input type="text" name="caller" placeholder="Name or ext. of caller" />
 		</div>
@@ -84,27 +113,71 @@ Added changelog
 
 
 	<div class="item">
-		<h3>Problem</h3>
+		<h3>Problem<?php asterisk('calls.idProblem'); ?></h3>
 		<div class="data" id="problem">
 			<input type="text" name="problem" placeholder="Existing problem or new problem" />
+
+			<div id="type">
+				<h4>Type of problem<?php asterisk('problem.idType'); ?></h4>
+				<select name="type">
+					<option value='' disabled selected>Please select a type</option>
+<?php
+	$sql = "SELECT * FROM type ORDER BY name";
+	$sth = $dbh->prepare($sql);
+
+	$sth->execute();
+
+	// we're going to use PHP to resolve the recursive relationship
+	$types = array();
+
+	// so we'll empty the search results out into this style of array
+	foreach ($sth->fetchAll() as $row)
+		$types[$row['idType']] = array(
+			'name' => $row['name'],
+			'cat' => $row['category']
+		);
+
+	function categories($type,$types){
+		if(empty($type['cat'])) // base case
+			return $type['name'];
+		else
+			return categories($types[$type['cat']],$types)." -> ".$type['name'];
+	}
+
+	foreach ($types as $id => $type)
+		$types[$id]['path'] = categories($type,$types);
+
+	uasort($types, function($a, $b) {
+		return strcmp($a["path"], $b["path"]);
+	});
+
+	foreach ($types as $id => $type)
+		echo "<option value='$id'>{$type['path']}</option>";
+?>
+				</select>
+
+				<p>Create a new type:<br>
+				<input name="newtype" type="text" placeholder="This will use the category above as its parent"></p>
+			</div>
 		</div>
 	</div>
 
 	<p class="noJS">Please enter the ID of the problem</p>
 	<input type="number" name="idproblem" placeholder="ID of problem" />
+	<input type="text" name="newproblem" placeholder="Name of problem" />
 
 	<div id="resProblem"></div>
 
 	<h2>Call Details</h2>
 
 	<div class="item">
-		<h3>Subject</h3>
+		<h3>Subject<?php asterisk('calls.subject'); ?></h3>
 		<div class="data">
 			<input type="text" name="subject" placeholder="Subject of your call" />
 		</div>
 	</div>
 
-	<h3>Notes</h3>
+	<h3>Notes<?php asterisk('calls.notes'); ?></h3>
 	<textarea name="notes" placeholder="Details of the call"></textarea>
 
 	<div class="ware">
@@ -218,6 +291,9 @@ Added changelog
 	</tr>
 
 <?php
+
+	// output a list of all the problems
+
 	$sql = "
 SELECT problem.idProblem, problem.title, type.idType, type.name AS type,
 
@@ -286,6 +362,7 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 
 <script type="text/javascript">
 	// searching for a caller
+
 	// hide the ID field
 	$('[name="idcaller"]').hide();
 
@@ -335,10 +412,14 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	}
 
 	// the problems box
-	// hide the ID field
+	// hide the no JS backup fields field
 	$('[name="idproblem"]').hide();
+	$('[name="newproblem"]').hide();
 
 	$('[name="problem"]').on('focus keyup',searchProblems);
+
+	// hide the types field (will be shown later if they're making a new problem)
+	$('#type').hide();
 
 	$('[name="problem"]').blur(function(){
 		$('#resProblem').slideUp();
@@ -360,10 +441,11 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 					$('#resProblem p').off('click vclick').on('click vclick', function(){ // chose one of the results
 						// update the hidden field
 						$('[name="idproblem"]').val($(this).data('id'));
+						$('[name="newproblem"]').val($('[name="problem"]').val());
 						var selected = $(this).html();
 						var id = '#prob'+$(this).data('id');
 						$('[name="problem"]').fadeOut(300,function(){
-							$('<p>'+selected+'<br><a href="#" class="change">Change</a></p>').hide().appendTo('#problem').fadeIn().on('click vlick',function(e){ // decided to change what they selected
+							$('<p>'+selected+'<br><a href="#" class="change">Change</a></p>').hide().prependTo('#problem').fadeIn().on('click vlick',function(e){ // decided to change what they selected
 								e.preventDefault();
 								$(this).fadeOut(300, function(){
 									$('[name="problem"]').fadeIn(300).focus();
@@ -372,13 +454,17 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 								$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').show();
 								$('#allProblems '+id).trigger('click');
 								$('#specialists #recommended').hide();
+								$('#type]').fadeOut();
 							});
 						});
-						$('#allProblemsTitle').text('Problem '+$(this).data('id'));
-						$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').hide();
-						$('#allProblems '+id).show().trigger('click').next().show();
-						$('#specialists #recommended').show();
-						specButtons();
+						if($(this).data('id')!='-1') { // not creating a new problem
+							$('#allProblemsTitle').text('Problem '+$(this).data('id'));
+							$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').hide();
+							$('#allProblems '+id).show().trigger('click').next().show();
+							$('#specialists #recommended').show();
+							specButtons();
+						}
+						else $('#type').fadeIn();
 					});
 				},
 				error: function(error) { // when there's a link to a page that doesn't exist

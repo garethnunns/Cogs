@@ -97,6 +97,30 @@ Added changelog
 		}
 	}
 
+	function asterisk($field) {
+		// output an asterisk if it's a mandatory field
+		global $dbh;
+		
+		list($table, $column) = explode('.',$field);
+
+		try {
+			$sql = "SELECT IS_NULLABLE as n  
+					FROM information_schema.columns  
+					WHERE table_name = '$table'
+					AND column_name = '$column'";
+
+			$sth = $dbh->prepare($sql);
+
+			$sth->execute();
+
+			if($sth->fetchColumn()=="NO")
+				echo '<span class="error">*</span>';
+		}
+		catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
 	function solved() {
 		// check to see whether a problem has been solved
 	}
