@@ -105,7 +105,7 @@ Added changelog
 			<input type="text" name="avail" placeholder="e.g. Away til 12/7/18">
 		</div>
 	</div>
-	<p>Let colleagues know when you're avilable so you don't get overlaoded with work</p>
+	<p>Let colleagues know when you're available so you don't get overloaded with work</p>
 
 	<h3>Password</h3>
 	<p>Update your password</p>
