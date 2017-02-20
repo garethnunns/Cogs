@@ -36,7 +36,7 @@ Added changelog
 			</select>
 		</div>
 	</div>
-	<p>Please choose your preferred date format, currently dates are formatted like this: <strong id="time"><?php require_once dirname(__FILE__).'/../time.php'; ?></strong></p>
+	<p>Please choose your preferred date format, currently dates are formatted like this: <strong id="time"><?php require_once dirname(__FILE__).'/../ajax/time.php'; ?></strong></p>
 
 	<div class="set">
 		<h3>Language</h3>
@@ -184,7 +184,7 @@ function updateSettings(reload = true) {
 function updateTime() {
 	$.ajax({
 		type: "GET",
-		url: 'time.php',
+		url: 'ajax/time.php',
 		success: function(data) {
 			$('#time').html(data);
 		},

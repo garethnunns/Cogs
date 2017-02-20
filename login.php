@@ -22,11 +22,10 @@ Added changelog
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 		
-		$sql = "
-SELECT login.idEmp, login.password, emp.jobTitle
-FROM login, emp
-WHERE login.username = :user
-AND login.idEmp = emp.idEmp";
+		$sql = "SELECT login.idEmp, login.password, emp.jobTitle, login.timezone
+				FROM login, emp
+				WHERE login.username = :user
+				AND login.idEmp = emp.idEmp";
 
 		$sth = $dbh->prepare($sql);
 
@@ -43,6 +42,7 @@ AND login.idEmp = emp.idEmp";
 			if(password_verify($password, $user->password)) {
 				$_SESSION['user'] = $user->idEmp;
 				$_SESSION['sudo'] = $user->jobTitle != 2;
+				if(isValidTimezone($user->timezone)) $_SESSION['timezone'] = $user->timezone;
 				header("refresh:0; url=home");
 			}
 			else 
