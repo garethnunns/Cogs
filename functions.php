@@ -130,12 +130,12 @@ Added changelog
 
 			foreach ($problems[$row['idProblem']]['events'] as $key => $event) {
 				if(($event['type']=='solved') && ($event['id']==$row['solvedSpec'])) {
-					$found = true; // the message is already stored
+					$found = true; // the solution is already stored
 					break; // stop searching for efficiency
 				}
 			}
-			if(!$found && !empty($row['solvedSpec'])) // the message isn't already in the array
-				// add the message in the correct position
+			if(!$found && !empty($row['solvedSpec'])) // the solution isn't already in the array
+				// add the solution
 				array_push($problems[$row['idProblem']]['events'], array(
 					'type' => 'solved',
 					'date' => strtotime($row['solvedDate'].' GMT'),
@@ -160,7 +160,7 @@ Added changelog
 				}
 			}
 			if(!$found && !empty($row['idMessage'])) // the message isn't already in the array
-				// add the message in the correct position
+				// add the message
 				array_push($problems[$row['idProblem']]['events'], array(
 					'type' => 'message',
 					'date' => strtotime($row['messDate'].' GMT'),
@@ -186,7 +186,7 @@ Added changelog
 				}
 			}
 			if(!$found && !empty($row['idAssign'])) // the assignment isn't already in the array
-				// add the assignment in the correct position
+				// add the assignment
 				array_push($problems[$row['idProblem']]['events'], array(
 					'type' => 'assign',
 					'date' => strtotime($row['assDate'].' GMT'),
@@ -212,7 +212,7 @@ Added changelog
 				}
 			}
 			if(!$found && !empty($row['idCalls'])) // the call isn't already in the array
-				// add the call in the correct position
+				// add the call
 				array_push($problems[$row['idProblem']]['events'], array(
 					'type' => 'call',
 					'date' => strtotime($row['callDate'].' GMT'),
@@ -233,12 +233,22 @@ Added changelog
 					)
 				));
 
+			// order by date
 			usort($problems[$row['idProblem']]['events'], function($a, $b) {
 				return $a['date'] - $b['date'];
 			});
 
+			// reverse chronological
 			$problems[$row['idProblem']]['events'] = array_reverse($problems[$row['idProblem']]['events']);
 		}
+
+		// sort by most recent change
+		uasort($problems, function($a, $b) {
+			return $a['events'][0]['date'] - $b['events'][0]['date'];
+		});
+
+		// reverse chronological
+		$problems = array_reverse($problems,true);
 
 		return $problems;
 	}
