@@ -62,7 +62,84 @@ Created and completed page
 						$sth->execute(array($dept));
 					}
 
-					echo "<p><strong>Successfully added {$_POST['firstName']} {$_POST['surname']}</strong></p>";
+					echo "<p><strong>Successfully added {$_POST['firstName']} {$_POST['surname']} #$idemp</strong></p>";
+				}
+			}
+		}
+		catch (PDOException $e) {
+			echo "<p class='error'>".$e->getMessage()."</p>";
+		}
+	}
+
+	if(isset($_POST['edit'])) { // editing a user
+		try {
+			if(valid('emp.firstName',$_POST['firstName'])
+			&& valid('emp.surname',$_POST['surname'])
+			&& valid('emp.tel',$_POST['tel'])
+			&& valid('emp.email',$_POST['email'])) {
+
+				$sql = "UPDATE emp 
+						SET site = ?,
+						jobTitle = ?,
+						firstName = ?,
+						surname = ?,
+						tel = ?,
+						email = ?
+						WHERE idEmp = ?;
+
+						-- delete all the old specialisms
+						DELETE FROM specialist WHERE idEmp = ?;
+
+						-- delete all the old departments
+						DELETE FROM deptEmp WHERE idEmp = ?;";
+
+				$sth = $dbh->prepare($sql);
+
+				$sth->execute(array(
+					$_POST['site'],
+					$_POST['jobTitle'],
+					$_POST['firstName'],
+					$_POST['surname'],
+					$_POST['tel'],
+					$_POST['email'],
+					$_POST['idemp'],
+					$_POST['idemp'],
+					$_POST['idemp']
+				));
+
+				if((!empty($_POST['username']) && !empty($_POST['password']))
+				&& (valid('login.username',$_POST['username'])
+				&& valid('login.password',$_POST['password'])
+				&& valid('login.password',password_hash($_POST['password'],PASSWORD_DEFAULT))
+				&& valid('login.availablity',$_POST['availablity']))) { 
+					$sql = "UPDATE login 
+						SET username = ?,
+						password = ?,
+						timezone = ?,
+						lang = ?,
+						availablity = ?
+						WHERE idEmp = ?;";
+
+					$sth = $dbh->prepare($sql);
+
+					$sth->execute(array(
+						$_POST['username'],
+						password_hash($_POST['password'],PASSWORD_DEFAULT),
+						$_POST['timezone'],
+						$_POST['lang'],
+						$_POST['availablity'],
+						$_POST['idemp']
+					));
+				}
+
+				foreach ($_POST['specialisms'] as $specialism) { // add the new specialisms
+					$sth = $dbh->prepare("INSERT INTO specialist VALUES (?, ?);");
+					$sth->execute(array($_POST['idemp'],$specialism));
+				}
+
+				foreach ($_POST['dept'] as $dept) { // add the new departments
+					$sth = $dbh->prepare("INSERT INTO deptEmp VALUES (?, ?);");
+					$sth->execute(array($dept,$_POST['idemp']));
 				}
 			}
 		}
@@ -88,10 +165,6 @@ Created and completed page
 			echo "<p class='error'>".$e->getMessage()."</p>";
 		}
 	}
-
-	if(isset($_POST['edit'])) { // editing a user
-
-	}
 ?>
 
 <h1>Users</h1>
@@ -115,18 +188,23 @@ Created and completed page
 
 	<p>Specialism:<br><select name="specialisms[]" multiple="multiple">
 <?php
-	$sql = "SELECT *, (
-				SELECT COUNT(t2.idType) FROM type AS t2 WHERE t2.idType IN (
-					SELECT specialist.idType 
-					FROM specialist 
-					WHERE specialist.idEmp = {$user->idEmp}
-					AND t1.idType = specialist.idType
-				)
-			) AS selected
-			FROM type AS t1";
-	$sth = $dbh->prepare($sql);
+	try {
+		$sql = "SELECT *, (
+					SELECT COUNT(t2.idType) FROM type AS t2 WHERE t2.idType IN (
+						SELECT specialist.idType 
+						FROM specialist 
+						WHERE specialist.idEmp = ".($user->idEmp ? $user->idEmp : "'*'")."
+						AND t1.idType = specialist.idType
+					)
+				) AS selected
+				FROM type AS t1";
+		$sth = $dbh->prepare($sql);
 
-	$sth->execute();
+		$sth->execute();
+	}
+	catch (PDOException $e) {
+		echo "<p class='error'>".$e->getMessage()."</p>";
+	}
 
 	// we're going to use PHP to resolve the recursive relationship
 	$types = array();
@@ -163,7 +241,7 @@ Created and completed page
 	$sql = "SELECT *, (
 				SELECT COUNT(d2.idDept) 
 				FROM deptEmp AS d2 
-				WHERE d2.idEmp = {$user->idEmp}
+				WHERE d2.idEmp = ".($user->idEmp ? $user->idEmp : "'*'")."
 				AND d1.idDept = d2.idDept
 			) AS selected
 			FROM dept AS d1
@@ -198,7 +276,7 @@ Created and completed page
 	<p>Username<?php asterisk('login.username'); ?>: <input name="username" type="text" value="<?php echo $user->username ?>"></p>
 	<p>Password<?php asterisk('login.password'); ?>: <input name="password" type="password"></p>
 
-	<p>Availability<?php asterisk('login.availablity'); ?>: <input name="availability" type="text" value="<?php echo $user->availablity ?>"></p>
+	<p>Availability<?php asterisk('login.availablity'); ?>: <input name="availablity" type="text" value="<?php echo $user->availablity ?>"></p>
 
 	<p>Timezone<?php asterisk('login.timezone'); ?>: <select name="timezone">
 <?php
@@ -226,7 +304,7 @@ Created and completed page
 
 <?php
 	if(!isset($_GET['edit'])) echo '<input name="add" type="submit" value="Add user" />';
-	else echo '<input name="edit" type="submit" value="Edit user" />';
+	else echo '<input type="hidden" name="idemp" value="'.$user->idEmp.'"><input name="edit" type="submit" value="Edit user" />';
 ?>
 
 </form>
