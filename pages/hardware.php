@@ -4,14 +4,19 @@ A list of hardware, split into types, makes, models and then each individual ite
 
 Change log
 ==========
-18/2/17 - Joe Yelland
-Updated the SQL and allowed the page to output the data into the table
-
+19/2/17 - Joe Yelland, Lewys Bonds, Ryan Roberts
+Fixed the SQL and made it functional
+19/2/17 - Joe Yelland
+Added ability to output the table data
 17/2/17 - Danny Jaine
 Added SQL
-
+made it out put in the table appropriately
 14/2/17 - Gareth Nunns
 Added changelog
+
+
+
+
 
 */
 	require_once dirname(__FILE__).'/../check.php'; //cbeck the user is logged in
@@ -29,19 +34,12 @@ Added changelog
 	</tr>
 
 <?php
-	$sql="SELECT hard.idHard, hard.make, hard.model, hard.notes
+	$sql="SELECT hard.idHard, hard.make, hard.model, hard.notes, hardProb.idProblem, problem.title
 	FROM hard
-	LEFT JOIN hardType
-	ON hard.idHardType = hardType.idHardType
-	LEFT JOIN hardItem
-	ON hard.idHard = hardItem.idHard
-	LEFT JOIN hardProb 
+	LEFT JOIN hardProb
 	ON hard.idHard = hardProb.idHard
-	LEFT JOIN problem
-	ON hardProb.idProblem = problem.idProblem
-	LEFT JOIN type
-	ON problem.idType = type.idType
-	ORDER BY hard.idHard ASC";
+    LEFT JOIN problem
+    ON hardProb.idProblem = problem.idProblem";
 
 	$sth = $dbh->prepare($sql); //executing SQL
 	$sth->execute();
@@ -51,8 +49,8 @@ Added changelog
 		<td>{$row['idHard']}</td>
 		<td>{$row['make']}</td>
 		<td>{$row['model']}</td>
-		<td class='numProbs'><span>".mt_rand(0,14)."</span><br>Unsolved</td>
-		<td class='numProbs'><span>".mt_rand(0,21)."</span><br>Solved</td>
+		<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Unsolved</td>
+		<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Solved</td>
 		</tr>
 
 		<tr>
@@ -61,7 +59,7 @@ Added changelog
 		<h2>{$row['make']}</h2></h2>
 		<p>{$row['notes']}</p>
 		<h3>Problems with {$row['make']}</h3>
-		<p>Here would be a list of porblems that there have been with the {$row['make']}</p>
+		
 		</div>
 		</td>
 		</tr>";
