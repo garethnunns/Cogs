@@ -97,6 +97,10 @@ Added changelog
 		}
 	}
 
+	function solved() {
+		// check to see whether a problem has been solved
+	}
+
 	function isValidTimezone($timezone) {
 		@$tz=timezone_open($timezone);
 		return $tz!==FALSE;
@@ -121,134 +125,119 @@ Added changelog
 					'events' => array()
 				);
 
-			// messages
+			// solutions
 			$found = false; // variable to be used when traversing arrays
-			// where the message will be positioned in the array
-			$pos = count($problems[$row['idProblem']]['events'])-1; 
 
 			foreach ($problems[$row['idProblem']]['events'] as $key => $event) {
 				if(($event['type']=='solved') && ($event['id']==$row['solvedSpec'])) {
 					$found = true; // the message is already stored
 					break; // stop searching for efficiency
 				}
-				if($event['date'] > strtotime($row['solvedDate'])) 
-					$pos = $key; // so that they're stored in descending date order
 			}
 			if(!$found && !empty($row['solvedSpec'])) // the message isn't already in the array
 				// add the message in the correct position
-				array_splice($problems[$row['idProblem']]['events'], $pos+1, 0, array(
-					array(
-						'type' => 'solved',
-						'date' => strtotime($row['solvedDate'].' '.date_default_timezone_get()),
+				array_push($problems[$row['idProblem']]['events'], array(
+					'type' => 'solved',
+					'date' => strtotime($row['solvedDate'].' GMT'),
+					'id' => $row['solvedSpec'],
+					'message' => $row['solvedMess'],
+					'specialist' => array(
 						'id' => $row['solvedSpec'],
-						'message' => $row['solvedMess'],
-						'specialist' => array(
-							'id' => $row['solvedSpec'],
-							'name' => $row['solvedName'],
-							'tel' => $row['solvedTel'],
-							'job' => $row['solvedJob']
-						)
+						'name' => $row['solvedName'],
+						'tel' => $row['solvedTel'],
+						'job' => $row['solvedJob']
 					)
 				));
 
 			// messages
-			// reset vars
+			// reset var
 			$found = false;
-			$pos = count($problems[$row['idProblem']]['events'])-1; 
 
 			foreach ($problems[$row['idProblem']]['events'] as $key => $event) {
 				if(($event['type']=='message') && ($event['id']==$row['idMessage'])) {
 					$found = true; // the message is already stored
 					break; // stop searching for efficiency
 				}
-				if($event['date'] > strtotime($row['messDate'])) 
-					$pos = $key; // so that they're stored in descending date order
 			}
 			if(!$found && !empty($row['idMessage'])) // the message isn't already in the array
 				// add the message in the correct position
-				array_splice($problems[$row['idProblem']]['events'], $pos+1, 0, array(
-					array(
-						'type' => 'message',
-						'date' => strtotime($row['messDate'].' '.date_default_timezone_get()),
-						'id' => $row['idMessage'],
-						'subject' => $row['messSub'],
-						'message' => $row['messMess'],
-						'specialist' => array(
-							'id' => $row['messSpec'],
-							'name' => $row['messName'],
-							'tel' => $row['messTel'],
-							'job' => $row['messJob']
-						)
+				array_push($problems[$row['idProblem']]['events'], array(
+					'type' => 'message',
+					'date' => strtotime($row['messDate'].' GMT'),
+					'id' => $row['idMessage'],
+					'subject' => $row['messSub'],
+					'message' => $row['messMess'],
+					'specialist' => array(
+						'id' => $row['messSpec'],
+						'name' => $row['messName'],
+						'tel' => $row['messTel'],
+						'job' => $row['messJob']
 					)
 				));
 
 			// assignments
-			// reset vars
+			// reset var
 			$found = false;
-			$pos = count($problems[$row['idProblem']]['events'])-1; 
 			
 			foreach ($problems[$row['idProblem']]['events'] as $key => $event) {
 				if(($event['type']=='assign') && ($event['id']==$row['idAssign'])) {
 					$found = true; // the assignment is already stored
 					break; // stop searching for efficiency
 				}
-				if($event['date'] > strtotime($row['assDate'])) 
-					$pos = $key; // so that they're stored in descending date order
 			}
 			if(!$found && !empty($row['idAssign'])) // the assignment isn't already in the array
 				// add the assignment in the correct position
-				array_splice($problems[$row['idProblem']]['events'], $pos+1, 0, array(
-					array(
-						'type' => 'assign',
-						'date' => strtotime($row['assDate'].' '.date_default_timezone_get()),
-						'id' => $row['idAssign'],
-						'by' => array(
-							'id' => $row['assBy'],
-							'name' => $row['assByName']
-						),
-						'to' => array(
-							'id' => $row['assTo'],
-							'name' => $row['assToName']
-						)
+				array_push($problems[$row['idProblem']]['events'], array(
+					'type' => 'assign',
+					'date' => strtotime($row['assDate'].' GMT'),
+					'id' => $row['idAssign'],
+					'by' => array(
+						'id' => $row['assBy'],
+						'name' => $row['assByName']
+					),
+					'to' => array(
+						'id' => $row['assTo'],
+						'name' => $row['assToName']
 					)
 				));
 
 			// calls
-			// reset vars
+			// reset var
 			$found = false;
-			$pos = count($problems[$row['idProblem']]['events'])-1; 
 			
 			foreach ($problems[$row['idProblem']]['events'] as $key => $event) {
 				if(($event['type']=='call') && ($event['id']==$row['idCalls'])) {
 					$found = true; // the call is already stored
 					break; // stop searching for efficiency
 				}
-				if($event['date'] > strtotime($row['callDate'])) 
-					$pos = $key; // so that they're stored in descending date order
 			}
 			if(!$found && !empty($row['idCalls'])) // the call isn't already in the array
 				// add the call in the correct position
-				array_splice($problems[$row['idProblem']]['events'], $pos+1, 0, array(
-					array(
-						'type' => 'call',
-						'date' => strtotime($row['callDate'].' '.date_default_timezone_get()),
-						'id' => $row['idCalls'],
-						'subject' => $row['callSubject'],
-						'message' => $row['callNotes'],
-						'caller' => array(
-							'id' => $row['caller'],
-							'name' => $row['callerName'],
-							'tel' => $row['callerTel'],
-							'job' => $row['callerJob']
-						),
-						'specialist' => array(
-							'id' => $row['op'],
-							'name' => $row['opName'],
-							'tel' => $row['opTel'],
-							'job' => $row['opJob']
-						)
+				array_push($problems[$row['idProblem']]['events'], array(
+					'type' => 'call',
+					'date' => strtotime($row['callDate'].' GMT'),
+					'id' => $row['idCalls'],
+					'subject' => $row['callSubject'],
+					'message' => $row['callNotes'],
+					'caller' => array(
+						'id' => $row['caller'],
+						'name' => $row['callerName'],
+						'tel' => $row['callerTel'],
+						'job' => $row['callerJob']
+					),
+					'specialist' => array(
+						'id' => $row['op'],
+						'name' => $row['opName'],
+						'tel' => $row['opTel'],
+						'job' => $row['opJob']
 					)
 				));
+
+			usort($problems[$row['idProblem']]['events'], function($a, $b) {
+				return $a['date'] - $b['date'];
+			});
+
+			$problems[$row['idProblem']]['events'] = array_reverse($problems[$row['idProblem']]['events']);
 		}
 
 		return $problems;
