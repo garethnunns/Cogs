@@ -4,14 +4,21 @@ A list of software, where the user can see & update all the software and operati
 
 Change log
 ==========
+20/2/17 - Joe Yelland
+Added the ability for query to output the OS for each software
+
 19/2/17 - Joe Yelland, Lewys Bonds, Ryan Roberts
 Fixed the SQL and made it functional
+
 18/2/17- Joe Yelland
-Updated SQL and added ability for the website to outout the query
+Updated SQL and added ability for the website to output the query
+
 19/2/17 - Joe Yelland 
-made it out put in the table appropriately
+made the page output the table 
+
 18/2/17 - Danny Jaine
-Added SQL 
+Added SQL
+
 14/2/17 - Gareth Nunns
 Added changelog
 
@@ -33,13 +40,14 @@ Added changelog
 	</tr>
 
 <?php // SQL creating table with all information needed for the software page
-	$sql="SELECT soft.idSoft, soft.name, soft.notes, soft.license, problem.idProblem, problem.title
+	$sql="SELECT soft.idSoft, soft.name, soft.notes, soft.license, problem.idProblem, problem.title, OS.osname
 	FROM soft
 	LEFT JOIN softProb
 	ON soft.idSoft = softProb.idSoft
     LEFT JOIN problem
-    ON softProb.idProblem = problem.idProblem";
-
+    ON softProb.idProblem = problem.idProblem
+    LEFT JOIN OS
+    ON softProb.idOS = OS.idOS";
 	$sth = $dbh->prepare($sql); //executing SQL
 	$sth->execute();
 
@@ -47,7 +55,7 @@ Added changelog
 			echo "<tr>
 			<td>{$row['idSoft']}</td>
 			<td>{$row['name']}</td>
-			<td>Install OS here :)</td>
+			<td>{$row['osname']}</td>
 			<td>{$row['license']}</td>
 			<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Unsolved</td>
 			<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Solved</td>
