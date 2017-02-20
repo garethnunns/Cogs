@@ -4,20 +4,18 @@ A list of hardware, split into types, makes, models and then each individual ite
 
 Change log
 ==========
+
 19/2/17 - Joe Yelland, Lewys Bonds, Ryan Roberts
 Fixed the SQL and made it functional
+
 19/2/17 - Joe Yelland
 Added ability to output the table data
+
 17/2/17 - Danny Jaine
 Added SQL
-made it out put in the table appropriately
+
 14/2/17 - Gareth Nunns
 Added changelog
-
-
-
-
-
 */
 	require_once dirname(__FILE__).'/../check.php'; //cbeck the user is logged in
 	require_once dirname(__FILE__).'/../site/secure.php'; //connect to the database
