@@ -9,10 +9,13 @@ Change log
 Added changelog
 18/2/17 - Danny Jaine
 Added SQL 
+18/2/17- Joe Yelland
+Updated SQL and added ability for the website to outout the query
 
 */
 
-	require_once dirname(__FILE__).'/../check.php';
+	require_once dirname(__FILE__).'/../check.php'; //cbeck the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; //connect to the database
 ?>
 
 <h1>Software</h1>
@@ -26,45 +29,45 @@ Added SQL
 		<th colspan="2">Problems</th>
 	</tr>
 
-<?php
+<?php // SQL creating table with all information needed for the software page
+	$sql="SELECT soft.idSoft, soft.name,soft.license,soft.notes 
+	FROM soft
+	LEFT JOIN softProb
+	ON soft.idSoft = softProb.idSoft
+	LEFT JOIN problem
+	ON softProb.idProblem = problem.idProblem
+	LEFT JOIN type
+	ON problem.idType = type.idType
+	LEFT JOIN specialist
+	ON type.idType = specialist.idType
+	LEFT JOIN OS
+	ON softProb.idOS = OS.idOS
+	ORDER BY soft.idSoft ASC";
 
-	$sql="
-SELECT * 
-FROM soft
-LEFT JOIN softProb
-ON soft.idSoft = softProb.idSoft
-LEFT JOIN problem
-ON softProb.idProblem = problem.idProblem
-LEFT JOIN type
-ON problem.idType = type.idType
-LEFT JOIN specialist
-ON type.idType = specialist.idType
-LEFT JOIN OS
-ON softProb.idOS = OS.idOS
-ORDER BY soft.idSoft ASC
-	
-	foreach ($tSoft as $id => $soft) {
-		echo "<tr id='soft$id'>
-		<td>{$id}</td>
-		<td>{$soft['name']}</td>
-		<td>{$soft['os']}</td>
-		<td>{$soft['license']}</td>
-		<td class='numProbs'><span>".mt_rand(0,14)."</span><br>Unsolved</td>
-		<td class='numProbs'><span>".mt_rand(0,21)."</span><br>Solved</td>
-		</tr>
+	$sth = $dbh->prepare($sql); //executing SQL
+	$sth->execute();
 
-		<tr>
-		<td colspan='5'>
-		<div class='wareDeets'>
-		<h2>{$soft['name']}</h2></h2>
-		<p>Here would be some notes about {$soft['name']}, however here is some filler text instead:<br>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum augue libero, lobortis semper laoreet vel, commodo sit amet leo. Proin pretium ipsum ipsum, sit amet pharetra orci condimentum in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris bibendum nisl hendrerit, auctor enim sed, sollicitudin velit. Proin vitae convallis elit, hendrerit auctor metus. Praesent consequat efficitur erat, nec sagittis nibh volutpat at. Proin vel porttitor tortor, in consectetur odio. Fusce hendrerit congue consectetur.</p>
-		<h3>Problems with {$soft['name']}</h3>
-		<p>Here would be a list of porblems that there have been with the {$soft['name']}</p>
-		</div>
-		</td>
-		</tr>";
-	}
+		foreach ($sth->fetchAll() as $row) //Outputing the information onto the page
+			echo "<tr>
+			<td>{$row['idSoft']}</td>
+			<td>{$row['name']}</td>
+			<td>Install OS here :)</td>
+			<td>{$row['license']}</td>
+			<td class='numProbs'><span>".mt_rand(0,14)."</span><br>Unsolved</td>
+			<td class='numProbs'><span>".mt_rand(0,21)."</span><br>Solved</td>
+			</tr>
+
+			<tr>
+			<td colspan='5'>
+			<div class='wareDeets'>
+			<h2>{$row['name']}</h2></h2>
+			<p>{$row['notes']}</p>
+			<h3>Problems with {$row['name']}</h3>
+			<p>Here would be a list of porblems that there have been with the {$row['name']}</p>
+			</div>
+			</td>
+			</tr>";
+
 ?>
 </table>
 
