@@ -4,13 +4,16 @@ A list of software, where the user can see & update all the software and operati
 
 Change log
 ==========
-
-14/2/17 - Gareth Nunns
-Added changelog
-18/2/17 - Danny Jaine
-Added SQL 
+19/2/17 - Joe Yelland, Lewys Bonds, Ryan Roberts
+Fixed the SQL and made it functional
 18/2/17- Joe Yelland
 Updated SQL and added ability for the website to outout the query
+19/2/17 - Joe Yelland 
+made it out put in the table appropriately
+18/2/17 - Danny Jaine
+Added SQL 
+14/2/17 - Gareth Nunns
+Added changelog
 
 */
 
@@ -30,19 +33,12 @@ Updated SQL and added ability for the website to outout the query
 	</tr>
 
 <?php // SQL creating table with all information needed for the software page
-	$sql="SELECT soft.idSoft, soft.name,soft.license,soft.notes 
+	$sql="SELECT soft.idSoft, soft.name, soft.notes, soft.license, problem.idProblem, problem.title
 	FROM soft
 	LEFT JOIN softProb
 	ON soft.idSoft = softProb.idSoft
-	LEFT JOIN problem
-	ON softProb.idProblem = problem.idProblem
-	LEFT JOIN type
-	ON problem.idType = type.idType
-	LEFT JOIN specialist
-	ON type.idType = specialist.idType
-	LEFT JOIN OS
-	ON softProb.idOS = OS.idOS
-	ORDER BY soft.idSoft ASC";
+    LEFT JOIN problem
+    ON softProb.idProblem = problem.idProblem";
 
 	$sth = $dbh->prepare($sql); //executing SQL
 	$sth->execute();
@@ -53,8 +49,8 @@ Updated SQL and added ability for the website to outout the query
 			<td>{$row['name']}</td>
 			<td>Install OS here :)</td>
 			<td>{$row['license']}</td>
-			<td class='numProbs'><span>".mt_rand(0,14)."</span><br>Unsolved</td>
-			<td class='numProbs'><span>".mt_rand(0,21)."</span><br>Solved</td>
+			<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Unsolved</td>
+			<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Solved</td>
 			</tr>
 
 			<tr>
@@ -63,7 +59,7 @@ Updated SQL and added ability for the website to outout the query
 			<h2>{$row['name']}</h2></h2>
 			<p>{$row['notes']}</p>
 			<h3>Problems with {$row['name']}</h3>
-			<p>Here would be a list of porblems that there have been with the {$row['name']}</p>
+				<p><a href='/software#prob{$row['idSoft']}'><strong>{$row['idProblem']}</strong> - {$row['title']}</a></p>
 			</div>
 			</td>
 			</tr>";
