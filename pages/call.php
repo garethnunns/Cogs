@@ -180,7 +180,11 @@ assign.assTo, CONCAT(assToemp.firstName, ' ', assToemp.surname) AS assToName, as
 -- calls
 calls.idCalls, calls.caller, CONCAT(calleremp.firstName, ' ', calleremp.surname) AS callerName, calleremp.tel AS callerTel, callerJob.name AS callerJob,
 calls.op, CONCAT(opemp.firstName, ' ', opemp.surname) AS opName, opemp.tel AS opTel, opJob.name AS opJob,
-calls.date AS callDate, calls.subject AS callSubject, calls.notes AS callNotes
+calls.date AS callDate, calls.subject AS callSubject, calls.notes AS callNotes,
+
+-- solved
+solved.specialist AS solvedSpec, solved.date AS solvedDate, solved.message AS solvedMess,
+CONCAT(specemp.firstName, ' ', specemp.surname) as solvedName, specemp.tel as solvedTel, specJob.name as solvedJob
 
 FROM problem
 
@@ -205,6 +209,11 @@ LEFT JOIN jobTitle as callerJob ON calleremp.jobTitle = callerJob.idJobTitle
 LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
+-- solved 
+LEFT JOIN solved ON problem.idProblem = solved.idProblem
+LEFT JOIN emp AS specemp ON solved.specialist = specemp.idEmp 
+LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
+ 
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 
 	$sth = $dbh->prepare($sql);

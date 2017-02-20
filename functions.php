@@ -5,10 +5,13 @@ Functions used across the site.
 Change log
 ==========
 
+20/2/17 - Gareth Nunns
+Updated storeProblems function
+
 18/2/17 - Gareth Nunns
 Added translate function outline
 Added longAgoEpoch function
-Added storeProblem function
+Added storeProblems function
 Updated outputProblem function
 Removed outputResponse function
 
@@ -90,6 +93,36 @@ Added changelog
 			// messages
 			$found = false; // variable to be used when traversing arrays
 			// where the message will be positioned in the array
+			$pos = count($problems[$row['idProblem']]['events'])-1; 
+
+			foreach ($problems[$row['idProblem']]['events'] as $key => $event) {
+				if(($event['type']=='solved') && ($event['id']==$row['solvedSpec'])) {
+					$found = true; // the message is already stored
+					break; // stop searching for efficiency
+				}
+				if($event['date'] > strtotime($row['solvedDate'])) 
+					$pos = $key; // so that they're stored in descending date order
+			}
+			if(!$found && !empty($row['solvedSpec'])) // the message isn't already in the array
+				// add the message in the correct position
+				array_splice($problems[$row['idProblem']]['events'], $pos+1, 0, array(
+					array(
+						'type' => 'solved',
+						'date' => strtotime($row['solvedDate'].' '.date_default_timezone_get()),
+						'id' => $row['solvedSpec'],
+						'message' => $row['solvedMess'],
+						'specialist' => array(
+							'id' => $row['solvedSpec'],
+							'name' => $row['solvedName'],
+							'tel' => $row['solvedTel'],
+							'job' => $row['solvedJob']
+						)
+					)
+				));
+
+			// messages
+			// reset vars
+			$found = false;
 			$pos = count($problems[$row['idProblem']]['events'])-1; 
 
 			foreach ($problems[$row['idProblem']]['events'] as $key => $event) {
@@ -339,7 +372,7 @@ Added changelog
 
 				echo "</p>
 
-				<p>{$event['specialist']['name']} <em>{$event['specialist']['id']}</em><br>
+				<p>{$event['specialist']['name']} <em>#{$event['specialist']['id']}</em><br>
 				{$event['specialist']['tel']}<br>
 				<em>{$event['specialist']['job']}</em></p>
 				</div>

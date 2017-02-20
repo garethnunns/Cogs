@@ -4,8 +4,12 @@ Outputs a list of problems solved by that user (or if it's a receptionist all of
 
 Change log
 ==========
+
+20/2/17 - Gareth Nunns
+Corrected SQL
+
 18/2/17 - Lewys Bonds
-added the solved to the SQL
+Added the solved to the SQL
 
 18/2/17 - Gareth Nunns
 Added same functionality as problems page - needs to be converted to have solutions
@@ -55,11 +59,11 @@ assign.assTo, CONCAT(assToemp.firstName, ' ', assToemp.surname) AS assToName, as
 -- calls
 calls.idCalls, calls.caller, CONCAT(calleremp.firstName, ' ', calleremp.surname) AS callerName, calleremp.tel AS callerTel, callerJob.name AS callerJob,
 calls.op, CONCAT(opemp.firstName, ' ', opemp.surname) AS opName, opemp.tel AS opTel, opJob.name AS opJob,
-calls.date AS callDate, calls.subject AS callSubject, calls.notes AS callNotes
+calls.date AS callDate, calls.subject AS callSubject, calls.notes AS callNotes,
 
 -- solved
-solved.idProblem AS solvedId, solved.specialist AS specName, solved.message AS solvedMess, solved.date AS solvedDate
-
+solved.specialist AS solvedSpec, solved.date AS solvedDate, solved.message AS solvedMess,
+CONCAT(specemp.firstName, ' ', specemp.surname) as solvedName, specemp.tel as solvedTel, specJob.name as solvedJob
 
 FROM problem
 
@@ -86,18 +90,12 @@ LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
 -- solved 
 LEFT JOIN solved ON problem.idProblem = solved.idProblem
-LEFT JOIN emp AS specemp ON solved.specialist = emp.idEmp 
+LEFT JOIN emp AS specemp ON solved.specialist = specemp.idEmp 
 LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
 
-
-
 WHERE problem.idProblem IN (SELECT solved.idProblem FROM solved)
-WHERE problem.idProblem IN (SELECT TOP 1 idProblem FROM assign WHERE assDate ASC )
  
-ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC
-
--- temporarily removed
--- WHERE emp.idEmp = :empid";
+ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	
 	$sth = $dbh->prepare($sql);
 
