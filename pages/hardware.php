@@ -4,15 +4,18 @@ A list of hardware, split into types, makes, models and then each individual ite
 
 Change log
 ==========
+18/2/17 - Joe Yelland
+Updated the SQL and allowed the page to output the data into the table
 
-14/2/17 - Gareth Nunns
-Added changelog
 17/2/17 - Danny Jaine
 Added SQL
 
-*/
+14/2/17 - Gareth Nunns
+Added changelog
 
-	require_once dirname(__FILE__).'/../check.php';
+*/
+	require_once dirname(__FILE__).'/../check.php'; //cbeck the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; //connect to the database
 ?>
 
 <h1>Hardware</h1>
@@ -26,26 +29,28 @@ Added SQL
 	</tr>
 
 <?php
-$sql="	
-SELECT * 
-FROM hard
-LEFT JOIN hardType
-ON hard.idHardType = hardType.idHardType
-LEFT JOIN hardItem
-ON hard.idHard = hardItem.idHard
-LEFT JOIN hardProb 
-ON hard.idHard = hardProb.idHard
-LEFT JOIN problem
-ON hardProb.idProblem = problem.idProblem
-LEFT JOIN type
-ON problem.idType = type.idType
-ORDER BY hard.idHard ASC
-	
-	foreach ($tHard as $id => $hard) {
-		echo "<tr id='hard$id'>
-		<td>{$id}</td>
-		<td>{$hard['name']}</td>
-		<td>{$hard['type']}</td>
+	$sql="SELECT hard.idHard, hard.make, hard.model, hard.notes
+	FROM hard
+	LEFT JOIN hardType
+	ON hard.idHardType = hardType.idHardType
+	LEFT JOIN hardItem
+	ON hard.idHard = hardItem.idHard
+	LEFT JOIN hardProb 
+	ON hard.idHard = hardProb.idHard
+	LEFT JOIN problem
+	ON hardProb.idProblem = problem.idProblem
+	LEFT JOIN type
+	ON problem.idType = type.idType
+	ORDER BY hard.idHard ASC";
+
+	$sth = $dbh->prepare($sql); //executing SQL
+	$sth->execute();
+
+	foreach ($sth->fetchAll() as $row) //Outputing the information onto the page
+		echo "<tr>
+		<td>{$row['idHard']}</td>
+		<td>{$row['make']}</td>
+		<td>{$row['model']}</td>
 		<td class='numProbs'><span>".mt_rand(0,14)."</span><br>Unsolved</td>
 		<td class='numProbs'><span>".mt_rand(0,21)."</span><br>Solved</td>
 		</tr>
@@ -53,15 +58,14 @@ ORDER BY hard.idHard ASC
 		<tr>
 		<td colspan='5'>
 		<div class='wareDeets'>
-		<h2>{$hard['name']}</h2></h2>
-		<p>Here would be some notes about {$hard['name']}, however here is some filler text instead:<br>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum augue libero, lobortis semper laoreet vel, commodo sit amet leo. Proin pretium ipsum ipsum, sit amet pharetra orci condimentum in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris bibendum nisl hendrerit, auctor enim sed, sollicitudin velit. Proin vitae convallis elit, hendrerit auctor metus. Praesent consequat efficitur erat, nec sagittis nibh volutpat at. Proin vel porttitor tortor, in consectetur odio. Fusce hendrerit congue consectetur.</p>
-		<h3>Problems with {$hard['name']}</h3>
-		<p>Here would be a list of porblems that there have been with the {$hard['name']}</p>
+		<h2>{$row['make']}</h2></h2>
+		<p>{$row['notes']}</p>
+		<h3>Problems with {$row['make']}</h3>
+		<p>Here would be a list of porblems that there have been with the {$row['make']}</p>
 		</div>
 		</td>
 		</tr>";
-	}
+	
 ?>
 </table>
 
