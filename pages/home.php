@@ -16,8 +16,6 @@ Added changelog
 	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
 	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 
-	session_start();
-
 	if(!isset($_SESSION['welcome'])) { // we haven't welcomed the user
 		$sql = "SELECT CONCAT(emp.firstName, ' ', emp.surname) AS name
 				FROM emp

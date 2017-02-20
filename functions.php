@@ -66,6 +66,37 @@ Added changelog
 			return floor($diff/(24*60*60)).' days ago';
 	}
 
+	function valid($field, $text) {
+		// verify the text is valid to be inserted
+		global $dbh;
+
+		list($table, $column) = explode('.',$field);
+
+		try {
+			$sql = "SELECT character_maximum_length as len, IS_NULLABLE as n   
+					FROM information_schema.columns  
+					WHERE table_name = '$table'
+					AND column_name = '$column'";
+
+			$sth = $dbh->prepare($sql);
+
+			$sth->execute();
+
+			$attr = $sth->fetch(PDO::FETCH_OBJ);
+
+			if(strlen($text) > $attr->len)
+				return false;
+
+			if(empty(ltrim($text)) && ($attr->n == "NO"))
+				return false;
+
+			return true;
+		}
+		catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
 	function isValidTimezone($timezone) {
 		@$tz=timezone_open($timezone);
 		return $tz!==FALSE;

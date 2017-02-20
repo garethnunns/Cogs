@@ -15,11 +15,59 @@ Added changelog
 
 	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
 	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
+
+	if(isset($_POST['add'])) { // adding a call
+		// add the new problem (if there is one)
+		if(isset($_POST['newproblem'])) { // the user chose to create a new problem
+			$prob = $dbh->lastInsertId();
+		}
+		else $prob = $_POST['idproblem'];
+
+		// add the call
+		if(valid('calls.subject',$_POST['subject']) &&
+			valid('calls.notes',$_POST['notes']) &&
+			isset($_POST['idcaller']) && 
+			isset($_POST['idproblem'])) { // validation
+			try {
+				$sth = $dbh->prepare("INSERT INTO calls (idProblem, caller, op, `date`, subject, notes) 
+					VALUES (?, ?, ?, ?, ?, ?)");
+
+				$sth->execute(array($prob, $_POST['idcaller'], $_SESSION['user'], gmdate('Y-m-d H:i:s'), $_POST['subject'], $_POST['notes']));
+
+				$call = $dbh->lastInsertId();
+			}
+			catch (PDOException $e) {
+				echo $e->getMessage();
+			}
+		}
+	}
 ?>
 
 <form method="POST" class="call">
 
 	<h1>New Call</h1>
+
+<?php
+	try {
+		$sql = "SELECT CONCAT(emp.firstName, ' ', emp.surname) AS name, emp.tel
+				FROM emp
+				WHERE emp.idEmp = {$_SESSION['user']}";
+
+		$sth = $dbh->prepare($sql);
+
+		$sth->execute();
+
+		if(!$sth->rowCount()) // we should really be able to find them in the database
+			echo '<p class="error">'.translate('There has been a fundamental here').'</p>';
+		else { 
+			$user = $sth->fetch(PDO::FETCH_OBJ);
+			echo "<p>This call will be logged to <strong>{$user->name} #{$_SESSION['user']}</strong> on <strong>{$user->tel}</strong></p>";
+		}
+	}
+	catch (PDOException $e) {
+		echo $e->getMessage();
+	}
+?>
 
 	<div class="item">
 		<h3>Caller</h3>
@@ -41,19 +89,23 @@ Added changelog
 			<input type="text" name="problem" placeholder="Existing problem or new problem" />
 		</div>
 	</div>
+
+	<p class="noJS">Please enter the ID of the problem</p>
+	<input type="number" name="idproblem" placeholder="ID of problem" />
+
 	<div id="resProblem"></div>
 
 	<h2>Call Details</h2>
 
 	<div class="item">
-		<h3>Title</h3>
+		<h3>Subject</h3>
 		<div class="data">
-			<input type="text" name="title" placeholder="Title of your call" />
+			<input type="text" name="subject" placeholder="Subject of your call" />
 		</div>
 	</div>
 
 	<h3>Notes</h3>
-	<textarea placeholder="Summary of the call"></textarea>
+	<textarea name="notes" placeholder="Details of the call"></textarea>
 
 	<div class="ware">
 		<div class="hardware">
@@ -150,7 +202,7 @@ Added changelog
 		</div>
 	</div>
 
-	<p><input type="submit" value="Add call"></p>
+	<p><input type="submit" value="Add call" name="add"></p>
 
 </form>
 
@@ -216,19 +268,25 @@ LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
  
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 
-	$sth = $dbh->prepare($sql);
+	try {
+		$sth = $dbh->prepare($sql);
 
-	$sth->execute();
+		$sth->execute();
 
-	$problems = storeProblems($sth->fetchAll());
+		$problems = storeProblems($sth->fetchAll());
 
-	foreach ($problems as $id => $problem)
-		outputProblem($id,$problem);
+		foreach ($problems as $id => $problem)
+			outputProblem($id,$problem);
+	}
+	catch (PDOException $e) {
+		echo $e->getMessage();
+	}
 ?>
 </table>
 
 <script type="text/javascript">
 	// searching for a caller
+	// hide the ID field
 	$('[name="idcaller"]').hide();
 
 	$('[name="caller"]').on('focus keyup',searchCallers); // search when the user types
@@ -277,6 +335,9 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	}
 
 	// the problems box
+	// hide the ID field
+	$('[name="idproblem"]').hide();
+
 	$('[name="problem"]').on('focus keyup',searchProblems);
 
 	$('[name="problem"]').blur(function(){
@@ -297,6 +358,8 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 					$('#resProblem').slideDown();
 
 					$('#resProblem p').off('click vclick').on('click vclick', function(){ // chose one of the results
+						// update the hidden field
+						$('[name="idproblem"]').val($(this).data('id'));
 						var selected = $(this).html();
 						var id = '#prob'+$(this).data('id');
 						$('[name="problem"]').fadeOut(300,function(){
