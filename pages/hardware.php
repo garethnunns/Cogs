@@ -5,6 +5,9 @@ A list of hardware, split into types, makes, models and then each individual ite
 Change log
 ==========
 
+19/2/17 - Joe Yelland, Gareth Nunns
+Did some additional work on the SQL, as well as add more user friendly features
+
 19/2/17 - Joe Yelland, Lewys Bonds, Ryan Roberts
 Fixed the SQL and made it functional
 
@@ -17,6 +20,7 @@ Added SQL
 14/2/17 - Gareth Nunns
 Added changelog
 */
+
 	require_once dirname(__FILE__).'/../check.php'; //cbeck the user is logged in
 	require_once dirname(__FILE__).'/../site/secure.php'; //connect to the database
 ?>
@@ -32,7 +36,19 @@ Added changelog
 	</tr>
 
 <?php
-	$sql="SELECT hard.idHard, hard.make, hard.model, hard.notes, hardProb.idProblem, problem.title
+	$sql="SELECT hard.idHard, hard.make, hard.model, hard.notes, hardProb.idProblem, problem.title,
+
+	(SELECT COUNT(s3.idProblem) FROM solved as s3
+    WHERE problem.idProblem = s3.idProblem) AS beenSolved,
+	(SELECT COUNT(hp2.idProblem) FROM hardProb AS hp2
+ 	WHERE hp2.idProblem NOT IN (
+     SELECT s2.idProblem FROM solved as s2)
+ 	AND hp2.idHard = hard.idHard) AS numUnsolved,
+	(SELECT COUNT(hp.idProblem) FROM hardProb AS hp
+ 	WHERE hp.idProblem IN (
+    SELECT s1.idProblem FROM solved as s1)
+ 	AND hp.idHard = hard.idHard) AS numSolved
+
 	FROM hard
 	LEFT JOIN hardProb
 	ON hard.idHard = hardProb.idHard
@@ -42,25 +58,42 @@ Added changelog
 	$sth = $dbh->prepare($sql); //executing SQL
 	$sth->execute();
 
-	foreach ($sth->fetchAll() as $row) //Outputing the information onto the page
-		echo "<tr>
-		<td>{$row['idHard']}</td>
-		<td>{$row['make']}</td>
-		<td>{$row['model']}</td>
-		<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Unsolved</td>
-		<td class='numProbs'><span>".mt_rand(0,5)."</span><br>Solved</td>
-		</tr>
+	$id = -1;
 
-		<tr>
-		<td colspan='5'>
-		<div class='wareDeets'>
-		<h2>{$row['make']}</h2></h2>
-		<p>{$row['notes']}</p>
-		<h3>Problems with {$row['make']}</h3>
-		
-		</div>
-		</td>
-		</tr>";
+	foreach ($sth->fetchAll() as $row) {//Outputing the information onto the page
+		if($id != $row['idHard'] && $id>-1)
+			echo "</div>
+			</td>
+			</tr>";
+
+		if($id != $row['idHard'])
+			echo "<tr>
+			<td>{$row['idHard']}</td>
+			<td>{$row['make']}</td>
+			<td>{$row['model']}</td>
+			<td class='numProbs'><span>{$row['numUnsolved']}</span><br>Unsolved</td>
+			<td class='numProbs'><span>{$row['numSolved']}</span><br>Solved</td>
+			</tr>
+
+			<tr>
+			<td colspan='5'>
+			<div class='wareDeets'>
+			<h2>{$row['make']}</h2
+			<p>{$row['notes']}</p>
+			<h3>Problems with {$row['make']}</h3>";
+
+		if(empty($row['idProblem']))
+			echo "There are no problems related to this hardware.";
+		else
+			echo "<p><a href='".($row['beenSolved'] ? 'solved' : 'problems')."#prob{$row['idProblem']}'><strong>{$row['idProblem']}</strong> - {$row['title']}</a></p>";
+
+		$id = $row['idHard'];
+	}
+
+	if($id>-1)
+			echo "</div>
+			</td>
+			</tr>";
 	
 ?>
 </table>
