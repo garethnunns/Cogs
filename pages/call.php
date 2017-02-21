@@ -5,8 +5,11 @@ Adding a call to system - so all the fields that this requires, and referencing 
 Change log
 ==========
 
+21/2/17 - Gareth Nunns
+Added assigning specialist functionality
+
 20/2/17 - Gareth Nunns
-Completed functionality
+Completed functionality of adding type, problem & caller
 
 18/2/17 - Gareth Nunns
 Linked callers search to database
@@ -32,7 +35,7 @@ Added changelog
 
 					$type = $dbh->lastInsertId(); // get the type we just popped in
 
-					echo "<p>Added {$_POST['newtype']} with ID $type</p>";
+					echo "<p>Added {$_POST['newtype']} (#$type)</p>";
 				}
 				else $type = $_POST['type'];
 
@@ -63,7 +66,21 @@ Added changelog
 
 				$call = $dbh->lastInsertId();
 
-				echo "<p>Added '{$_POST['subject']}' as call #$call to problem #$prob</p>";
+				echo "<p>Added '{$_POST['subject']}' as call #$call to <a href='".(solved($prob) ? 'solved' : 'problems')."#$prob'>problem #$prob</a></p>";
+			}
+
+			if(!empty($_POST['idspec'])) { // assigning a specialist
+				$sth = $dbh->prepare("INSERT INTO assign (idProblem, assBy, assTo, assDate) 
+				VALUES (?, ?, ?, ?)");
+
+				$sth->execute(array(
+					$prob,
+					$_SESSION['user'], 
+					$_POST['idspec'],
+					gmdate('Y-m-d H:i:s')
+				));
+
+				echo "<p>Assigned specialist (#{$_POST['idspec']})</p>";
 			}
 		}
 		catch (PDOException $e) {
@@ -96,6 +113,8 @@ Added changelog
 	catch (PDOException $e) {
 		echo $e->getMessage();
 	}
+
+	echo solved(27);
 ?>
 
 	<div class="item">
@@ -209,71 +228,10 @@ Added changelog
 
 	<div id="specialists">
 		<div id="found"></div>
-
-		<div id="recommended">
-			<h3>Recommended Specialists</h3>
-			<table class="specialists">
-				<tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Phone</th>
-					<th colspan="2">Problems</th>
-					<th>Availability</th>
-					<th>Assign</th>
-				</tr>
-<?php
-	$rand3 = [];
-	$i=0;
-
-	while ($i <= 3) { 
-		$rand = mt_rand(0,count($tlogin)-1);
-		if(!in_array($rand, $rand3) && $tlogin[$rand]['job']=='Specialist') {
-			$rand3[$rand] = $rand;
-			$i++;
-		}
-	}
-
-	foreach ($rand3 as $key => $value)
-		$rand3[$key] = $tlogin[$value];
-
-	foreach ($rand3 as $id => $spec) {
-		$avail = ["Full Time","Monday - Wednesday","Weekends","Weekdays 9:00 - 13:00","On holiday, back in ".mt_rand(2, 10)." days"];
-
-		$probs = array("unsolved"=>array(),"solved"=>array());
-
-		foreach ($tproblems as $key => $problem) {
-			$high = 0;
-
-			if($problem['solution']['op']==$id)
-				array_push($probs['solved'], $key);
-			else {
-				foreach ($problem['assign'] as $asskey => $ass)
-					if(strtotime($ass['date']) > $high) {
-						$high = strtotime($ass['date']);
-						$highkey = $asskey;
-					}
-
-				if(isset($asskey)) { // found an assignment
-					if($id == $problem['assign'][$asskey]['op'])
-						array_push($probs['unsolved'], $key);
-				}
-			}
-		}
-
-		echo "<tr>
-		<td>{$id}</td>
-		<td>{$spec['name']}</td>
-		<td>ext ".mt_rand(10000, 55555)."</td>
-		<td class='numProbs'><span>".count($probs['unsolved'])."</span><br>Unsolved</td>
-		<td class='numProbs'><span>".mt_rand(0, 25)."</span><br>Solved this week</td>
-		<td>".$avail[array_rand($avail,1)]."</td>
-		<td><button>Assign</button></td>
-		</tr>";
-	}
-?>
-			</table>
-		</div>
 	</div>
+
+	<p class="noJS">Please enter the ID of the specialist asigned</p>
+	<input type="number" name="idspec" placeholder="ID of specialist" />
 
 	<p><input type="submit" value="Add call" name="add"></p>
 
@@ -453,7 +411,6 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 								$('#allProblemsTitle').text('All problems');
 								$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').show();
 								$('#allProblems '+id).trigger('click');
-								$('#specialists #recommended').hide();
 								$('#type]').fadeOut();
 							});
 						});
@@ -461,8 +418,6 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 							$('#allProblemsTitle').text('Problem '+$(this).data('id'));
 							$('#allProblems tr:nth-of-type(3n+2), #allProblems tr:nth-of-type(3n+3)').hide();
 							$('#allProblems '+id).show().trigger('click').next().show();
-							$('#specialists #recommended').show();
-							specButtons();
 						}
 						else $('#type').fadeIn();
 					});
@@ -522,7 +477,10 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().slideToggle(300);
 	});
 
-	// searching for a caller
+	// searching for a specialist
+	// hide the ID field
+	$('[name="idspec"]').hide();
+
 	$('[name="specialist"]').on('focus keyup',searchSpecs);
 
 	$('[name="specialist"]').blur(function(){
@@ -556,12 +514,14 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	function specButtons() {
 		$('#specialists button').off('click vclick').on('click vclick', function(e) {
 			e.preventDefault();
+			$('[name="idspec"]').val($(this).data('id'));
 			$('#specSearch').slideUp();
 			$('#assigned').html('');
 			$('<span>Assigned to <strong>'+$(this).parent().siblings(':nth-of-type(2)').text()+'</strong></span><br>').hide().appendTo('#assigned').fadeIn();
 			$('#specialists #recommended').hide();
 			$('<a href="#" class="delete">Remove</a><br><br>').hide().fadeIn().appendTo('#assigned').on('click vclick',function(e){
 				e.preventDefault();
+				$('[name="idspec"]').val('')
 				$('#specSearch').slideDown();
 				$('#assigned').fadeOut();
 				$('#specialists #recommended').show();

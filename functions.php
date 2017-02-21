@@ -117,12 +117,28 @@ Added changelog
 				echo '<span class="error">*</span>';
 		}
 		catch (PDOException $e) {
+			return false;
 			echo $e->getMessage();
 		}
 	}
 
-	function solved() {
+	function solved($probid) {
 		// check to see whether a problem has been solved
+		global $dbh;
+
+		try {
+			$sql = "SELECT COUNT(idProblem) FROM solved WHERE idProblem = ?";
+
+			$sth = $dbh->prepare($sql);
+
+			$sth->execute(array($probid));
+
+			return $sth->fetchColumn() >0;
+		}
+		catch (PDOException $e) {
+			return false;
+			echo $e->getMessage();
+		}
 	}
 
 	function isValidTimezone($timezone) {

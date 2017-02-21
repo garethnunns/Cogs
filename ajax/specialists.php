@@ -5,12 +5,16 @@ Search results when searching for specialists
 Change log
 ==========
 
+21/2/17 - Gareth Nunns
+Connected to database
+
 14/2/17 - Gareth Nunns
 Added changelog
 
 */
 
-	require_once dirname(__FILE__).'/../check.php';
+	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 
 	if(!empty($_GET['s'])) {
 ?>
@@ -25,43 +29,65 @@ Added changelog
 		<th>Assign</th>
 	</tr>
 <?php
-		foreach ($tlogin as $id => $spec) {
-			if($spec['job']=='Specialist' && stripos($spec['name'], $_GET['s'])!==false) {
-				$avail = ["Full Time","Monday - Wednesday","Weekends","Weekdays 9:00 - 13:00","On holiday, back in ".mt_rand(2, 10)." days"];
+		$sql = "
+SELECT emp.idEmp, CONCAT(emp.firstName, ' ', emp.surname) AS 'name', emp.tel, 
+(SELECT COUNT(a2.idAssign) FROM assign AS a2
+	WHERE a2.assTo = emp.idEmp
+	AND a2.assTo IN (
+        SELECT a3.assTo FROM assign as a3
+		WHERE a3.idProblem IN (
+            SELECT problem.idProblem FROM problem 
+            WHERE problem.idProblem NOT IN (
+                SELECT idProblem FROM solved
+            )
+        )
+    ) AND a2.assDate = (SELECT MAX(a1.assDate) FROM assign AS a1 WHERE a1.idProblem = a2.idProblem)
+) as unsolved, 
+(SELECT COUNT(s1.idProblem) FROM solved AS s1 WHERE s1.specialist = emp.idEmp AND s1.date >= curdate() - INTERVAL DAYOFWEEK(curdate())+6 DAY) AS numSolved, login.availablity
+FROM emp
+LEFT JOIN login ON emp.idEmp = login.idEmp
+WHERE emp.idEmp = :s
+OR emp.firstName LIKE :first
+OR emp.surname LIKE :second
+OR emp.tel LIKE :tel";
 
-				$probs = array("unsolved"=>array(),"solved"=>array());
 
-				foreach ($tproblems as $key => $problem) {
-					$high = 0;
+		try {
+			$sth = $dbh->prepare($sql);
 
-					if($problem['solution']['op']==$id)
-						array_push($probs['solved'], $key);
-					else {
-						foreach ($problem['assign'] as $asskey => $ass)
-							if(strtotime($ass['date']) > $high) {
-								$high = strtotime($ass['date']);
-								$highkey = $asskey;
-							}
+			// search variables
+			$s = $_GET['s'];
+			$psp = '%'.$s.'%';
+			// this bit attempts to look at names intelligently
+			// if the user searches for 'foo bar', then it will look up 'foo' in the first name column
+			$first = explode(' ', $s)[0].'%';
+			// similarly this will search for 'bar' in the surname column if there was a space in the search
+			$second = (stripos($s, ' ') !== false ? explode(' ', $s)[1] : $s).'%';
 
-						if(isset($asskey)) { // found an assignment
-							if($id == $problem['assign'][$asskey]['op'])
-								array_push($probs['unsolved'], $key);
-						}
-					}
-				}
+			// sanitize inputs
+			$sth->bindParam(':s', $s);
+			$sth->bindParam(':first', $first);
+			$sth->bindParam(':second', $second);
+			$sth->bindParam(':tel', $psp);
 
-				echo "<tr>
-				<td>{$id}</td>
-				<td>{$spec['name']}</td>
-				<td>ext ".mt_rand(10000, 55555)."</td>
-				<td class='numProbs'><span>".count($probs['unsolved'])."</span><br>Unsolved</td>
-				<td class='numProbs'><span>".mt_rand(0, 25)."</span><br>Solved this week</td>
-				<td>".$avail[array_rand($avail,1)]."</td>
-				<td><button>Assign</button></td>
-				</tr>";
-			}
+			$sth->execute();
+
+			if($sth->rowCount())
+				foreach ($sth->fetchAll() as $row)
+					echo "<tr>
+					<td>{$row['idEmp']}</td>
+					<td>{$row['name']}</td>
+					<td>{$row['tel']}</td>
+					<td class='numProbs'><span>{$row['unsolved']}</span><br>Unsolved</td>
+					<td class='numProbs'><span>{$row['numSolved']}</span><br>Solved this week</td>
+					<td>{$row['availablity']}</td>
+					<td><button data-id='{$row['idEmp']}'>Assign</button></td>
+					</tr>";
+			else 
+				echo '<td colspan="7">'.translate('There were no specialists found').'</td>';
 		}
-
-		echo '</table>';
+		catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 	}
 ?>

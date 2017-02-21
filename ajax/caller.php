@@ -36,7 +36,7 @@ Added changelog
 	// if the user searches for 'foo bar', then it will look up 'foo' in the first name column
 	$first = explode(' ', $s)[0].'%';
 	// similarly this will search for 'bar' in the surname column if there was a space in the search
-	$second = stripos($s, ' ') !== false ? explode(' ', $s)[1].'%' : $s.'%';
+	$second = (stripos($s, ' ') !== false ? explode(' ', $s)[1] : $s).'%';
 
 	// sanitize inputs
 	$sth->bindParam(':s', $s);
