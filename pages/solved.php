@@ -197,12 +197,12 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 ?>
 
 <script type="text/javascript">
-	$('tr:nth-of-type(3n+4)').hide().each(function() {
+	$('table.problems tr:nth-of-type(3n+4)').hide().each(function() {
 		$(this).children().first().children().slideUp();
 	});
 
-	$('tr:nth-of-type(3n+2), tr:nth-of-type(3n+3)').on('click vclick', function() {
-		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().slideToggle(300);
+	$('table.problems tr:nth-of-type(3n+2), tr:nth-of-type(3n+3)').on('click vclick', function() {
+		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().not('form').slideToggle(300);
 	});
 
 	if(window.location.hash) {

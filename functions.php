@@ -438,6 +438,11 @@ Added changelog
 		<h2>{$problem['title']}</h2>
 		<p>Type of problem: <b>{$problem['type']['path']}</b></p>
 
+		<p style='text-align: center'>
+			<button onClick=\"expand('addmessagetoprob$id')\">Add message</button>
+			<button onClick=\"expand('addsolutiontoprob$id')\">Add solution</button>
+		</p>
+
 		<form method='POST' action='/forms/addmessage.php' id='addmessagetoprob$id'>
 			<h3>Add a message</h3>
 			<p>Subject: <input name='subject' type='text' placeholder='Title of your message'></p>

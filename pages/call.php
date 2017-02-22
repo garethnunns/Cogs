@@ -462,12 +462,14 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 		$(this).hide();
 	});
 
-	$('tr:nth-of-type(3n+4)').hide().each(function() {
+
+	// problems table
+	$('table.problems tr:nth-of-type(3n+4)').hide().each(function() {
 		$(this).children().first().children().slideUp();
 	});
 
-	$('tr:nth-of-type(3n+2), tr:nth-of-type(3n+3)').on('click vclick', function() {
-		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().slideToggle(300);
+	$('table.problems tr:nth-of-type(3n+2), tr:nth-of-type(3n+3)').on('click vclick', function() {
+		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().not('form').slideToggle(300);
 	});
 
 	// searching for a specialist

@@ -152,6 +152,10 @@ Added changelog
 				});
 			}
 
+			function expand(id) {
+				$('#'+id).slideDown();
+			}
+
 			$('header #search').on('focus keyup',search);
 
 			//$('header #search').blur(hideSearch);
