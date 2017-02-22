@@ -79,7 +79,7 @@ LEFT JOIN emp AS specemp ON solved.specialist = specemp.idEmp
 LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
 
 WHERE problem.idProblem IN (SELECT solved.idProblem FROM solved 
-".($_SESSION['sudo'] ? '':"WHERE solved.specialist = {$_SESSION['user']}").")
+WHERE solved.specialist = {$_SESSION['user']})
  
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	
