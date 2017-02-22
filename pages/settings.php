@@ -111,8 +111,25 @@ Added changelog
 	<hr>
 	<div class="set">
 		<h3>Availibility</h3>
+<?php
+	try {
+		$sql = "SELECT availablity 
+				FROM login
+				WHERE idEmp = {$_SESSION['user']}";
+
+		$sth = $dbh->prepare($sql);
+
+		$sth->execute();
+
+		if($sth->rowCount())
+			$avail = $sth->fetchColumn();
+	}
+	catch (PDOException $e) {
+		echo $e->getMessage();
+	}
+?>
 		<div class="setting">
-			<input type="text" name="avail" placeholder="e.g. Away til 12/7/18">
+			<input type="text" name="avail" placeholder="e.g. Away til 12/7/18" value="<?php echo $avail; ?>">
 		</div>
 	</div>
 	<p>Let colleagues know when you're available so you don't get overloaded with work</p>

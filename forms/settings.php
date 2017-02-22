@@ -64,7 +64,7 @@ Added changelog
 				$_SESSION['lang'],
 				$_SESSION['autoTrans'],
 				$_SESSION['fonts'],
-				''
+				$_POST['avail']
 			));
 		}
 		catch (PDOException $e) {
