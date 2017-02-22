@@ -163,7 +163,7 @@ LEFT JOIN emp AS specemp ON solved.specialist = specemp.idEmp
 LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
 
 WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved 
-WHERE solved.specialist = {$_SESSION['user']}
+WHERE solved.specialist = {$_SESSION['user']})
  
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	
