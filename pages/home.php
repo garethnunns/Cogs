@@ -28,14 +28,14 @@ Added changelog
 		if(!$sth->rowCount()) // we should really be able to find them in the database
 			echo '<p class="error">'.translate('There has been a fundamental here').'</p>';
 		else { 
-			echo "<h1>Welcome ".$sth->fetchColumn()." #{$_SESSION['user']}</h1>"; // say hellp
+			echo "<h1>".translate('Welcome')." ".$sth->fetchColumn()." #{$_SESSION['user']}</h1>"; // say hellp
 			$_SESSION['welcome'] = true; // we've already welcomed them, so don't do it again
 		}
 	}
 ?>
 
 <div class="grid">
-	<div><a href="call">New call</a></div><div><a href="problems">Problems</a></div><div><a href="solved">Solved</a></div><div><a href="specialists">Specialists</a></div><div><a href="software">Software</a></div><div><a href="hardware">Hardware</a></div><div><a href="settings">Settings</a></div>
+	<div><a href="call"><?php echo translate('New call') ?></a></div><div><a href="problems"><?php echo translate('Problems') ?></a></div><div><a href="solved"><?php echo translate('Solved') ?></a></div><div><a href="specialists"><?php echo translate('Specialists') ?></a></div><div><a href="software"><?php echo translate('Software') ?></a></div><div><a href="hardware"><?php echo translate('Hardware') ?></a></div><div><a href="settings"><?php echo translate('Settings') ?></a></div>
 </div>
 
 <p style="text-align: center"><a href="users">Add users</a></p>

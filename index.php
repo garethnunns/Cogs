@@ -29,6 +29,7 @@ Added changelog
 
 		<link rel="stylesheet" type="text/css" href="site/cogs.css?version=<?php echo time(); // remove when out of dev ?>">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+		<?php if($_SESSION['lang']=='ar') echo '<style type="text/css">.wrapper {direction: rtl; }</style>'; ?>
 	</head>
 
 	<body>

@@ -5,6 +5,9 @@ Functions used across the site.
 Change log
 ==========
 
+22/2/17 - Gareth Nunns
+Updated translate function
+
 21/2/17 - Gareth Nunns
 Updated solved function
 
@@ -24,6 +27,7 @@ Added changelog
 */
 
 	function translate($phrase) {
+		global $dbh;
 		/*
 		Function to output $phrase in users selected lang
 
@@ -37,6 +41,26 @@ Added changelog
 		        return phrase;
 		}
 		*/
+
+		if($_SESSION['lang'] == 'en') // no need to translate
+			return $phrase;
+
+		try {
+			$sql = "SELECT trans 
+					FROM langStor
+					WHERE transLang = ?
+					AND orig = ?";
+
+			$sth = $dbh->prepare($sql);
+
+			$sth->execute(array($_SESSION['lang'], $phrase));
+
+			if($sth->rowCount())
+				return $sth->fetchColumn();
+		}
+		catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 
 		return $phrase;
 	}

@@ -43,7 +43,7 @@ Added changelog
 	<p>Please choose your preferred date format, currently dates are formatted like this: <strong id="time"><?php require_once dirname(__FILE__).'/../ajax/time.php'; ?></strong></p>
 
 	<div class="set">
-		<h3>Language</h3>
+		<h3><?php echo translate('Language') ?></h3>
 		<div class="setting">
 			<select name="lang">
 <?php

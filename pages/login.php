@@ -5,6 +5,9 @@ Page to let the user log in
 Change log
 ==========
 
+22/2/17 - Gareth Nunns
+Added language support
+
 14/2/17 - Gareth Nunns
 Added changelog
 
@@ -14,13 +17,40 @@ Added changelog
 		header("refresh:0; url=home");
 		exit();
 	}
+
+	require_once dirname(__FILE__).'/../functions.php';
+	require_once dirname(__FILE__).'/../database.php';
+
+	if(isset($_POST['lang'])) {
+		$sql = "SELECT * FROM lang WHERE idLang = ?";
+		$sth = $dbh->prepare($sql);
+		$sth->execute(array($_POST['lang']));
+
+		if($sth->rowCount()) $_SESSION['lang'] = $_POST['lang'];
+		else echo translate("Language not recognised");
+	}
 ?>
 
-<form action="/login.php" method="POST" id="login">
-	<h3>Please login</h3>
-	<p><input type="text" name="username" placeholder="Username"></p>
-	<p><input type="password" name="password" placeholder="Password"></p>
-	<p><input type="submit" value="Login"></p>
+<form action="/forms/login.php" method="POST" id="login">
+	<h3><?php echo translate('Please login')?></h3>
+	<p><input type="text" name="username" placeholder="<?php echo translate('Username')?>"></p>
+	<p><input type="password" name="password" placeholder="<?php echo translate('Password')?>"></p>
+	<p><input type="submit" value="<?php echo translate('Login')?>"></p>
+</form>
+
+<form method="POST" style="text-align:center" id="lang">
+	<select name="lang">
+<?php
+	$sql = "SELECT * FROM lang ORDER BY name";
+	$sth = $dbh->prepare($sql);
+
+	$sth->execute();
+
+	foreach ($sth->fetchAll() as $row)
+		echo "<option value='{$row['idLang']}' ".($_SESSION['lang']==$row['idLang'] ? 'selected':'').">{$row['name']}</option>";
+?>
+	</select>
+	<br><input type="submit" value='<?php echo translate('Change') ?>' class="noJS">
 </form>
 
 <script type="text/javascript">
@@ -45,4 +75,8 @@ Added changelog
 			}
 		})
 	});
+
+	$('[name="lang"]').change(function () {
+		$('#lang').submit();
+	})
 </script>
