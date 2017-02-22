@@ -436,7 +436,15 @@ Added changelog
 		<tr class='responses'>
 		<td colspan='7'>
 		<h2>{$problem['title']}</h2>
-		<p>Type of problem: <b>{$problem['type']['path']}</b></p>";
+		<p>Type of problem: <b>{$problem['type']['path']}</b></p>
+
+		<form method='POST' action='/forms/addmessage.php' id='addmessagetoprob$id'>
+			<p>Subject: <input name='subject' type='text' placeholder='Title of your message'></p>
+			<textarea name='message' placeholder='Add a message to this problem'></textarea>
+			<input name='prob' type='hidden' value='$id'>
+			<input type='submit' value='Add message'>
+		</form>
+		";
 		
 		foreach ($problem['events'] as $event) {
 			if($event['type']=='assign') { // the event is an assignment (formatted differently)
