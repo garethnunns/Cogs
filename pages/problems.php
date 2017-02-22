@@ -72,7 +72,7 @@ LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
 WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved)
-AND problem.idProblem = (
+AND problem.idProblem IN (
     SELECT a2.idProblem FROM assign AS a2 
     WHERE a2.assTo = {$_SESSION['user']} 
     AND a2.assDate = (
