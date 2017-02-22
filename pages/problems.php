@@ -72,7 +72,7 @@ LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
 WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved)
-AND assign.idProblem = (
+AND problem.idProblem = (
     SELECT a2.idProblem FROM assign AS a2 
     WHERE a2.assTo = {$_SESSION['user']} 
     AND a2.assDate = (
@@ -155,9 +155,9 @@ LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
 WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved)
-AND problem.idProblem <> (
+AND problem.idProblem NOT IN (
     SELECT a2.idProblem FROM assign AS a2 
-    WHERE a2.assTo = {$_SESSION['user']} 
+    WHERE a2.assTo = {$_SESSION['user']}
     AND a2.assDate = (
         SELECT MAX(assDate) FROM assign AS a1 
         WHERE a1.idProblem = a2.idProblem
@@ -200,6 +200,62 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	$('table.problems tr:nth-of-type(3n+2), tr:nth-of-type(3n+3)').on('click vclick', function() {
 		$(this).nextUntil('tr:nth-of-type(3n+2)','.responses').toggle().children().first().children().not('form').slideToggle(300);
 	});
+
+	// searching for a specialist
+	// hide ID fields
+	$('form[id^="add"] [name="idspec"]').hide();
+
+	$('form[id^="add"] [name="specialist"]').on('focus keyup',function (){
+		searchSpecsProbs($(this).data('id'))
+	});
+
+	$('[name="specialist"]').blur(function(){
+		$('#addspectoprob'+$(this).data('id')+' #found').slideUp();
+	});
+
+	function searchSpecsProbs(id) {
+		var sform = '#addspectoprob'+id;
+		var search = $(sform+' [name="specialist"]').val();
+		if($.trim(search)) {
+			$.ajax({
+				type: "GET",
+				url: '../ajax/specialists.php',
+				data: {'s':search},
+				success: function(data) {
+					$(sform+' #found').html(data);
+					$(sform+' #found').slideDown();
+					specButtonsProbs(id);
+				},
+				error: function(error) { // when there's a link to a page that doesn't exist
+					console.log('Tried to load ajax/specialists.php and got a '+error.status);
+					tempError("There was an error looking for specialists, please try again");
+				}
+			});
+		}
+		else {
+			$(sform+' #found').slideUp();
+			$(sform+' #found').html('');
+		}
+	}
+
+	function specButtonsProbs(id) {
+		var sform = '#addspectoprob'+id;
+		$(sform+' button').off('click vclick').on('click vclick', function(e) {
+			e.preventDefault();
+			$(sform+' [name="idspec"]').val($(this).data('id'));
+			$(sform+' #specSearch').slideUp();
+			$(sform+' #assigned').html('');
+			$('<span>Assigned to <strong>'+$(this).parent().siblings(':nth-of-type(2)').text()+'</strong></span><br>').hide().appendTo(sform+' #assigned').fadeIn();
+			$(sform+' #recommended').hide();
+			$('<a href="#" class="delete">Remove</a><br><br>').hide().fadeIn().appendTo(sform+' #assigned').on('click vclick',function(e){
+				e.preventDefault();
+				$(sform+' [name="idspec"]').val('')
+				$(sform+' #specSearch').slideDown();
+				$(sform+' #assigned').fadeOut();
+				$(sform+' #specialists #recommended').show();
+			});
+		});
+	}
 
 	if(window.location.hash) {
 		$(window.location.hash).trigger('click');

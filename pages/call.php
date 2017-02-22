@@ -474,24 +474,24 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 
 	// searching for a specialist
 	// hide the ID field
-	$('[name="idspec"]').hide();
+	$('form.call [name="idspec"]').hide();
 
-	$('[name="specialist"]').on('focus keyup',searchSpecs);
+	$('form.call [name="specialist"]').on('focus keyup',searchSpecs);
 
-	$('[name="specialist"]').blur(function(){
-		$('#specialists #found').slideUp();
+	$('form.call [name="specialist"]').blur(function(){
+		$('form.call #specialists #found').slideUp();
 	});
 
 	function searchSpecs() {
-		var search = $('[name="specialist"]').val();
+		var search = $('form.call [name="specialist"]').val();
 		if($.trim(search)) {
 			$.ajax({
 				type: "GET",
 				url: '../ajax/specialists.php',
 				data: {'s':search},
 				success: function(data) {
-					$('#specialists #found').html(data);
-					$('#specialists #found').slideDown();
+					$('form.call #specialists #found').html(data);
+					$('form.call #specialists #found').slideDown();
 					specButtons();
 				},
 				error: function(error) { // when there's a link to a page that doesn't exist
@@ -501,25 +501,81 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 			});
 		}
 		else {
-			$('#specialists #found').slideUp();
-			$('#specialists #found').html('');
+			$('form.call #specialists #found').slideUp();
+			$('form.call #specialists #found').html('');
 		}
 	}
 
 	function specButtons() {
-		$('#specialists button').off('click vclick').on('click vclick', function(e) {
+		$('form.call #specialists button').off('click vclick').on('click vclick', function(e) {
 			e.preventDefault();
-			$('[name="idspec"]').val($(this).data('id'));
-			$('#specSearch').slideUp();
-			$('#assigned').html('');
+			$('form.call [name="idspec"]').val($(this).data('id'));
+			$('form.call #specSearch').slideUp();
+			$('form.call #assigned').html('');
 			$('<span>Assigned to <strong>'+$(this).parent().siblings(':nth-of-type(2)').text()+'</strong></span><br>').hide().appendTo('#assigned').fadeIn();
-			$('#specialists #recommended').hide();
+			$('form.call #specialists #recommended').hide();
 			$('<a href="#" class="delete">Remove</a><br><br>').hide().fadeIn().appendTo('#assigned').on('click vclick',function(e){
 				e.preventDefault();
-				$('[name="idspec"]').val('')
-				$('#specSearch').slideDown();
-				$('#assigned').fadeOut();
-				$('#specialists #recommended').show();
+				$('form.call [name="idspec"]').val('')
+				$('form.call #specSearch').slideDown();
+				$('form.call #assigned').fadeOut();
+				$('form.call #specialists #recommended').show();
+			});
+		});
+	}
+
+	// searching for a specialist
+	// hide ID fields
+	$('form[id^="add"] [name="idspec"]').hide();
+
+	$('form[id^="add"] [name="specialist"]').on('focus keyup',function (){
+		searchSpecsProbs($(this).data('id'))
+	});
+
+	$('form[id^="add"] [name="specialist"]').blur(function(){
+		$('#addspectoprob'+$(this).data('id')+' #found').slideUp();
+	});
+
+	function searchSpecsProbs(id) {
+		var sform = '#addspectoprob'+id;
+		var search = $(sform+' [name="specialist"]').val();
+		if($.trim(search)) {
+			$.ajax({
+				type: "GET",
+				url: '../ajax/specialists.php',
+				data: {'s':search},
+				success: function(data) {
+					$(sform+' #found').html(data);
+					$(sform+' #found').slideDown();
+					specButtonsProbs(id);
+				},
+				error: function(error) { // when there's a link to a page that doesn't exist
+					console.log('Tried to load ajax/specialists.php and got a '+error.status);
+					tempError("There was an error looking for specialists, please try again");
+				}
+			});
+		}
+		else {
+			$(sform+' #found').slideUp();
+			$(sform+' #found').html('');
+		}
+	}
+
+	function specButtonsProbs(id) {
+		var sform = '#addspectoprob'+id;
+		$(sform+' button').off('click vclick').on('click vclick', function(e) {
+			e.preventDefault();
+			$(sform+' [name="idspec"]').val($(this).data('id'));
+			$(sform+' #specSearch').slideUp();
+			$(sform+' #assigned').html('');
+			$('<span>Assigned to <strong>'+$(this).parent().siblings(':nth-of-type(2)').text()+'</strong></span><br>').hide().appendTo(sform+' #assigned').fadeIn();
+			$(sform+' #recommended').hide();
+			$('<a href="#" class="delete">Remove</a><br><br>').hide().fadeIn().appendTo(sform+' #assigned').on('click vclick',function(e){
+				e.preventDefault();
+				$(sform+' [name="idspec"]').val('')
+				$(sform+' #specSearch').slideDown();
+				$(sform+' #assigned').fadeOut();
+				$(sform+' #specialists #recommended').show();
 			});
 		});
 	}

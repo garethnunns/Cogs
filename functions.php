@@ -439,23 +439,42 @@ Added changelog
 		<p>Type of problem: <b>{$problem['type']['path']}</b></p>
 
 		<p style='text-align: center'>
+			<button onClick=\"expand('addspectoprob$id')\">Assign specialist</button>
 			<button onClick=\"expand('addmessagetoprob$id')\">Add message</button>
 			<button onClick=\"expand('addsolutiontoprob$id')\">Add solution</button>
 		</p>
+
+		<form method='POST' action='/forms/addspecialist.php' id='addspectoprob$id'>
+			<h3>Assign a specialist</h3>
+			<p id=\"specSearch\">
+				<input type=\"text\" name=\"specialist\" placeholder=\"Search for a specialist\" data-id='$id'> or <a href=\"specialists\">view all specialists &raquo;</a>
+			</p>
+			<div id=\"assigned\"></div>
+
+
+			<div id=\"specialists\">
+				<div id=\"found\"></div>
+			</div>
+
+			<p class=\"noJS\">Please enter the ID of the specialist asigned</p>
+			<input type=\"number\" name=\"idspec\" placeholder=\"ID of specialist\" />
+			<input name='prob' type='hidden' value='$id'>
+			<p><input type='submit' value='Assign specialist'></p>
+		</form>
 
 		<form method='POST' action='/forms/addmessage.php' id='addmessagetoprob$id'>
 			<h3>Add a message</h3>
 			<p>Subject: <input name='subject' type='text' placeholder='Title of your message'></p>
 			<textarea name='message' placeholder='Add a message to this problem'></textarea>
 			<input name='prob' type='hidden' value='$id'>
-			<input type='submit' value='Add message'>
+			<p><input type='submit' value='Add message'></p>
 		</form>
 
 		<form method='POST' action='/forms/addsolution.php' id='addsolutiontoprob$id'>
 			<h3>Add a solution</h3>
 			<textarea name='message' placeholder='Add a solution to this problem'></textarea>
 			<input name='prob' type='hidden' value='$id'>
-			<input type='submit' value='Add message'>
+			<p><input type='submit' value='Add message'></p>
 		</form>
 		";
 		
