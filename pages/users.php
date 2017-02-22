@@ -217,13 +217,6 @@ Created and completed page
 			'selected' => ($row['selected'] ? 'selected' : '')
 		);
 
-	function categories($type,$types){
-		if(empty($type['cat'])) // base case
-			return $type['name'];
-		else
-			return categories($types[$type['cat']],$types)." -> ".$type['name'];
-	}
-
 	foreach ($types as $id => $type)
 		$types[$id]['path'] = categories($type,$types);
 

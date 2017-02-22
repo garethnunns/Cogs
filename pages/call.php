@@ -66,7 +66,7 @@ Added changelog
 
 				$call = $dbh->lastInsertId();
 
-				echo "<p>Added '{$_POST['subject']}' as call #$call to <a href='".(solved($prob) ? 'solved' : 'problems')."#$prob'>problem #$prob</a></p>";
+				echo "<p>Added '{$_POST['subject']}' as call #$call to <a href='".(solved($prob) ? 'solved' : 'problems')."#prob$prob'>problem #$prob</a></p>";
 			}
 
 			if(!empty($_POST['idspec'])) { // assigning a specialist
@@ -155,13 +155,6 @@ Added changelog
 			'name' => $row['name'],
 			'cat' => $row['category']
 		);
-
-	function categories($type,$types){
-		if(empty($type['cat'])) // base case
-			return $type['name'];
-		else
-			return categories($types[$type['cat']],$types)." -> ".$type['name'];
-	}
 
 	foreach ($types as $id => $type)
 		$types[$id]['path'] = categories($type,$types);

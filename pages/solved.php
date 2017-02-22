@@ -27,24 +27,9 @@ Added changelog
 
 <h1>Solved Problems</h1>
 
-<table class="problems">
-	<tr>
-		<th>ID</th>
-		<th>Title</th>
-		<th>Customers</th>
-		<th>Operators</th>
-		<th colspan="3">Calls</th>
-	</tr>
+<h2>Your solved problems</h2>
 
 <?php
-/*$stmt = $conn->prepare(SELECT * FROM solved LEFT JOIN message ON solved.idProblem = message.idProblem LEFT JOIN emp ON message.specialist = emp.idEmp LEFT JOIN jobTitle ON emp.jobTitle =jobTitle.idJobTitle LEFT JOIN assign ON solved.idProblem = assign.idProblem LEFT JOIN newCall ON solved.idProblem = newCall.idProblem LEFT JOIN specialist ONspecialist.idEmp = emp.idEmp LEFT JOIN type ON specialist.idType = type.idType WHERE emp.idEmp = :empid GROUP BY solved.idProblem, message.date);
-if ($_SESSION['sudo']){
-	$stmt->bindParam(':empid', *);
-} 
-else{
-	$stmt->bindParam(':empid', $_SESSION[empid]);	
-}*/
-
 	$sql = "
 SELECT problem.idProblem, problem.title, type.idType, type.name AS type,
 
@@ -93,7 +78,8 @@ LEFT JOIN solved ON problem.idProblem = solved.idProblem
 LEFT JOIN emp AS specemp ON solved.specialist = specemp.idEmp 
 LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
 
-WHERE problem.idProblem IN (SELECT solved.idProblem FROM solved)
+WHERE problem.idProblem IN (SELECT solved.idProblem FROM solved 
+".($_SESSION['sudo'] ? '':"WHERE solved.specialist = {$_SESSION['user']}").")
  
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	
@@ -101,12 +87,113 @@ ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 
 	$sth->execute();
 
-	$problems = storeProblems($sth->fetchAll());
+	if($sth->rowCount()) {
+?>
+<table class="problems">
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Customers</th>
+		<th>Operators</th>
+		<th colspan="3">Calls</th>
+	</tr>
+<?php
+		$problems = storeProblems($sth->fetchAll());
 
-	foreach ($problems as $id => $problem)
-		outputProblem($id,$problem);
+		foreach ($problems as $id => $problem)
+			outputProblem($id,$problem);
 ?>
 </table>
+<?php
+	}
+	else {
+		echo "<p>You currently haven't solved any problems</p>";
+	}
+?>
+
+<h2>Other solutions</h2>
+
+<?php
+	$sql = "
+SELECT problem.idProblem, problem.title, type.idType, type.name AS type,
+
+-- messages
+message.idMessage, message.date AS messDate, message.subject AS messSub, message.message AS messMess, message.specialist AS messSpec,
+CONCAT(memp.firstName, ' ', memp.surname) AS messName, memp.tel AS messTel, mempJob.name AS messJob,
+
+-- assignments
+assign.idAssign, assign.assBy, CONCAT(assByemp.firstName, ' ', assByemp.surname) AS assByName,
+assign.assTo, CONCAT(assToemp.firstName, ' ', assToemp.surname) AS assToName, assDate,
+
+-- calls
+calls.idCalls, calls.caller, CONCAT(calleremp.firstName, ' ', calleremp.surname) AS callerName, calleremp.tel AS callerTel, callerJob.name AS callerJob,
+calls.op, CONCAT(opemp.firstName, ' ', opemp.surname) AS opName, opemp.tel AS opTel, opJob.name AS opJob,
+calls.date AS callDate, calls.subject AS callSubject, calls.notes AS callNotes,
+
+-- solved
+solved.specialist AS solvedSpec, solved.date AS solvedDate, solved.message AS solvedMess,
+CONCAT(specemp.firstName, ' ', specemp.surname) as solvedName, specemp.tel as solvedTel, specJob.name as solvedJob
+
+FROM problem
+
+-- JOINS
+-- type
+LEFT JOIN type ON problem.idType = type.idType 
+
+-- messages
+LEFT JOIN message ON problem.idProblem = message.idProblem
+LEFT JOIN emp AS memp ON message.specialist = memp.idEmp
+LEFT JOIN jobTitle as mempJob ON memp.jobTitle = mempJob.idJobTitle
+
+-- assignments
+LEFT JOIN assign ON problem.idProblem = assign.idProblem
+LEFT JOIN emp AS assByemp ON assign.assBy = assByemp.idEmp
+LEFT JOIN emp AS assToemp ON assign.assTo = assToemp.idEmp
+
+-- calls
+LEFT JOIN calls ON problem.idProblem = calls.idProblem
+LEFT JOIN emp AS calleremp ON calls.caller = calleremp.idEmp
+LEFT JOIN jobTitle as callerJob ON calleremp.jobTitle = callerJob.idJobTitle
+LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
+LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
+
+-- solved 
+LEFT JOIN solved ON problem.idProblem = solved.idProblem
+LEFT JOIN emp AS specemp ON solved.specialist = specemp.idEmp 
+LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
+
+WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved 
+WHERE solved.specialist = {$_SESSION['user']}
+ 
+ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
+	
+	$sth = $dbh->prepare($sql);
+
+	$sth->execute();
+
+	if($sth->rowCount()) {
+?>
+<table class="problems">
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Customers</th>
+		<th>Operators</th>
+		<th colspan="3">Calls</th>
+	</tr>
+<?php
+		$problems = storeProblems($sth->fetchAll());
+
+		foreach ($problems as $id => $problem)
+			outputProblem($id,$problem);
+?>
+</table>
+<?php
+	}
+	else {
+		echo "<p>There are currently no other solved problems</p>";
+	}
+?>
 
 <script type="text/javascript">
 	$('tr:nth-of-type(3n+4)').hide().each(function() {

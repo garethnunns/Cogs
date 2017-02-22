@@ -5,6 +5,9 @@ Functions used across the site.
 Change log
 ==========
 
+21/2/17 - Gareth Nunns
+Updated solved function
+
 20/2/17 - Gareth Nunns
 Updated storeProblems function
 
@@ -146,14 +149,42 @@ Added changelog
 		return $tz!==FALSE;
 	}
 
+	function categories($type,$types) {
+		// recursive function to get the category
+		if(empty($type['cat'])) // base case
+			return $type['name'];
+		else
+			return categories($types[$type['cat']],$types)." -> ".$type['name'];
+	}
+
 	function storeProblems($probs) {
+		global $dbh;
 		// because the data structure is fairly complex, it's restructured in PHP because it's simpler than adding a lot of SQL
 		// this will be a standard structure so it can be reused on many pages to output various tables
 		// the problems are stored in this $problems array
 		$problems = array();
 
+		// store types in array
+		$sql = "SELECT * FROM type";
+		$sth = $dbh->prepare($sql);
+
+		$sth->execute();
+
+		// we're going to use PHP to resolve the recursive relationship
+		$types = array();
+
+		// so we'll empty the search results out into this style of array
+		foreach ($sth->fetchAll() as $trow)
+			$types[$trow['idType']] = array(
+				'name' => $trow['name'],
+				'cat' => $trow['category']
+			);
+
+		foreach ($types as $id => $type)
+			$types[$id]['path'] = categories($type,$types);
+
 		foreach ($probs as $row) {
-			if(!array_key_exists($row['idProblem'], $problems)) // this problem hasn't been logged at all yet
+			if(!array_key_exists($row['idProblem'], $problems)) { // this problem hasn't been logged at all yet
 				// so initialise a new empty array and store the generic attributes of the problem
 				$problems[$row['idProblem']] = array(
 					'title' => $row['title'],
@@ -165,6 +196,8 @@ Added changelog
 					'events' => array()
 				);
 
+				$problems[$row['idProblem']]['type']['path'] = $types[$row['idType']]['path'];
+			}
 			// solutions
 			$found = false; // variable to be used when traversing arrays
 
@@ -402,7 +435,8 @@ Added changelog
 
 		<tr class='responses'>
 		<td colspan='7'>
-		<h2>{$problem['title']}</h2>";
+		<h2>{$problem['title']}</h2>
+		<p>Type of problem: <b>{$problem['type']['path']}</b></p>";
 		
 		foreach ($problem['events'] as $event) {
 			if($event['type']=='assign') { // the event is an assignment (formatted differently)
