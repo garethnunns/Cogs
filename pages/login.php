@@ -18,8 +18,8 @@ Added changelog
 		exit();
 	}
 
-	require_once dirname(__FILE__).'/../functions.php';
-	require_once dirname(__FILE__).'/../database.php';
+	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
+	require_once dirname(__FILE__).'/../functions.php'; // use the functions
 
 	if(isset($_POST['lang'])) {
 		$sql = "SELECT * FROM lang WHERE idLang = ?";
@@ -47,7 +47,7 @@ Added changelog
 	$sth->execute();
 
 	foreach ($sth->fetchAll() as $row)
-		echo "<option value='{$row['idLang']}' ".($_SESSION['lang']==$row['idLang'] ? 'selected':'').">{$row['name']}</option>";
+		echo "<option value='{$row['idLang']}' ".(($_SESSION['lang'] ? $_SESSION['lang'] : 'en')==$row['idLang'] ? 'selected':'').">{$row['name']}</option>";
 ?>
 	</select>
 	<br><input type="submit" value='<?php echo translate('Change') ?>' class="noJS">
