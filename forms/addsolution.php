@@ -1,6 +1,6 @@
 <?php
 /*
-Add a message to a problem
+Add a solution to a problem
 
 Change log
 ==========
@@ -12,16 +12,14 @@ Created and completed page
 	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
 	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 
-	if(valid('message.subject',$_POST['subject'])
-	&& valid('message.message',$_POST['message'])) { // valid subject and message
+	if(valid('message.message',$_POST['message'])) { // valid subject and message
 		try {
-			$sth = $dbh->prepare("INSERT INTO `message` VALUES (NULL, ?, ?, ?, ?, {$_SESSION['user']})");
+			$sth = $dbh->prepare("INSERT INTO solved VALUES (?, {$_SESSION['user']}, ?, ?)");
 
 			$sth->execute(array(
 				$_POST['prob'],
-				gmdate('Y-m-d H:i:s'),
-				$_POST['subject'],
-				$_POST['message']
+				$_POST['message'],
+				gmdate('Y-m-d H:i:s')
 			));
 
 			header("Location: /".(solved($_POST['prob']) ? 'solved':'problems')."#prob{$_POST['prob']}");

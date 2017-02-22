@@ -439,8 +439,16 @@ Added changelog
 		<p>Type of problem: <b>{$problem['type']['path']}</b></p>
 
 		<form method='POST' action='/forms/addmessage.php' id='addmessagetoprob$id'>
+			<h3>Add a message</h3>
 			<p>Subject: <input name='subject' type='text' placeholder='Title of your message'></p>
 			<textarea name='message' placeholder='Add a message to this problem'></textarea>
+			<input name='prob' type='hidden' value='$id'>
+			<input type='submit' value='Add message'>
+		</form>
+
+		<form method='POST' action='/forms/addsolution.php' id='addsolutiontoprob$id'>
+			<h3>Add a solution</h3>
+			<textarea name='message' placeholder='Add a solution to this problem'></textarea>
 			<input name='prob' type='hidden' value='$id'>
 			<input type='submit' value='Add message'>
 		</form>
