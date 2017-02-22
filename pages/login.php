@@ -32,7 +32,7 @@ Added changelog
 
 		$.ajax({
 			type: "POST",
-			url: 'login.php',
+			url: '/forms/login.php',
 			data: {username: username, password: password},
 			success: function(data, status, xhr) {
 				var refresh = xhr.getResponseHeader('refresh');

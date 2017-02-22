@@ -5,15 +5,19 @@ Individual user settings
 Change log
 ==========
 
+22/2/17 - Gareth Nunns
+Connected to database
+
 14/2/17 - Gareth Nunns
 Added changelog
 
 */
 
-	require_once dirname(__FILE__).'/../check.php';
+	require_once dirname(__FILE__).'/../check.php'; // check the user is logged in
+	require_once dirname(__FILE__).'/../site/secure.php'; // connect to the database
 ?>
 
-<form method="POST" action="settings.php" id="settings">
+<form method="POST" action="/forms/settings.php" id="settings">
 	<h1>Settings</h1>
 
 	<div class="set">
@@ -43,8 +47,13 @@ Added changelog
 		<div class="setting">
 			<select name="lang">
 <?php
-	foreach ($tLanguages as $code => $language)
-		echo "<option value='{$code}' ".($code==$_SESSION['lang'] ? 'selected' : '').">{$language}</option>";
+	$sql = "SELECT * FROM lang ORDER BY name";
+	$sth = $dbh->prepare($sql);
+
+	$sth->execute();
+
+	foreach ($sth->fetchAll() as $row)
+		echo "<option value='{$row['idLang']}' ".($_SESSION['lang']==$row['idLang'] ? 'selected':'').">{$row['name']}</option>";
 ?>
 			</select>
 		</div>
@@ -64,6 +73,7 @@ Added changelog
 		<div class="setting">
 			<select name="timezone">
 <?php
+	// use the PHP list of timezones
 	$zones = timezone_identifiers_list();
 	$group = '';
 	$current = '';
@@ -164,7 +174,7 @@ $('#settings select:not([name="timezone"],[name="format"]), #settings input').ch
 function updateSettings(reload = true) {
 	$.ajax({
 		type: "POST",
-		url: 'settings.php',
+		url: '/forms/settings.php',
 		data: $("#settings").serialize(),
 		success: function(data, status, xhr) {
 			var refresh = xhr.getResponseHeader('refresh');
@@ -184,7 +194,7 @@ function updateSettings(reload = true) {
 function updateTime() {
 	$.ajax({
 		type: "GET",
-		url: 'ajax/time.php',
+		url: '/ajax/time.php',
 		success: function(data) {
 			$('#time').html(data);
 		},
