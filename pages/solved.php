@@ -164,6 +164,7 @@ LEFT JOIN jobTitle AS specJob ON specemp.jobTitle = specJob.idJobTitle
 
 WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved 
 WHERE solved.specialist = {$_SESSION['user']})
+AND problem.idProblem IN (SELECT solved.idProblem FROM solved)
  
 ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 	

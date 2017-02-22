@@ -154,12 +154,17 @@ LEFT JOIN jobTitle as callerJob ON calleremp.jobTitle = callerJob.idJobTitle
 LEFT JOIN emp AS opemp ON calls.op = opemp.idEmp
 LEFT JOIN jobTitle as opJob ON opemp.jobTitle = opJob.idJobTitle
 
-WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved) ";
+WHERE problem.idProblem NOT IN (SELECT solved.idProblem FROM solved)
+AND problem.idProblem <> (
+    SELECT a2.idProblem FROM assign AS a2 
+    WHERE a2.assTo = {$_SESSION['user']} 
+    AND a2.assDate = (
+        SELECT MAX(assDate) FROM assign AS a1 
+        WHERE a1.idProblem = a2.idProblem
+    )
+)
 
-	if(!$_SESSION['sudo'])
-		$sql .= " AND assign.assTo <> '{$_SESSION['user']}' AND (SELECT MAX(assDate) FROM assign AS a1 WHERE a1.idProblem <> assign.idProblem) ";
-
-	$sql .= "ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
+ORDER BY idProblem, message.date DESC, assDate DESC, calls.date DESC";
 
 	$sth = $dbh->prepare($sql);
 
