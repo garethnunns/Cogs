@@ -23,10 +23,52 @@ Added changelog
 
 	require_once dirname(__FILE__).'/../check.php'; //cbeck the user is logged in
 	require_once dirname(__FILE__).'/../site/secure.php'; //connect to the database
+
+	if(isset($_POST['addHard'])) {
+		try {
+			$sql="INSERT INTO hard
+						VALUES
+						(NULL, ?, ?, ?, ?)";
+
+			$sth = $dbh->prepare($sql);
+			$sth->execute(array( //executing SQL
+				$_POST['hardType'],
+				$_POST['hardMake'],
+				$_POST['hardModel'],
+				$_POST['hardNotes']
+			));
+
+
+			if($sth->rowCount()) echo "<p>{$_POST['hardMake']} {$_POST['hardModel']} successfully added</p>";
+		}
+		catch (PDOException $e) {
+			return false;
+			echo $e->getMessage();
+		}
+	}
 ?>
 
 <h1>Hardware</h1>
 
+	<button onclick="$('.newHard').slideToggle();">Add Hardware</button>
+	<form class="newHard" method="POST"> 
+		<h1>Add hardware to the database</h1>
+		<p>Hardware Make<?php asterisk('hard.make'); ?>: <br><input name="hardMake" type="text" placeholder="New make of hardware"></p> 
+		<p>Hardware Type<?php asterisk('hardType.idHardType'); ?>: 
+		<br><select name="hardType">
+		<?php
+			$sqltype = "SELECT hardType.idHardType, CONCAT(hardType.idHardType, ' - ' ,hardType.name) AS 'hardwareType2'
+			FROM hardType";
+			$sth = $dbh->prepare($sqltype);
+			$sth->execute();
+			foreach ($sth->fetchAll() as $row)
+				echo "<option value='{$row['idHardType']}'>{$row['hardwareType2']}</option>";
+		?>
+		</select></p>
+		<p>Hardware Model<?php asterisk('hard.model'); ?>: <br><input name="hardModel" type="text" placeholder="New hardware model"></p> 
+		<p>Notes<?php asterisk('hard.notes'); ?>: <br><textarea name="hardNotes" type="text" placeholder="Information about hardware"></textarea></p>
+		<p><input type="submit" value="Commit to database" name="addHard"></p> 
+	</form>
 <table class="hardware">
 	<tr>
 		<th>ID</th>
@@ -39,21 +81,24 @@ Added changelog
 	$sql="SELECT hard.idHard, hard.make, hard.model, hard.notes, hardProb.idProblem, problem.title,
 
 	(SELECT COUNT(s3.idProblem) FROM solved as s3
-    WHERE problem.idProblem = s3.idProblem) AS beenSolved,
+	WHERE problem.idProblem = s3.idProblem) AS beenSolved,
 	(SELECT COUNT(hp2.idProblem) FROM hardProb AS hp2
- 	WHERE hp2.idProblem NOT IN (
-     SELECT s2.idProblem FROM solved as s2)
- 	AND hp2.idHard = hard.idHard) AS numUnsolved,
+	WHERE hp2.idProblem NOT IN (
+	SELECT s2.idProblem FROM solved as s2)
+	AND hp2.idHard = hard.idHard) AS numUnsolved,
 	(SELECT COUNT(hp.idProblem) FROM hardProb AS hp
- 	WHERE hp.idProblem IN (
-    SELECT s1.idProblem FROM solved as s1)
- 	AND hp.idHard = hard.idHard) AS numSolved
+	WHERE hp.idProblem IN (
+	SELECT s1.idProblem FROM solved as s1)
+	AND hp.idHard = hard.idHard) AS numSolved
 
 	FROM hard
+	LEFT JOIN hardType
+    ON hard.idHardType = hardType.idHardType
 	LEFT JOIN hardProb
 	ON hard.idHard = hardProb.idHard
-    LEFT JOIN problem
-    ON hardProb.idProblem = problem.idProblem";
+	LEFT JOIN problem
+	ON hardProb.idProblem = problem.idProblem";
+	
 
 	$sth = $dbh->prepare($sql); //executing SQL
 	$sth->execute();
@@ -101,6 +146,7 @@ Added changelog
 <script type="text/javascript">
 	$('tr:nth-of-type(2n+3)').hide();
 	$('tr:nth-of-type(2n+3) .wareDeets').slideUp();
+	$('.newHard').hide();
 
 	$('tr:nth-of-type(2n+2)').on('click vclick', function() {
 		$(this).next().toggle().children().first().children().slideToggle();

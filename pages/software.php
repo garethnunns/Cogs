@@ -33,11 +33,19 @@ Added changelog
 
 <h1>Software</h1>
 
+	<input type="submit" onclick="$('.newSoft').slideToggle();" value="Add Software" name="newSoft">
+	<div class="newSoft"> 
+		<h1>Add software to the database</h1>
+		<p>Software Name<?php asterisk('soft.name'); ?>: <br><input name="softName" type="text" placeholder="New software"><br></p> 
+		<p>License<?php asterisk('soft.license'); ?>: <br><input name="softLicense" type="text" placeholder="New software License"><br></p> 
+		<p>Notes<?php asterisk('soft.notes'); ?>: <br><input name="softNotes" type="text" placeholder="Information about software"><br></p>
+		<p><input type="submit" value="Commit to database" name="addSoft"></p> 
+	</div>
+
 <table class="software">
 	<tr>
 		<th>ID</th>
 		<th>Name</th>
-		<th>OS</th>
 		<th>License</th>
 		<th colspan="2">Problems</th>
 	</tr>
@@ -78,7 +86,6 @@ Added changelog
 			echo "<tr>
 			<td>{$row['idSoft']}</td>
 			<td>{$row['name']}</td>
-			<td>{$row['osname']}</td>
 			<td>{$row['license']}</td>
 			<td class='numProbs'><span>{$row['numUnsolved']}</span><br>Unsolved</td>
 			<td class='numProbs'><span>{$row['numSolved']}</span><br>Solved</td>
@@ -111,6 +118,7 @@ Added changelog
 <script type="text/javascript">
 	$('tr:nth-of-type(2n+3)').hide();
 	$('tr:nth-of-type(2n+3) .wareDeets').slideUp();
+	$('.newSoft').hide();
 
 	$('tr:nth-of-type(2n+2)').on('click vclick', function() {
 		$(this).next().toggle().children().first().children().slideToggle();
